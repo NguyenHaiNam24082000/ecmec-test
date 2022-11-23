@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "eslint-config-prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "no-dupe-keys": 2,
+    "no-debugger": "error",
+    "no-trailing-spaces": "error",
+    "import/no-unresolved": 0,
+    "react/react-in-jsx-scope": 0,
+    "import/named": 0,
+    "import/no-named-as-default-member": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "no-console": [2],
+    "eqeqeq": [2, "always"],
+    "eol-last": "error",
+    "camelcase": [
+      2,
+      {
+        "properties": "always"
+      }
+    ]
+  }
+}

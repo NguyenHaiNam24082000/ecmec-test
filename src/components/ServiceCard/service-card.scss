@@ -1,0 +1,77 @@
+@use "../../styles" as *;
+
+.service__item__wrapper {
+  position: relative;
+  border-radius: 20px;
+  width: fit-content;
+  height: fit-content;
+
+  @include mobile {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:has(.service__item__overlay) {
+    overflow: hidden;
+  }
+
+  .service__item__image {
+    img {
+      @include lowPc {
+        height: 375px !important;
+      }
+
+      @include mobile {
+        width: 100%;
+        height: 200px !important;
+      }
+    }
+  }
+
+  .service__item__caption {
+    margin-top: 24px;
+    font-size: 2.46rem;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: wrap;
+    text-align: center;
+    color: $primary-color-black;
+    @include lowPc {
+      font-size: 2rem;
+    }
+  }
+
+  .service__item__overlay {
+    position: absolute;
+    height: 92px;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 0px 0px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 16px;
+
+    @include tablet {
+      height: 62px;
+    }
+
+    & .service__item__caption {
+      margin-top: 0px;
+      color: $primary-color-white;
+      font-weight: 500;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+
+      @include tablet {
+        font-size: 16px;
+      }
+    }
+  }
+}

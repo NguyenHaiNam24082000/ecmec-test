@@ -1,0 +1,25 @@
+.recruit-card {
+    height: 336px;
+    background: #ffffff;
+    border: 3px solid rgba(0, 114, 184, 0.5);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+
+    &__role {
+        font: "Helvetica Neue";
+        font-weight: 500;
+        font-size: 2.4rem;
+        line-height: 1.5;
+        color: #0072b8;
+    }
+    &__address,
+    &__salary {
+        font: "Helvetica Neue";
+        font-style: normal;
+        font-weight: 300;
+        font-size: 1.8rem;
+        line-height: 40px;
+    }
+}

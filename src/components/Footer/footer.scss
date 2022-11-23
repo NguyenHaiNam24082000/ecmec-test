@@ -1,0 +1,82 @@
+@use "../../styles/" as *;
+.footer {
+    background: #f4f4f4;
+    padding: 40px 80px;
+
+    @include tablet {
+        padding: 40px 40px;
+    }
+    @include mobile {
+        padding: 40px 16px;
+    }
+
+    .footer__list {
+        width: 25%;
+        padding: 0 5px;
+        margin-bottom: 10px;
+
+        @include lowPc {
+            width: 33.33%;
+            margin-bottom: 32px;
+        }
+        @include mobile {
+            width: 100%;
+            padding: 0;
+            margin-bottom: 32px;
+        }
+        ul {
+            margin-top: 20px;
+
+            @include mobile {
+                margin-top: 5px;
+            }
+        }
+        h3 {
+            font-size: 2.4rem;
+
+            @include lowPc {
+                font-size: 2.1rem;
+            }
+
+            @include mobile {
+                font-weight: 500;
+            }
+        }
+        svg {
+            fill: $txt-second-color;
+            margin-right: 20px;
+
+            @include lowPc {
+                margin-right: 10px;
+            }
+            @include mobile {
+                margin-right: 5px;
+            }
+        }
+        &__item {
+            color: $txt-second-color;
+            font-size: 1.4rem;
+            padding: 8px 4px;
+            display: flex;
+            align-items: center;
+
+            @include lowPc {
+                font-size: 1.2rem;
+            }
+            @include mobile {
+                padding: 6px 4px;
+            }
+        }
+
+        &__address {
+            h4 {
+                font-size: 1.5rem;
+                margin-top: 20px;
+            }
+
+            ul {
+                margin-top: 0px;
+            }
+        }
+    }
+}

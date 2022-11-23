@@ -40,5 +40,9 @@
         @include tablet {
             bottom: 80px;
         }
+        @include mobile {
+            font-size: 40px;
+            bottom: 23px;
+        }
     }
 }

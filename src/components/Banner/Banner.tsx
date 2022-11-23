@@ -29,6 +29,7 @@ const Banner = () => {
           },
           '@media (max-width: 600px)': {
             alignItems: 'flex-start',
+            height: 724,
           },
         }}
         onMouseEnter={autoplay.current.stop}
@@ -73,6 +74,7 @@ const Banner = () => {
             height: '880px !important',
           },
           '@media (max-width: 600px)': {
+            height: '830px !important',
             '.ecmec-Carousel-indicators': {
               left: 16,
               justifyContent: 'flex-start',

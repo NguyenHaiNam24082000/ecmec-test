@@ -46,7 +46,7 @@ const RecruitCard = (props: RecruitCardProps) => {
           : 'Thỏa thuận'}
       </Text>
       <Link to={props.path} style={{ marginTop: 'auto' }}>
-        <Button>Xem thêm</Button>
+        <Button sx={{ '@media (max-width: 600px)': { width: '100%' } }}>Xem thêm</Button>
       </Link>
     </div>
   );

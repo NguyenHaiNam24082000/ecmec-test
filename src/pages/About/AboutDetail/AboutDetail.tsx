@@ -66,24 +66,53 @@ const AboutDetail = () => {
           >
             {detail.name}
           </Title>
-          <Image
-            radius={0}
-            sx={{
-              '@media (max-width: 1400px)': {
-                img: { height: '600px !important' },
-              },
-              '@media (max-width: 1024px)': {
-                img: { height: '500px !important' },
-              },
-            }}
-            height={800}
-            mb={40}
-            src={detail.image}
-          />
+        </div>
+        <Image
+          radius={0}
+          sx={{
+            padding: '0px 240px',
+            '@media (max-width: 1400px)': {
+              padding: '40px 130px',
+              img: { height: '600px !important' },
+            },
+            '@media (max-width: 1024px)': {
+              padding: '40px 120px',
+              img: { height: '500px !important' },
+            },
+            '@media (max-width: 600px)': {
+              padding: '0px',
+              img: { height: '320px !important' },
+            },
+          }}
+          height={800}
+          mb={40}
+          src={detail.image}
+        />
+        <div className="detail main wrap">
           <TypographyStylesProvider>
             <div className="d-content" dangerouslySetInnerHTML={{ __html: detail.content }} />
           </TypographyStylesProvider>
         </div>
+        <Link className="back__router back__router--mobile" to="/about">
+          <svg
+            width="15"
+            height="26"
+            viewBox="0 0 15 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ marginRight: 10 }}
+          >
+            <path
+              d="M13 24L2 13L13 2"
+              stroke="#0072B8"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <span>{t('About')}</span>
+        </Link>
       </Helmet>
     );
   } else {

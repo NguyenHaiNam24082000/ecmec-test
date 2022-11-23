@@ -25,12 +25,17 @@ const Projects = () => {
       <div className="main wrap">
         <Flex mb={80}>
           <Text
-            mr={40}
             sx={{
+              marginRight: 40,
               cursor: 'pointer',
               color: tabIndex === 0 ? '#0072B8' : '#B3B3B3',
               '@media (max-width: 1400px)': {
                 fontSize: 35,
+              },
+              '@media (max-width: 600px)': {
+                marginRight: 24,
+                fontSize: 24,
+                whiteSpace: 'nowrap',
               },
             }}
             fw={700}
@@ -47,6 +52,10 @@ const Projects = () => {
               color: tabIndex === 1 ? '#0072B8' : '#B3B3B3',
               '@media (max-width: 1400px)': {
                 fontSize: 35,
+              },
+              '@media (max-width: 600px)': {
+                fontSize: 24,
+                whiteSpace: 'nowrap',
               },
             }}
             fw={700}
@@ -92,7 +101,7 @@ const Projects = () => {
         </NavLink>{' '}
         <img src={arrowRight} alt="arrow right icon" />
         <NavLink to="" className="breadcrumb__item active">
-          {t('Service')}
+          {t('Project')}
         </NavLink>
       </div>
     </Helmet>

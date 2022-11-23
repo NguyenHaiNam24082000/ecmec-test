@@ -11,11 +11,18 @@ interface ProjectItemProps {
 
 const ProjectItem = (props: ProjectItemProps) => {
   return (
-    <Flex gap={20} mb={40} w="100%" justify="center" align="flex-start">
-      <Link to={props.path}>
+    <Flex
+      gap={20}
+      direction={{ base: 'column', md: 'row' }}
+      mb={40}
+      w="100%"
+      justify="center"
+      align="flex-start"
+    >
+      <Link to={`/projects/${props.path}`}>
         <Image radius={20} maw={710} mah={499} mih="100%" src={props.image} alt={props.name} />
       </Link>
-      <Box sx={{ width: '50%' }}>
+      <Box sx={{ width: '50%', '@media (max-width: 600px)': { width: '100%' } }}>
         <Title
           order={1}
           size={48}
@@ -54,9 +61,11 @@ const ProjectItem = (props: ProjectItemProps) => {
           </svg>{' '}
           {props.address}
         </Text>
-        <Button w={345} h={69}>
-          Chi tiết
-        </Button>
+        <Link to={`/projects/${props.path}`}>
+          <Button w={345} h={69}>
+            Chi tiết
+          </Button>
+        </Link>
       </Box>
     </Flex>
   );

@@ -4,7 +4,17 @@ import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ProjectImg from '@assets/page-header/project.png';
 import { Link } from 'react-router-dom';
-import { Box, Container, Group, Image, ScrollArea, Table, Text, TypographyStylesProvider } from '@mantine/core';
+import {
+  Box,
+  Container,
+  Flex,
+  Group,
+  Image,
+  ScrollArea,
+  Table,
+  Text,
+  TypographyStylesProvider,
+} from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -13,7 +23,36 @@ const ProjectDetail = () => {
   const { t } = useTranslation();
   const data = {
     name: 'Hikari Bình Dương',
-    scope: ['Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt', 'Thi công lắp đặt'],
+    scope: [
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+      'Thi công lắp đặt',
+    ],
     area: '30000 m',
     time: '12 thang',
     owner: 'Abc',
@@ -47,7 +86,7 @@ const ProjectDetail = () => {
   return (
     <Helmet title={t('Project')}>
       <PageHeader image={ProjectImg}>{t('Project')}</PageHeader>
-      <Link className="back__router" to="/project">
+      <Link className="back__router" to="/projects">
         <div>
           <svg
             width="15"
@@ -69,26 +108,47 @@ const ProjectDetail = () => {
           <span>{t('Project')}</span>
         </div>
       </Link>
-      <Group
+      <Flex
         sx={{
           background: '#0072B8',
           color: '#FFFFFF',
-          height: 800
+          height: 800,
+          '@media (max-width:600px)': {
+            height: 'fit-content',
+          },
         }}
-        grow
-        spacing={80}
+        direction={{ base: 'column', md: 'row' }}
+        gap={{ base: 'sm', md: 80 }}
         mt={80}
       >
-        <Box sx={{ width: '60%', height: '100%', maxWidth: 'calc(60% - 40px)' }}>
-          <Image sx={{
-            width: '100%',
+        <Box
+          sx={{
+            width: '60%',
             height: '100%',
-
-            '& *': {
+            maxWidth: 'calc(60% - 40px)',
+            '@media (max-width:600px)': {
+              width: '100%',
+              height: 335,
+              maxWidth: '100%',
+            },
+          }}
+        >
+          <Image
+            sx={{
               width: '100%',
               height: '100%',
-            }
-          }} radius={0} width={'100%'} height={'100%'} src={data?.images?.[0]} alt="Random unsplash image" />
+
+              '& *': {
+                width: '100%',
+                height: '100%',
+              },
+            }}
+            radius={0}
+            width={'100%'}
+            height={'100%'}
+            src={data?.images?.[0]}
+            alt="Random unsplash image"
+          />
         </Box>
         <Box
           sx={{
@@ -97,7 +157,13 @@ const ProjectDetail = () => {
             justifyContent: 'flex-start',
             height: '100%',
             padding: '80px 40px 80px 0',
-            maxWidth: 'calc(40% - 40px)'
+            maxWidth: 'calc(40% - 40px)',
+            '@media (max-width:600px)': {
+              padding: '15px',
+              width: '100%',
+              height: '100%',
+              maxWidth: '100%',
+            },
           }}
         >
           <Text
@@ -113,15 +179,23 @@ const ProjectDetail = () => {
                 marginTop: 0,
                 fontSize: 34,
               },
+              '@media (max-width: 600px)': {
+                marginTop: 0,
+                fontSize: 48,
+              },
             }}
           >
             {data?.name}
           </Text>
-          <ScrollArea offsetScrollbars scrollHideDelay={0} sx={{
-            marginTop: 40,
-            overflowY: 'auto',
-            width: '100%'
-          }}>
+          <ScrollArea
+            offsetScrollbars
+            scrollHideDelay={0}
+            sx={{
+              marginTop: 40,
+              overflowY: 'auto',
+              width: '100%',
+            }}
+          >
             <Table
               sx={{
                 color: '#FFFFFF',
@@ -133,9 +207,9 @@ const ProjectDetail = () => {
 
                   '&:first-of-type': {
                     fontWeight: 700,
-                    width: 160
-                  }
-                }
+                    width: 160,
+                  },
+                },
               }}
             >
               <tbody>
@@ -173,11 +247,17 @@ const ProjectDetail = () => {
             </Table>
           </ScrollArea>
         </Box>
-      </Group>
-      <div
+      </Flex>
+      <Box
         className="main wrap"
         style={{
           marginTop: 80,
+        }}
+        sx={{
+          '@media (max-width:600px)': {
+            paddingLeft: '0!important',
+            paddingRight: '0!important',
+          },
         }}
       >
         <div>
@@ -219,7 +299,7 @@ const ProjectDetail = () => {
                       '& *': {
                         width: '100%',
                         height: '100% !important',
-                      }
+                      },
                     }}
                     radius={0}
                     width={'100%'}
@@ -231,10 +311,35 @@ const ProjectDetail = () => {
             </Carousel>
           )}
         </div>
+      </Box>
+      <div className="main wrap">
         <TypographyStylesProvider mb={80} mt={126}>
           <div className="d-content" dangerouslySetInnerHTML={{ __html: data?.content }} />
         </TypographyStylesProvider>
       </div>
+
+      <Link className="back__router back__router--mobile" to="/projects">
+        <div>
+          <svg
+            width="15"
+            height="26"
+            viewBox="0 0 15 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ marginRight: 10 }}
+          >
+            <path
+              d="M13 24L2 13L13 2"
+              stroke="#0072B8"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <span>{t('Project')}</span>
+        </div>
+      </Link>
     </Helmet>
   );
 };

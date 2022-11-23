@@ -261,14 +261,14 @@ const Home = () => {
                 },
               }}
             >
-              Xem thêm
+              <Link to="/service">Xem thêm</Link>
             </Button>
           </BackgroundImage>
         </Box>
         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 600, cols: 1 }]}>
           {!!service?.length &&
             service.slice(0, 6).map((item) => (
-              <Link to={item.path} key={item.id} className="service__item">
+              <Link to={`/service/${item.path}`} key={item.id} className="service__item">
                 <ServiceCard
                   sx={{
                     '@media (max-width: 1400px)': {

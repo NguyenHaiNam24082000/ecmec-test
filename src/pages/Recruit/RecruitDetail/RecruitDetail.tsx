@@ -65,12 +65,28 @@ const RecruitDetail = () => {
             {detail.role}
           </Title>
           <TypographyStylesProvider mb={80}>
-            <div
-              className="d-content"
-              dangerouslySetInnerHTML={{ __html: detail.content }}
-            />
+            <div className="d-content" dangerouslySetInnerHTML={{ __html: detail.content }} />
           </TypographyStylesProvider>
         </div>
+        <Link className="back__router back__router--mobile" to="/recruitment">
+          <svg
+            width="15"
+            height="26"
+            viewBox="0 0 15 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ marginRight: 10 }}
+          >
+            <path
+              d="M13 24L2 13L13 2"
+              stroke="#0072B8"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {t('Recruit')}
+        </Link>
       </Helmet>
     );
   } else {

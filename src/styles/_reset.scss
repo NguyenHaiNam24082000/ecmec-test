@@ -181,7 +181,6 @@ img {
 
         @include mobile {
             padding: 10px 15px;
-            display: none;
         }
     }
     .breadcrumb__item {
@@ -261,6 +260,12 @@ img {
     z-index: 5;
     display: inline-block;
     font-weight: 400;
+    @include mobile {
+        display: none;
+        &--mobile {
+            display: inline-block;
+        }
+    }
 
     & > div {
         display: flex;

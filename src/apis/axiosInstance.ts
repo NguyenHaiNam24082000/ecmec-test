@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 
 const axiosInstance = axios.create({
   timeout: 3 * 60 * 1000,
-  baseURL: 'http://localhost:5000',
+  baseURL: configs.BASE_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',

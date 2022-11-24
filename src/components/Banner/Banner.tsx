@@ -5,7 +5,7 @@ import banner from '@assets/images/banner.png';
 import { useRef } from 'react';
 
 const Banner = () => {
-  const autoplay = useRef(Autoplay({ delay: 10000 }));
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
   return (
     <div style={{ position: 'relative' }}>
       <Box

@@ -262,7 +262,11 @@ img {
     font-weight: 400;
     display: none;
     @include mobile {
-        &--mobile {
+        display: none;
+    }
+    &--mobile {
+        display: none;
+        @include mobile {
             display: inline-block;
         }
     }

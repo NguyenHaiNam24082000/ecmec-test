@@ -1,5 +1,7 @@
+import Footer from '@components/Footer/Footer';
+import Header from '@components/Header/Header';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 const Home = React.lazy(() => import('../pages/Home/Home'));
 const Service = React.lazy(() => import('../pages/Service/Service'));
@@ -11,6 +13,8 @@ const ServiceDetail = React.lazy(() => import('../pages/Service/ServiceDetail/Se
 const AboutDetail = React.lazy(() => import('../pages/About/AboutDetail/AboutDetail'));
 const ProjectDetail = React.lazy(() => import('../pages/Projects/ProjectDetail/ProjectDetail'));
 const RecruitDetail = React.lazy(() => import('../pages/Recruit/RecruitDetail/RecruitDetail'));
+const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'));
+const Login = React.lazy(() => import('../pages/Admin/Login/index'));
 const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
 
 const routes = [
@@ -63,9 +67,35 @@ const routes = [
 const Router = () => {
   return (
     <Routes>
-      {routes.map((route, i) => (
-        <Route path={route.path} element={route.element} key={i} />
-      ))}
+      <Route
+        path="/"
+        element={
+          <div className="container">
+            <div className="main">
+              <Header />
+              <Outlet />
+              <Footer />
+            </div>
+          </div>
+        }
+      >
+        {routes.map((route, i) => (
+          <Route path={route.path} element={route.element} key={i} />
+        ))}
+      </Route>
+      <Route
+        path="/admin/*"
+        element={
+          <div>
+            <div>header admin</div>
+            <Outlet />
+            <div>footer admin</div>
+          </div>
+        }
+      >
+        <Route path="" element={<Dashboard />} />
+        <Route path="login" element={<Login />} />
+      </Route>
     </Routes>
   );
 };

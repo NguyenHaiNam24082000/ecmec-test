@@ -9,13 +9,8 @@ function App() {
   return (
     <Suspense fallback={<Loader />}>
       <BrowserRouter>
-        <div className="container">
-          <div className="main">
-            <Header />
+        
             <Router />
-            <Footer />
-          </div>
-        </div>
       </BrowserRouter>
     </Suspense>
   );

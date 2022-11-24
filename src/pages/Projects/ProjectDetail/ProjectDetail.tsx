@@ -19,7 +19,7 @@ import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 const ProjectDetail = () => {
-  const autoplay = useRef(Autoplay({ delay: 10000 }));
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
   const { t } = useTranslation();
   const data = {
     name: 'Hikari Bình Dương',

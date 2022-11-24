@@ -27,7 +27,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useAppSelector } from 'redux/hook';
 
 const Home = () => {
-  const autoplay = useRef(Autoplay({ delay: 100000 }));
+  const autoplay = useRef(Autoplay({ delay: 3000 }));
   const { t } = useTranslation();
   const about = useAppSelector((state) => state.about.about);
   const service = useAppSelector((state) => state.service.service);

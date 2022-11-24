@@ -1,7 +1,7 @@
 import { Button as ButtonMantine, ButtonProps } from '@mantine/core';
 import React from 'react';
 
-type buttonProps = ButtonProps;
+type buttonProps = ButtonProps & any;
 
 const Button = (props: buttonProps) => {
   return (
@@ -32,6 +32,7 @@ const Button = (props: buttonProps) => {
         },
       }}
       radius={10}
+      onClick={props.onClick}
       {...props}
     >
       <span

@@ -19,10 +19,27 @@ const ProjectItem = (props: ProjectItemProps) => {
       justify="center"
       align="flex-start"
     >
-      <Link to={`/projects/${props.path}`}>
-        <Image radius={20} maw={710} mah={499} mih="100%" src={props.image} alt={props.name} />
+      <Link to={`/projects/${props.path}`} style={{
+        width: '100%',
+      }}>
+        <Image radius={20} maw={710} mah={499} mih="100%" src={props.image} alt={props.name} sx={{
+          height: 499,
+          '& *': {
+            height: '100% !important',
+          },
+          '@media (max-width: 1400px)': {
+            height: 400
+          },
+          '@media (max-width: 1024px)': {
+            height: 300,
+            width: '100%',
+            '& *': {
+              width: '100% !important',
+            },
+          }
+        }}/>
       </Link>
-      <Box sx={{ width: '50%', '@media (max-width: 600px)': { width: '100%' } }}>
+      <Box sx={{ width: '50%', '@media (max-width: 1024px)': { width: '100%' } }}>
         <Title
           order={1}
           size={48}

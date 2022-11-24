@@ -19,7 +19,7 @@ const ServiceCard = (props: ServiceCardType) => {
         sx={props.sx}
         src={props.image}
         alt={props.name}
-        maw={467}
+        // maw={467}
         width={props.width}
         height={props.height || 413}
       />

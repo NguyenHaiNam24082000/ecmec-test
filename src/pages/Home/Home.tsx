@@ -22,11 +22,13 @@ import {
 } from '@mantine/core';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import { useAppSelector } from 'redux/hook';
 
+
 const Home = () => {
+  const history = useNavigate();
   const autoplay = useRef(Autoplay({ delay: 100000 }));
   const { t } = useTranslation();
   const about = useAppSelector((state) => state.about.about);
@@ -39,7 +41,7 @@ const Home = () => {
       <Banner />
       <SimpleGrid
         cols={2}
-        breakpoints={[{ maxWidth: 600, cols: 1 }]}
+        breakpoints={[{ maxWidth: 602, cols: 1 }]}
         sx={{
           width: '100%',
           minHeight: 1080,
@@ -112,6 +114,9 @@ const Home = () => {
               '@media (max-width: 600px)': {
                 width: '100%',
               },
+            }}
+            onClick={() => {
+              history('/about');
             }}
           >
             Xem thêm
@@ -279,6 +284,10 @@ const Home = () => {
                       height: 220,
                       borderRadius: 20,
                     },
+                    '@media (max-width: 600px)': {
+                      height: 'fit-content',
+                      borderRadius: 20,
+                    },
                   }}
                   image={item.image}
                   height={293}
@@ -395,11 +404,9 @@ const Home = () => {
                   padding: 40,
                   textAlign: 'center',
                   '@media (max-width: 1400px)': {
-                    width: 250,
                     height: 172,
                   },
                   '@media (max-width: 600px)': {
-                    width: 169,
                     height: 95,
                     borderRadius: 10,
                     padding: 24,

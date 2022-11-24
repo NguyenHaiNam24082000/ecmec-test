@@ -66,6 +66,7 @@ img {
     }
 
     &.main {
+        position: relative;
         padding: 0 240px;
         @include lowPc {
             padding: 40px 130px;
@@ -258,10 +259,9 @@ img {
     top: 40px;
     font-size: 24px;
     z-index: 5;
-    display: inline-block;
     font-weight: 400;
+    display: none;
     @include mobile {
-        display: none;
         &--mobile {
             display: inline-block;
         }

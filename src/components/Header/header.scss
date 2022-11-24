@@ -33,7 +33,7 @@
         align-items: center;
         gap: 20px;
 
-        @include mobile {
+        @include tablet {
             display: none;
         }
 
@@ -62,11 +62,6 @@
                 color: #b3b3b3;
             }
 
-            &.lang.active {
-                color: $primary-color-blue;
-                border-bottom: none;
-            }
-
             &:hover {
                 color: $primary-color-blue;
             }
@@ -78,9 +73,14 @@
 
         &--mobile {
             display: none;
-            @include mobile {
+            @include tablet {
                 display: block;
             }
         }
+    }
+
+    .nav-header__item.lang.active {
+        color: $primary-color-blue;
+        border-bottom: none;
     }
 }

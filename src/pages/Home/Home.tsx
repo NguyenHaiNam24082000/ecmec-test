@@ -85,7 +85,7 @@ const Home = () => {
             }}
             sx={{
               '@media (max-width: 600px)': {
-                '-webkit-line-clamp': '12',
+                WebkitLineClamp: '12' as any,
               },
             }}
             className="color-white"
@@ -346,7 +346,7 @@ const Home = () => {
           slideGap="md"
           loop
           align="start"
-          slidesToScroll={4}
+          slidesToScroll={2}
           withControls={false}
           plugins={[autoplay.current]}
           onMouseEnter={autoplay.current.stop}
@@ -360,6 +360,9 @@ const Home = () => {
           styles={{
             slide: {
               flex: '0 0 25%',
+              '@media (max-width: 1200px)': {
+                flex: '0 0 33.33%',
+              },
               '@media (max-width: 1024px)': {
                 flex: '0 0 33.33%',
               },

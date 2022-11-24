@@ -1,3 +1,4 @@
+import configs from '@constants/configs';
 import React from 'react';
 
 type HelmetPropTypes = {
@@ -6,7 +7,7 @@ type HelmetPropTypes = {
 };
 
 const Helmet = (props: HelmetPropTypes) => {
-  document.title = 'CÔNG TY TNHH KỸ THUẬT XÂY DỰNG VÀ CƠ ĐIỆN CÔNG TRÌNH ECMEC - ' + props.title;
+  document.title = configs.APP_NAME + ' - ' + props.title;
 
   React.useEffect(() => {
     window.scrollTo(0, 0);

@@ -3,7 +3,16 @@ import { Link, NavLink } from 'react-router-dom';
 import Logo from '@assets/favicon/logo.png';
 import { useTranslation } from 'react-i18next';
 import './header.scss';
-import { Burger, Divider, HoverCard, Paper, Text, Transition, Accordion, createStyles } from '@mantine/core';
+import {
+  Burger,
+  Divider,
+  HoverCard,
+  Paper,
+  Text,
+  Transition,
+  Accordion,
+  createStyles,
+} from '@mantine/core';
 import i18next from 'i18next';
 import { useAppSelector } from 'redux/hook';
 import { useScrollLock } from '@mantine/hooks';
@@ -16,7 +25,6 @@ type MainNavType = {
 };
 
 const useStyles = createStyles((theme) => ({
-
   dropdown: {
     display: 'flex',
     flexDirection: 'column',
@@ -139,8 +147,9 @@ const Header = () => {
           }}
         >
           <div
-            className={`nav-header__item lang ${i18next.language === 'vi_VN' ? 'active' : ''
-              }`.trim()}
+            className={`nav-header__item lang ${
+              i18next.language === 'vi_VN' ? 'active' : ''
+            }`.trim()}
             onClick={() => i18next.changeLanguage('vi_VN')}
           >
             Tiếng việt
@@ -154,8 +163,9 @@ const Header = () => {
             }}
           />
           <div
-            className={`nav-header__item lang ${i18next.language === 'en_US' ? 'active' : ''
-              }`.trim()}
+            className={`nav-header__item lang ${
+              i18next.language === 'en_US' ? 'active' : ''
+            }`.trim()}
             onClick={() => i18next.changeLanguage('en_US')}
           >
             English
@@ -163,38 +173,60 @@ const Header = () => {
         </div>
       </div>
       <div className="nav-header--mobile">
-        <Burger color="#0072B8" opened={opened} onClick={() => {
-          const isOpen = opened;
-          setOpened(!isOpen);
-          setScrollLocked(!isOpen);
-        }} />
+        <Burger
+          color="#0072B8"
+          opened={opened}
+          onClick={() => {
+            const isOpen = opened;
+            setOpened(!isOpen);
+            setScrollLocked(!isOpen);
+          }}
+        />
       </div>
       <Transition transition="fade" duration={200} mounted={opened}>
         {(styles) => (
           <Paper className={classes.dropdown} radius={0}>
-            <Accordion variant="filled" styles={(theme) => ({
-              item: {
-                background: 'inherit',
-              },
-              label: {
-                fontWeight: 500,
-                font: 'Helvetica Neue',
-                fontSize: 26,
-                color: '#0072B8',
-                textTransform: 'uppercase',
-              },
-              content: {
-                fontWeight: 500,
-              }
-            })}>
+            <Accordion
+              variant="filled"
+              styles={(theme) => ({
+                item: {
+                  background: 'inherit',
+                },
+                label: {
+                  fontWeight: 500,
+                  font: 'Helvetica Neue',
+                  fontSize: 26,
+                  color: '#0072B8',
+                  textTransform: 'uppercase',
+                },
+                content: {
+                  fontWeight: 500,
+                },
+              })}
+            >
               {!!mainNav?.length &&
                 mainNav.map((nav, index) => (
                   <Accordion.Item key={nav.display} value={nav.display}>
-                    <Accordion.Control chevron={nav?.list?.slice(0, 5).length ? (
-                      <svg width={18} height={9} viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.3334 8.33301L9.00004 -0.000325203L0.666708 8.33301L17.3334 8.33301Z" fill="#0072B8" />
-                      </svg>
-                    ) : ' '}>
+                    <Accordion.Control
+                      chevron={
+                        nav?.list?.slice(0, 5).length ? (
+                          <svg
+                            width={18}
+                            height={9}
+                            viewBox="0 0 18 9"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0.666626 0.666992L8.99996 9.00033L17.3333 0.666992H0.666626Z"
+                              fill="#0072B8"
+                            />
+                          </svg>
+                        ) : (
+                          ' '
+                        )
+                      }
+                    >
                       <NavLink to={nav.path}>
                         <span>{t(nav.display)}</span>
                       </NavLink>
@@ -269,8 +301,9 @@ const Header = () => {
               }}
             >
               <div
-                className={`nav-header__item lang ${i18next.language === 'vi_VN' ? 'active' : ''
-                  }`.trim()}
+                className={`nav-header__item lang ${
+                  i18next.language === 'vi_VN' ? 'active' : ''
+                }`.trim()}
                 onClick={() => i18next.changeLanguage('vi_VN')}
               >
                 Tiếng việt
@@ -284,8 +317,9 @@ const Header = () => {
                 }}
               />
               <div
-                className={`nav-header__item lang ${i18next.language === 'en_US' ? 'active' : ''
-                  }`.trim()}
+                className={`nav-header__item lang ${
+                  i18next.language === 'en_US' ? 'active' : ''
+                }`.trim()}
                 onClick={() => i18next.changeLanguage('en_US')}
               >
                 English

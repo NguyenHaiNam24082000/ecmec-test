@@ -22,12 +22,14 @@ import {
 } from '@mantine/core';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import { useAppSelector } from 'redux/hook';
+import { useMediaQuery } from '@mantine/hooks';
 
 
 const Home = () => {
+  const matches = useMediaQuery('(max-width: 600px)');
   const history = useNavigate();
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   const { t } = useTranslation();
@@ -308,36 +310,82 @@ const Home = () => {
       >
         <span className="title__underline color-white">Các dự án</span>
         <Stack>
-          <ProjectCard
-            image={selectedProject.image[0]}
-            name={selectedProject.name}
-            address={selectedProject.address}
-            status={selectedProject.status}
-          />
-          <Group grow>
-            {!!projects?.length &&
-              projects.map((project) => (
-                <Image
-                  key={project.path}
-                  src={project.image[0]}
-                  radius={20}
-                  height={137}
-                  sx={{
-                    '@media (max-width: 1024px)': {
-                      borderRadius: '10px !important',
-                      img: { height: '100px !important', borderRadius: 10 },
+          {matches ?
+            !!projects?.length && (
+              <Carousel
+                styles={{
+                  root: {
+                    marginRight: '0px !important',
+                    marginLeft: '0px !important',
+                    marginBottom: 45
+                  },
+                  indicators: {
+                    bottom: -20,
+                  },
+                  indicator: {
+                    width: 6,
+                    height: 6,
+                    opacity: 1,
+                    zIndex: 100,
+
+                    '&[data-active]': {
+                      background: '#EDE51C',
                     },
-                  }}
-                  style={{
-                    border: `${selectedProject.path === project.path ? '3' : '0'}px solid #EDE51C`,
-                    borderRadius: 20,
-                  }}
-                  onClick={() => {
-                    setSelectedProject({ ...project });
-                  }}
-                />
-              ))}
-          </Group>
+                  },
+                }}
+                mx="auto"
+                loop
+                withControls={false}
+                withIndicators
+                plugins={[autoplay.current]}
+                onMouseEnter={autoplay.current.stop}
+                onMouseLeave={autoplay.current.reset}
+              >
+                {projects.map((project) => (
+                  <Carousel.Slide key={project.path}>
+                    <ProjectCard
+                      image={project.image[0]}
+                      name={project.name}
+                      address={project.address}
+                      status={project.status}
+                    />
+                  </Carousel.Slide>))}
+              </Carousel>
+            )
+            :
+            <>
+              <ProjectCard
+                image={selectedProject.image[0]}
+                name={selectedProject.name}
+                address={selectedProject.address}
+                status={selectedProject.status}
+              />
+              <Group grow>
+                {!!projects?.length &&
+                  projects.map((project) => (
+                    <Image
+                      key={project.path}
+                      src={project.image[0]}
+                      radius={20}
+                      height={137}
+                      sx={{
+                        '@media (max-width: 1024px)': {
+                          borderRadius: '10px !important',
+                          img: { height: '100px !important', borderRadius: 10 },
+                        },
+                      }}
+                      style={{
+                        border: `${selectedProject.path === project.path ? '3' : '0'}px solid #EDE51C`,
+                        borderRadius: 20,
+                      }}
+                      onClick={() => {
+                        setSelectedProject({ ...project });
+                      }}
+                    />
+                  ))}
+              </Group>
+            </>
+          }
         </Stack>
       </Box>
       <Box

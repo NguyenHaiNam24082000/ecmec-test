@@ -4,6 +4,7 @@ import Loader from '@components/Loader/Loader';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ProjectItem from '@components/ProjectItem/ProjectItem';
 import { Image, Text, Title, TypographyStylesProvider } from '@mantine/core';
+import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -19,7 +20,7 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     if (service.length > 0) {
-      const result = service.find((detail) => detail.path === slug);
+      const result = service.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
       // TODO: call api
@@ -73,7 +74,7 @@ const ServiceDetail = () => {
             mb={34}
             order={1}
           >
-            {detail.name}
+            {i18next.language === 'vi_VN' ? detail.nameVn : detail.nameEn}
           </Title>
         </div>
         <Image
@@ -95,11 +96,16 @@ const ServiceDetail = () => {
             },
           }}
           height={800}
-          src={detail.image}
+          src={detail.image[1] ?? detail.image[0]}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>
-            <div className="d-content" dangerouslySetInnerHTML={{ __html: detail.content }} />
+            <div
+              className="d-content"
+              dangerouslySetInnerHTML={{
+                __html: i18next.language === 'vi_VN' ? detail.contentVn : detail.contentEn,
+              }}
+            />
           </TypographyStylesProvider>
 
           <Text
@@ -119,14 +125,15 @@ const ServiceDetail = () => {
           </Text>
           {!!project.length &&
             project
+              .filter((project) => project.isShow)
               .filter((prj) => prj.service.includes(detail.id))
               .map((item, index) => (
                 <ProjectItem
                   key={index}
                   image={item.image[0]}
-                  name={item.name}
-                  address={item.address}
-                  path={item.path}
+                  name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                  address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
+                  path={item.id.toString()}
                 />
               ))}
         </div>

@@ -4,6 +4,7 @@ import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ServiceCard from '@components/ServiceCard/ServiceCard';
 import { SimpleGrid } from '@mantine/core';
+import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from 'redux/hook';
@@ -26,11 +27,16 @@ const About = () => {
         verticalSpacing={20}
       >
         {!!about?.length &&
-          about.map((item) => (
-            <Link to={item.path} key={item.id} className="about__item">
-              <ServiceCard image={item.image} name={item.name} />
-            </Link>
-          ))}
+          about
+            .filter((item) => item.isShow)
+            .map((item) => (
+              <Link to={item.id.toString()} key={item.id} className="about__item">
+                <ServiceCard
+                  image={item.image[0]}
+                  name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                />
+              </Link>
+            ))}
       </SimpleGrid>
       <div className="breadcrumbs wrap">
         <NavLink to="/" className="breadcrumb__item">

@@ -4,6 +4,7 @@ import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import RecruitCard from '@components/RecruitCard/RecruitCard';
 import { SimpleGrid } from '@mantine/core';
+import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from 'redux/hook';
@@ -27,15 +28,17 @@ const Recruit = () => {
         verticalSpacing={20}
         mb={100}
       >
-        {recruit.map((item) => (
-          <RecruitCard
-            key={item.id}
-            role={item.role}
-            address={item.address}
-            salary={item.salary}
-            path={item.path}
-          />
-        ))}
+        {recruit
+          .filter((item) => item.isShow === true)
+          .map((item) => (
+            <RecruitCard
+              key={item.id}
+              role={i18next.language === 'vi_VN' ? item.roleVn : item.roleEn}
+              address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
+              salary={item.salary}
+              path={item.id.toString()}
+            />
+          ))}
       </SimpleGrid>
       <div className="breadcrumbs wrap">
         <NavLink to="/" className="breadcrumb__item">

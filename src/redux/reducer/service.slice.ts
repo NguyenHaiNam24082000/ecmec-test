@@ -3,11 +3,18 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface serviceInterface {
   id: number;
-  name: string;
-  image: string;
-  path: string;
-  content: string;
-  withOverlay: boolean;
+  nameVn: string;
+  nameEn: string;
+  image: string[]; // Mảng 2 hình ảnh, hình đầu tiên là hình trưng bày bên ngoài, hình thứ 2 hiển thị trong bài viết
+  priority?: number;
+  isShow?: boolean;
+  contentVn: string;
+  contentEn: string;
+  createdTime?: string;
+  createdUser?: string;
+  modifiedTime?: string;
+  modifiedUser?: string;
+  withOverlay?: boolean; //Cái này bỏ qua
 }
 
 export const getServiceApi = createAsyncThunk('service/get', () => {
@@ -18,7 +25,6 @@ export const getServiceApi = createAsyncThunk('service/get', () => {
 
 interface serviceState {
   service: serviceInterface[] | [];
-  detail: serviceInterface;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
 }
 
@@ -26,62 +32,74 @@ const initialState = {
   service: [
     {
       id: 1,
-      name: 'Cung cấp, lắp đặt hệ thống điện',
-      image: '/assets/service/dien.png',
-      path: '1',
-      content:
+      nameVn: 'Cung cấp, lắp đặt hệ thống điện',
+      nameEn: 'Cung cấp, lắp đặt hệ thống điện',
+      image: ['/assets/service/dien.png'],
+      priority: 1,
+      isShow: true,
+      contentVn:
+        '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
+      contentEn:
         '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
       withOverlay: false,
     },
     {
       id: 2,
-      name: 'Hệ thống cấp thoát nước',
-      image: '/assets/service/thoat-nuoc.png',
-      content:
+      nameVn: 'Hệ thống cấp thoát nước',
+      nameEn: 'Hệ thống cấp thoát nước',
+      image: ['/assets/service/thoat-nuoc.png'],
+      priority: 2,
+      isShow: true,
+      contentVn:
+        '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
+      contentEn:
         '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
 
-      path: '2',
       withOverlay: false,
     },
     {
       id: 3,
-      name: 'Hệ thống chữa cháy',
-      image: '/assets/service/chua-chay.png',
-      content:
+      nameVn: 'Hệ thống chữa cháy',
+      nameEn: 'Hệ thống chữa cháy',
+      image: ['/assets/service/chua-chay.png'],
+      priority: 3,
+      isShow: true,
+      contentVn:
+        '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
+      contentEn:
         '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
 
-      path: '3',
       withOverlay: false,
     },
     {
       id: 4,
-      name: 'Hệ thống điều hòa không khí & thông gió',
-      image: '/assets/service/thong-gio.png',
-      content:
+      nameVn: 'Hệ thống điều hòa không khí & thông gió',
+      nameEn: 'Hệ thống điều hòa không khí & thông gió',
+      image: ['/assets/service/thong-gio.png'],
+      priority: 4,
+      isShow: true,
+      contentVn:
+        '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
+      contentEn:
         '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
 
-      path: '4',
       withOverlay: false,
     },
     {
       id: 5,
-      name: 'Hệ thống đường ống công nghệ',
-      image: '/assets/service/ong-cong-nghe.png',
-      content:
+      nameVn: 'Hệ thống đường ống công nghệ',
+      nameEn: 'Hệ thống đường ống công nghệ',
+      image: ['/assets/service/ong-cong-nghe.png'],
+      priority: 5,
+      isShow: true,
+      contentVn:
+        '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
+      contentEn:
         '<ul><li>Hệ thống điện trung thế gồm trạm biến áp,tủ trung thế</li><li>Hệ thống điện hạ thế đầu nguồn tủ điện hạ thế,</li><li>Tủ điện phân phối, máy phát điện,</li><li>Hệ thống điện phân phối (gồm: tủ điện chính, tủ phân phối, tủ điều khiển);</li><li>Hệ thống thang máng cáp, cáp điện,thanh dẫn;</li><li>Hệ thống công tắc, ổ cắm, điều khiển đèn;</li><li>Hệ thống chiếu sáng trong và ngoài nhà;</li><li>Hệ thống chống sét và tiếp địa;</li><li>Hệ thống quản lý tự động tòa nhà;</li><li>Hệ thống báo cháy;</li><li>Hệ thống thông báo công cộng;</li><li>Hệ thống kiểm soát cửa, gọi cửa;</li><li>Hệ thống camera an ninh, chống trộm;</li><li>Hệ thống điện thoại, internet;</li><li>Hệ thống nghe nhìn phòng họp, hội trường;</li><li>Hệ thống truyền hình trung tâm</li></ul>',
 
-      path: '5',
       withOverlay: false,
     },
   ],
-  detail: {
-    id: NaN,
-    name: '',
-    image: '',
-    path: '',
-    content: '',
-    withOverlay: false,
-  },
   loading: 'idle',
 } as serviceState;
 
@@ -95,7 +113,7 @@ const userSlice = createSlice({
     });
     builder.addCase(getServiceApi.fulfilled, (state, action: PayloadAction<any>) => {
       const data = action.payload;
-      if (data) {
+      if (Array.isArray(data)) {
         state.service = data;
         state.loading = 'succeeded';
       }

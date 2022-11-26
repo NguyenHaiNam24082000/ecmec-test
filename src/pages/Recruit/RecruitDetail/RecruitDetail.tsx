@@ -1,7 +1,9 @@
+import { getRecruitDetail } from '@apis/recruitApi';
 import RecruitImage from '@assets/page-header/recruit.png';
 import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import { Loader, Title, TypographyStylesProvider } from '@mantine/core';
+import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -15,10 +17,10 @@ const RecruitDetail = () => {
   const { recruit } = useAppSelector((state) => state.recruit);
   useEffect(() => {
     if (recruit.length > 0) {
-      const result = recruit.find((detail) => detail.path === slug);
+      const result = recruit.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
-      // TODO: call api
+      slug && getRecruitDetail(slug).then((detail: any) => setDetail(detail));
     }
   }, [recruit, slug]);
   if (detail) {
@@ -62,10 +64,15 @@ const RecruitDetail = () => {
             mb={30}
             order={1}
           >
-            {detail.role}
+            {i18next.language === 'vi_VN' ? detail.roleVn : detail.roleEn}
           </Title>
           <TypographyStylesProvider mb={80}>
-            <div className="d-content" dangerouslySetInnerHTML={{ __html: detail.content }} />
+            <div
+              className="d-content"
+              dangerouslySetInnerHTML={{
+                __html: i18next.language === 'vi_VN' ? detail.contentVn : detail.contentEn,
+              }}
+            />
           </TypographyStylesProvider>
         </div>
         <Link className="back__router back__router--mobile" to="/recruitment">

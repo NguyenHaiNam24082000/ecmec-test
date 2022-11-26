@@ -3,6 +3,7 @@ import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
 import PageHeader from '@components/PageHeader/PageHeader';
 import { Image, Title, TypographyStylesProvider } from '@mantine/core';
+import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -16,7 +17,7 @@ const AboutDetail = () => {
   const { about } = useAppSelector((state) => state.about);
   useEffect(() => {
     if (about.length > 0) {
-      const result = about.find((detail) => detail.id === Number(slug));
+      const result = about.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
       // TODO: call api
@@ -64,7 +65,7 @@ const AboutDetail = () => {
             mb={34}
             order={1}
           >
-            {detail.name}
+            {i18next.language === 'vi_VN' ? detail.nameVn : detail.nameEn}
           </Title>
         </div>
         <Image
@@ -86,11 +87,16 @@ const AboutDetail = () => {
           }}
           height={800}
           mb={40}
-          src={detail.image}
+          src={detail.image[1] ?? detail.image[0]}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>
-            <div className="d-content" dangerouslySetInnerHTML={{ __html: detail.content }} />
+            <div
+              className="d-content"
+              dangerouslySetInnerHTML={{
+                __html: i18next.language === 'vi_VN' ? detail.contentVn : detail.contentEn,
+              }}
+            />
           </TypographyStylesProvider>
         </div>
         <Link className="back__router back__router--mobile" to="/about">

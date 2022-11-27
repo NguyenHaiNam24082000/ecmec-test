@@ -87,14 +87,15 @@ const Router = () => {
         path="/admin/*"
         element={
           <div>
-            <div>header admin</div>
+            {/* <div>header admin</div> */}
             <Outlet />
-            <div>footer admin</div>
+            {/* <div>footer admin</div> */}
           </div>
         }
       >
         <Route path="" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
+        <Route path="about" element={<Dashboard />} />
       </Route>
     </Routes>
   );

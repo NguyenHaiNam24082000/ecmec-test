@@ -1,5 +1,6 @@
 import Button from '@components/Button/Button';
 import { Text } from '@mantine/core';
+import { t } from 'i18next';
 import { Link } from 'react-router-dom';
 import './recruit-card.scss';
 
@@ -46,7 +47,7 @@ const RecruitCard = (props: RecruitCardProps) => {
           : 'Thỏa thuận'}
       </Text>
       <Link to={props.path} style={{ marginTop: 'auto' }}>
-        <Button sx={{ '@media (max-width: 600px)': { width: '100%' } }}>Xem thêm</Button>
+        <Button sx={{ '@media (max-width: 600px)': { width: '100%' } }}>{t('more')}</Button>
       </Link>
     </div>
   );

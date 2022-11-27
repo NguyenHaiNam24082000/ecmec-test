@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Logo from '@assets/favicon/logo.png';
 import { useTranslation } from 'react-i18next';
@@ -14,8 +14,9 @@ import {
   createStyles,
 } from '@mantine/core';
 import i18next from 'i18next';
-import { useAppSelector } from 'redux/hook';
+import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { useScrollLock } from '@mantine/hooks';
+import { getRecruitApi } from 'redux/reducer/recruit.slice';
 
 type MainNavType = {
   display: string;
@@ -59,22 +60,27 @@ const Header = () => {
   const serviceList = useAppSelector((state) => state.service.service);
   const projectList = useAppSelector((state) => state.projects.project);
   const recruitList = useAppSelector((state) => state.recruit.recruit);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getRecruitApi());
+  }, []);
 
   const mainNav: MainNavType[] = [
     {
       display: 'About',
       path: '/about',
-      list: aboutList,
+      list: aboutList?.filter((about) => about.isShow),
     },
     {
       display: 'Service',
       path: '/service',
-      list: serviceList,
+      list: serviceList?.filter((service) => service.isShow),
     },
     {
       display: 'Project',
       path: '/projects',
-      list: projectList,
+      list: projectList?.filter((project) => project.isShow),
     },
     {
       display: 'Contact',
@@ -83,7 +89,7 @@ const Header = () => {
     {
       display: 'Recruit',
       path: '/recruitment',
-      list: recruitList,
+      list: recruitList?.filter((recruitment) => recruitment.isShow),
     },
   ];
   return (
@@ -131,7 +137,8 @@ const Header = () => {
                     >
                       {nav.list.slice(0, 5).map((item, index) => (
                         <Link key={index} to={nav.path + `/${item.id ?? item.path}`}>
-                          {item.name || item.role}
+                          {(i18next.language === 'vi_VN' ? item.nameVn : item.nameEn) ||
+                            (i18next.language === 'vi_VN' ? item.roleVn : item.roleEn)}
                         </Link>
                       ))}
                     </div>

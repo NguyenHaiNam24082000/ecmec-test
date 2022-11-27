@@ -26,7 +26,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 import { useAppSelector } from 'redux/hook';
 import { useMediaQuery } from '@mantine/hooks';
-
+import i18next from 'i18next';
 
 const Home = () => {
   const matches = useMediaQuery('(max-width: 600px)');
@@ -94,11 +94,14 @@ const Home = () => {
             }}
             className="color-white"
           >
-            {about[0]?.content ? (
+            {about[0]?.contentVn ? (
               <TypographyStylesProvider>
                 <div
                   className="d-content"
-                  dangerouslySetInnerHTML={{ __html: about[0]?.content }}
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      i18next.language === 'vi_VN' ? about[0]?.contentVn : about[0]?.contentEn,
+                  }}
                 />
               </TypographyStylesProvider>
             ) : (
@@ -121,7 +124,7 @@ const Home = () => {
               history('/about');
             }}
           >
-            Xem thêm
+            {t('more')}
           </Button>
         </div>
         <Box
@@ -241,11 +244,14 @@ const Home = () => {
               }}
               className="color-white"
             >
-              {about[0]?.content ? (
+              {about[0]?.contentVn ? (
                 <TypographyStylesProvider>
                   <div
                     className="d-content"
-                    dangerouslySetInnerHTML={{ __html: about[0]?.content }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        i18next.language === 'vi_VN' ? about[0]?.contentVn : about[0]?.contentEn,
+                    }}
                   />
                 </TypographyStylesProvider>
               ) : (
@@ -268,14 +274,14 @@ const Home = () => {
                 },
               }}
             >
-              <Link to="/service">Xem thêm</Link>
+              <Link to="/service">{t('more')}</Link>
             </Button>
           </BackgroundImage>
         </Box>
         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 600, cols: 1 }]}>
           {!!service?.length &&
             service.slice(0, 6).map((item) => (
-              <Link to={`/service/${item.path}`} key={item.id} className="service__item">
+              <Link to={`/service/${item.id}`} key={item.id} className="service__item">
                 <ServiceCard
                   sx={{
                     '@media (max-width: 1400px)': {
@@ -291,9 +297,9 @@ const Home = () => {
                       borderRadius: 20,
                     },
                   }}
-                  image={item.image}
+                  image={item.image[0]}
                   height={293}
-                  name={item.name}
+                  name={item.nameVn}
                   withOverlay={true}
                 />
               </Link>
@@ -310,14 +316,14 @@ const Home = () => {
       >
         <span className="title__underline color-white">Các dự án</span>
         <Stack>
-          {matches ?
+          {matches ? (
             !!projects?.length && (
               <Carousel
                 styles={{
                   root: {
                     marginRight: '0px !important',
                     marginLeft: '0px !important',
-                    marginBottom: 45
+                    marginBottom: 45,
                   },
                   indicators: {
                     bottom: -20,
@@ -341,51 +347,66 @@ const Home = () => {
                 onMouseEnter={autoplay.current.stop}
                 onMouseLeave={autoplay.current.reset}
               >
-                {projects.map((project) => (
-                  <Carousel.Slide key={project.path}>
-                    <ProjectCard
-                      image={project.image[0]}
-                      name={project.name}
-                      address={project.address}
-                      status={project.status}
-                    />
-                  </Carousel.Slide>))}
+                {projects
+                  .filter((project) => project.isShow)
+                  .map((project) => (
+                    <Carousel.Slide key={project.id}>
+                      <ProjectCard
+                        image={project.image[0]}
+                        name={i18next.language === 'vi_VN' ? project.nameVn : project.nameEn}
+                        address={
+                          i18next.language === 'vi_VN' ? project.addressVn : project.addressEn
+                        }
+                        status={project.status}
+                      />
+                    </Carousel.Slide>
+                  ))}
               </Carousel>
             )
-            :
+          ) : (
             <>
               <ProjectCard
                 image={selectedProject.image[0]}
-                name={selectedProject.name}
-                address={selectedProject.address}
+                name={
+                  i18next.language === 'vi_VN' ? selectedProject.nameVn : selectedProject.nameEn
+                }
+                address={
+                  i18next.language === 'vi_VN'
+                    ? selectedProject.addressVn
+                    : selectedProject.addressEn
+                }
                 status={selectedProject.status}
               />
               <Group grow>
                 {!!projects?.length &&
-                  projects.map((project) => (
-                    <Image
-                      key={project.path}
-                      src={project.image[0]}
-                      radius={20}
-                      height={137}
-                      sx={{
-                        '@media (max-width: 1024px)': {
-                          borderRadius: '10px !important',
-                          img: { height: '100px !important', borderRadius: 10 },
-                        },
-                      }}
-                      style={{
-                        border: `${selectedProject.path === project.path ? '3' : '0'}px solid #EDE51C`,
-                        borderRadius: 20,
-                      }}
-                      onClick={() => {
-                        setSelectedProject({ ...project });
-                      }}
-                    />
-                  ))}
+                  projects
+                    .filter((item) => item.isShow)
+                    .map((project) => (
+                      <Image
+                        key={project.id}
+                        src={project.image[0]}
+                        radius={20}
+                        height={137}
+                        sx={{
+                          '@media (max-width: 1024px)': {
+                            borderRadius: '10px !important',
+                            img: { height: '100px !important', borderRadius: 10 },
+                          },
+                        }}
+                        style={{
+                          border: `${
+                            selectedProject.id === project.id ? '3' : '0'
+                          }px solid #EDE51C`,
+                          borderRadius: 20,
+                        }}
+                        onClick={() => {
+                          setSelectedProject({ ...project });
+                        }}
+                      />
+                    ))}
               </Group>
             </>
-          }
+          )}
         </Stack>
       </Box>
       <Box
@@ -443,7 +464,7 @@ const Home = () => {
             },
           }}
         >
-          {[...Array(10).keys()].map((item, index) => (
+          {partners.map((item, index) => (
             <Carousel.Slide key={index}>
               <Flex
                 sx={{
@@ -466,7 +487,7 @@ const Home = () => {
                 justify="center"
               >
                 <Image
-                  src={Logo}
+                  src={item.image}
                   sx={{
                     '@media (max-width: 1400px)': {
                       img: { height: '92px !important' },
@@ -477,7 +498,8 @@ const Home = () => {
                   }}
                   height={112}
                   width="auto"
-                  alt=""
+                  title={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                  alt={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 />
               </Flex>
             </Carousel.Slide>

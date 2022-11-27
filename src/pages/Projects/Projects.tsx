@@ -4,6 +4,7 @@ import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ProjectItem from '@components/ProjectItem/ProjectItem';
 import { Flex, Text } from '@mantine/core';
+import i18next from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
@@ -70,27 +71,29 @@ const Projects = () => {
         {!!project.length &&
           tabIndex === 0 &&
           project
+            .filter((item) => item.isShow)
             .filter((item) => item.status === 'pending')
             .map((item) => (
               <ProjectItem
-                key={item.path}
+                key={item.id}
                 image={item.image[0]}
-                name={item.name}
-                address={item.address}
-                path={item.path}
+                name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
+                path={item.id.toString()}
               />
             ))}
         {!!project.length &&
           tabIndex === 1 &&
           project
+            .filter((item) => item.isShow)
             .filter((item) => item.status === 'completed')
             .map((item) => (
               <ProjectItem
-                key={item.path}
+                key={item.id}
                 image={item.image[0]}
-                name={item.name}
-                address={item.address}
-                path={item.path}
+                name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
+                path={item.id.toString()}
               />
             ))}
       </div>

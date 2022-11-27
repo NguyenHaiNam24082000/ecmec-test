@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'redux/hook';
@@ -31,52 +32,73 @@ const Footer = () => {
       <div className="footer__list">
         <h3>{t('About')}</h3>
         <ul>
-          {About.slice(0, 5).map((item) => (
-            <li key={item.id} className="footer__list__item">
-              <svg width={15} height={15} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-                <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
-              </svg>
-              <Link to={`/about/${item.id}`}>
-                <Text lineClamp={2} fw={400}>
-                  {item.name}
-                </Text>
-              </Link>
-            </li>
-          ))}
+          {About.filter((item) => item.isShow)
+            .slice(0, 5)
+            .map((item) => (
+              <li key={item.id} className="footer__list__item">
+                <svg
+                  width={15}
+                  height={15}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 512"
+                >
+                  <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
+                </svg>
+                <Link to={`/about/${item.id}`}>
+                  <Text lineClamp={2} fw={400}>
+                    {i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                  </Text>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
       <div className="footer__list">
         <h3>{t('Business areas')}</h3>
         <ul>
-          {Service.slice(0, 5).map((item) => (
-            <li key={item.id} className="footer__list__item">
-              <svg width={15} height={15} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-                <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
-              </svg>
-              <Link to={`/service/${item.id}`}>
-                <Text lineClamp={2} fw={400}>
-                  {item.name}
-                </Text>
-              </Link>
-            </li>
-          ))}
+          {Service.filter((item) => item.isShow)
+            .slice(0, 5)
+            .map((item) => (
+              <li key={item.id} className="footer__list__item">
+                <svg
+                  width={15}
+                  height={15}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 512"
+                >
+                  <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
+                </svg>
+                <Link to={`/service/${item.id}`}>
+                  <Text lineClamp={2} fw={400}>
+                    {i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                  </Text>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
       <div className="footer__list">
         <h3>{t('RecruitInfo')}</h3>
         <ul>
-          {Recruit.slice(0, 5).map((item) => (
-            <li key={item.id} className="footer__list__item">
-              <svg width={15} height={15} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-                <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
-              </svg>
-              <Link to={`/recruitment/${item.path}`}>
-                <Text lineClamp={2} fw={400}>
-                  {item.role}
-                </Text>
-              </Link>
-            </li>
-          ))}
+          {Recruit.filter((item) => item.isShow)
+            .slice(0, 5)
+            .map((item) => (
+              <li key={item.id} className="footer__list__item">
+                <svg
+                  width={15}
+                  height={15}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 512"
+                >
+                  <path d="M96 96L256 256 96 416l-32 0L64 96l32 0z" />
+                </svg>
+                <Link to={`/recruitment/${item.id}`}>
+                  <Text lineClamp={2} fw={400}>
+                    {i18next.language === 'vi_VN' ? item.roleVn : item.roleEn}
+                  </Text>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
       <div className="footer__list">

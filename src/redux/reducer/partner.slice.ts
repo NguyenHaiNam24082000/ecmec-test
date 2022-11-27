@@ -2,7 +2,8 @@ import { getPartners } from '@apis/partnerApi';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface partnerInterface {
-  name: string;
+  nameVn: string;
+  nameEn: string;
   image: string;
 }
 
@@ -14,33 +15,52 @@ export const getPartnerApi = createAsyncThunk('partners/get', () => {
 
 interface partnerState {
   partner: partnerInterface[] | [];
-  detail: partnerInterface;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
 }
 
 const initialState = {
   partner: [
     {
-      name: 'Hikari Bình Dương',
+      nameVn: 'Hikari Bình Dương',
+      nameEn: 'Hikari Bình Dương',
       image: '/logo.png',
     },
     {
-      name: 'Hikari Biên Hòa',
+      nameVn: 'Hikari Biên Hòa',
+      nameEn: 'Hikari Biên Hòa',
       image: '/logo.png',
     },
     {
-      name: 'Nova Medic',
+      nameVn: 'Nova Medic',
+      nameEn: 'Nova Medic',
       image: '/logo.png',
     },
     {
-      name: 'The Sun',
+      nameVn: 'The Sun',
+      nameEn: 'The Sun',
+      image: '/logo.png',
+    },
+    {
+      nameVn: 'The Sun',
+      nameEn: 'The Sun',
+      image: '/logo.png',
+    },
+    {
+      nameVn: 'The Sun',
+      nameEn: 'The Sun',
+      image: '/logo.png',
+    },
+    {
+      nameVn: 'The Sun',
+      nameEn: 'The Sun',
+      image: '/logo.png',
+    },
+    {
+      nameVn: 'The Sun',
+      nameEn: 'The Sun',
       image: '/logo.png',
     },
   ],
-  detail: {
-    name: '',
-    image: '',
-  },
   loading: 'idle',
 } as partnerState;
 
@@ -54,7 +74,7 @@ const partnerSlice = createSlice({
     });
     builder.addCase(getPartnerApi.fulfilled, (state, action: PayloadAction<any>) => {
       const data = action.payload;
-      if (data.data) {
+      if (Array.isArray(data)) {
         state.partner = data;
         state.loading = 'succeeded';
       }

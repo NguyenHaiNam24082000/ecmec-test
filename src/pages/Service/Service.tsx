@@ -32,11 +32,13 @@ const Service = () => {
         verticalSpacing={20}
       >
         {!!service?.length &&
-          service.map((item) => (
-            <Link to={item.path} key={item.id} className="service__item">
-              <ServiceCard image={item.image} name={item.name} withOverlay={false} />
-            </Link>
-          ))}
+          service
+            .filter((item) => item.isShow)
+            .map((item) => (
+              <Link to={item.id.toString()} key={item.id} className="service__item">
+                <ServiceCard image={item.image[0]} name={item.nameVn} withOverlay={false} />
+              </Link>
+            ))}
       </SimpleGrid>
       <SimpleGrid
         className="service-page--mobile main wrap"
@@ -56,11 +58,13 @@ const Service = () => {
         verticalSpacing={20}
       >
         {!!service?.length &&
-          service.map((item) => (
-            <Link to={item.path} key={item.id} className="service__item">
-              <ServiceCard image={item.image} name={item.name} withOverlay={true} />
-            </Link>
-          ))}
+          service
+            .filter((item) => item.isShow)
+            .map((item) => (
+              <Link to={item.id.toString()} key={item.id} className="service__item">
+                <ServiceCard image={item.image[0]} name={item.nameVn} withOverlay={true} />
+              </Link>
+            ))}
       </SimpleGrid>
       <div className="breadcrumbs wrap">
         <NavLink to="/" className="breadcrumb__item">

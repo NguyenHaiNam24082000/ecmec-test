@@ -72,6 +72,13 @@
         border-radius: 20px;
         width: max-content;
 
+        @include mobile {
+            position: absolute;
+            right: 9px;
+            top: 24.5px;
+            color: $primary-color-white;
+        }
+
         &.completed {
             background-color: #2ec14e;
         }

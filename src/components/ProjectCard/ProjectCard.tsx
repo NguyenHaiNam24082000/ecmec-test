@@ -1,4 +1,5 @@
 import { BackgroundImage } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 import './project-card.scss';
 type ProjectCardType = {
@@ -7,10 +8,11 @@ type ProjectCardType = {
   address: string;
   height?: number;
   width?: number;
-  status: 'pending' | 'completed' | 'failed';
+  status: 'in progress' | 'completed' | 'failed';
 };
 const ProjectCard = (props: ProjectCardType) => {
   const { t } = useTranslation();
+  const matches = useMediaQuery('(max-width: 600px)');
   return (
     <BackgroundImage
       radius={20}
@@ -33,6 +35,7 @@ const ProjectCard = (props: ProjectCardType) => {
       src={props.image}
       className="project-card"
     >
+      {matches && <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>}
       <div className="project-card__desc">
         <div className="project-card__name">{props.name}</div>
         <div className="project-card__address">
@@ -41,7 +44,7 @@ const ProjectCard = (props: ProjectCardType) => {
           </svg>{' '}
           {props.address}
         </div>
-        <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>
+        {!matches && <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>}
       </div>
     </BackgroundImage>
   );

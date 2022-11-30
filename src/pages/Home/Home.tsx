@@ -20,13 +20,14 @@ import {
   Text,
   TypographyStylesProvider,
 } from '@mantine/core';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
-import { useAppSelector } from 'redux/hook';
+import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { useMediaQuery } from '@mantine/hooks';
 import i18next from 'i18next';
+import { getPartnerApi } from 'redux/reducer/partner.slice';
 
 const Home = () => {
   const matches = useMediaQuery('(max-width: 600px)');
@@ -38,6 +39,11 @@ const Home = () => {
   const projects = useAppSelector((state) => state.projects.project);
   const partners = useAppSelector((state) => state.partner.partner);
   const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getPartnerApi());
+  }, []);
   return (
     <Helmet title={t('Home')}>
       <Banner />

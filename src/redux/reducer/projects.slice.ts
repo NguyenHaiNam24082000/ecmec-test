@@ -23,7 +23,7 @@ export interface projectInterface {
   createdUser?: string;
   modifiedTime?: string;
   modifiedUser?: string;
-  status: 'pending' | 'completed' | 'failed';
+  status: 'in progress' | 'completed' | 'failed';
 }
 
 export const getProjectApi = createAsyncThunk('projects/get', () => {

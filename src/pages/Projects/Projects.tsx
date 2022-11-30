@@ -72,7 +72,7 @@ const Projects = () => {
           tabIndex === 0 &&
           project
             .filter((item) => item.isShow)
-            .filter((item) => item.status === 'pending')
+            .filter((item) => item.status === 'in progress')
             .map((item) => (
               <ProjectItem
                 key={item.id}

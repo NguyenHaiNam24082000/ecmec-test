@@ -51,7 +51,7 @@ const initialState = {
   loading: 'idle',
 } as contactState;
 
-const userSlice = createSlice({
+const contactSlice = createSlice({
   name: 'contact',
   initialState,
   reducers: {},
@@ -74,6 +74,6 @@ const userSlice = createSlice({
 });
 
 // export actions
-export const {} = userSlice.actions;
+export const {} = contactSlice.actions;
 
-export default userSlice.reducer;
+export default contactSlice.reducer;

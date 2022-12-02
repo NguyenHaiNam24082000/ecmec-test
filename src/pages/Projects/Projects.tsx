@@ -76,7 +76,7 @@ const Projects = () => {
             .map((item) => (
               <ProjectItem
                 key={item.id}
-                image={item.image[0]}
+                image={item.image[0].url}
                 name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                 path={item.id.toString()}
@@ -90,7 +90,7 @@ const Projects = () => {
             .map((item) => (
               <ProjectItem
                 key={item.id}
-                image={item.image[0]}
+                image={item.image[0].url}
                 name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                 path={item.id.toString()}

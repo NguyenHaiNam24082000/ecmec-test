@@ -1,11 +1,12 @@
 import { getService } from '@apis/serviceApi';
+import { imageType } from '@constants/types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface serviceInterface {
   id: number;
   nameVn: string;
   nameEn: string;
-  image: string[]; // Mảng 2 hình ảnh, hình đầu tiên là hình trưng bày bên ngoài, hình thứ 2 hiển thị trong bài viết
+  image: imageType[]; // Mảng 2 hình ảnh, hình đầu tiên là hình trưng bày bên ngoài, hình thứ 2 hiển thị trong bài viết
   priority?: number;
   isShow?: boolean;
   contentVn: string;
@@ -34,7 +35,7 @@ const initialState = {
       id: 1,
       nameVn: 'Cung cấp, lắp đặt hệ thống điện',
       nameEn: 'Cung cấp, lắp đặt hệ thống điện',
-      image: ['/assets/service/dien.png'],
+      image: [{ imageId: 1, url: '/assets/service/dien.png' }],
       priority: 1,
       isShow: true,
       contentVn:
@@ -47,7 +48,7 @@ const initialState = {
       id: 2,
       nameVn: 'Hệ thống cấp thoát nước',
       nameEn: 'Hệ thống cấp thoát nước',
-      image: ['/assets/service/thoat-nuoc.png'],
+      image: [{ imageId: 1, url: '/assets/service/thoat-nuoc.png' }],
       priority: 2,
       isShow: true,
       contentVn:
@@ -61,7 +62,7 @@ const initialState = {
       id: 3,
       nameVn: 'Hệ thống chữa cháy',
       nameEn: 'Hệ thống chữa cháy',
-      image: ['/assets/service/chua-chay.png'],
+      image: [{ imageId: 1, url: '/assets/service/chua-chay.png' }],
       priority: 3,
       isShow: true,
       contentVn:
@@ -75,7 +76,7 @@ const initialState = {
       id: 4,
       nameVn: 'Hệ thống điều hòa không khí & thông gió',
       nameEn: 'Hệ thống điều hòa không khí & thông gió',
-      image: ['/assets/service/thong-gio.png'],
+      image: [{ imageId: 1, url: '/assets/service/thong-gio.png' }],
       priority: 4,
       isShow: true,
       contentVn:
@@ -89,7 +90,7 @@ const initialState = {
       id: 5,
       nameVn: 'Hệ thống đường ống công nghệ',
       nameEn: 'Hệ thống đường ống công nghệ',
-      image: ['/assets/service/ong-cong-nghe.png'],
+      image: [{ imageId: 1, url: '/assets/service/ong-cong-nghe.png' }],
       priority: 5,
       isShow: true,
       contentVn:
@@ -103,7 +104,7 @@ const initialState = {
   loading: 'idle',
 } as serviceState;
 
-const userSlice = createSlice({
+const serviceSlice = createSlice({
   name: 'service',
   initialState,
   reducers: {},
@@ -126,6 +127,6 @@ const userSlice = createSlice({
 });
 
 // export actions
-export const {} = userSlice.actions;
+export const {} = serviceSlice.actions;
 
-export default userSlice.reducer;
+export default serviceSlice.reducer;

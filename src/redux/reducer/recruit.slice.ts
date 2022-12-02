@@ -91,7 +91,7 @@ const initialState = {
   loading: 'idle',
 } as recruitState;
 
-const userSlice = createSlice({
+const recruitmentSlice = createSlice({
   name: 'recruitment',
   initialState,
   reducers: {},
@@ -114,6 +114,6 @@ const userSlice = createSlice({
 });
 
 // export actions
-export const {} = userSlice.actions;
+export const {} = recruitmentSlice.actions;
 
-export default userSlice.reducer;
+export default recruitmentSlice.reducer;

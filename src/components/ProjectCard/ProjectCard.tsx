@@ -3,7 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 import './project-card.scss';
 type ProjectCardType = {
-  image: string;
+  image?: string | null;
   name: string;
   address: string;
   height?: number;
@@ -32,7 +32,7 @@ const ProjectCard = (props: ProjectCardType) => {
           borderRadius: 20,
         },
       }}
-      src={props.image}
+      src={props.image ?? ''}
       className="project-card"
     >
       {matches && <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>}
@@ -44,7 +44,9 @@ const ProjectCard = (props: ProjectCardType) => {
           </svg>{' '}
           {props.address}
         </div>
-        {!matches && <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>}
+        {!matches && (
+          <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>
+        )}
       </div>
     </BackgroundImage>
   );

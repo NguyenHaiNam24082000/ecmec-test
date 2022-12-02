@@ -36,7 +36,11 @@ const Service = () => {
             .filter((item) => item.isShow)
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
-                <ServiceCard image={item.image[0]} name={item.nameVn} withOverlay={false} />
+                <ServiceCard
+                  image={item.image[0].url || undefined}
+                  name={item.nameVn}
+                  withOverlay={false}
+                />
               </Link>
             ))}
       </SimpleGrid>
@@ -62,7 +66,7 @@ const Service = () => {
             .filter((item) => item.isShow)
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
-                <ServiceCard image={item.image[0]} name={item.nameVn} withOverlay={true} />
+                <ServiceCard image={item.image[0].url || undefined} name={item.nameVn} withOverlay={true} />
               </Link>
             ))}
       </SimpleGrid>

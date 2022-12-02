@@ -303,7 +303,7 @@ const Home = () => {
                       borderRadius: 20,
                     },
                   }}
-                  image={item.image[0]}
+                  image={item.image[0].url ?? undefined}
                   height={293}
                   name={item.nameVn}
                   withOverlay={true}
@@ -358,7 +358,7 @@ const Home = () => {
                   .map((project) => (
                     <Carousel.Slide key={project.id}>
                       <ProjectCard
-                        image={project.image[0]}
+                        image={project.image[0].url}
                         name={i18next.language === 'vi_VN' ? project.nameVn : project.nameEn}
                         address={
                           i18next.language === 'vi_VN' ? project.addressVn : project.addressEn
@@ -372,7 +372,7 @@ const Home = () => {
           ) : (
             <>
               <ProjectCard
-                image={selectedProject.image[0]}
+                image={selectedProject.image[0].url}
                 name={
                   i18next.language === 'vi_VN' ? selectedProject.nameVn : selectedProject.nameEn
                 }
@@ -390,7 +390,7 @@ const Home = () => {
                     .map((project) => (
                       <Image
                         key={project.id}
-                        src={project.image[0]}
+                        src={project.image[0].url}
                         radius={20}
                         height={137}
                         sx={{
@@ -493,7 +493,7 @@ const Home = () => {
                 justify="center"
               >
                 <Image
-                  src={item.image}
+                  src={item.image.length > 0 ? item.image[0].url : null}
                   sx={{
                     '@media (max-width: 1400px)': {
                       img: { height: '92px !important' },

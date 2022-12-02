@@ -32,7 +32,7 @@ const About = () => {
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="about__item">
                 <ServiceCard
-                  image={item.image[0]}
+                  image={item.image[0].url || undefined}
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 />
               </Link>

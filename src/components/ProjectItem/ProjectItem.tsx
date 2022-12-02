@@ -3,7 +3,7 @@ import { Box, Flex, Image, Text, Title } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
 interface ProjectItemProps {
-  image: string;
+  image?: string | null;
   name: string;
   address: string;
   path: string;
@@ -19,25 +19,36 @@ const ProjectItem = (props: ProjectItemProps) => {
       justify="center"
       align="flex-start"
     >
-      <Link to={`/projects/${props.path}`} style={{
-        width: '100%',
-      }}>
-        <Image radius={20} maw={710} mah={499} mih="100%" src={props.image} alt={props.name} sx={{
-          height: 499,
-          '& *': {
-            height: '100% !important',
-          },
-          '@media (max-width: 1400px)': {
-            height: 400
-          },
-          '@media (max-width: 1024px)': {
-            height: 300,
-            width: '100%',
+      <Link
+        to={`/projects/${props.path}`}
+        style={{
+          width: '100%',
+        }}
+      >
+        <Image
+          radius={20}
+          maw={710}
+          mah={499}
+          mih="100%"
+          src={props.image}
+          alt={props.name}
+          sx={{
+            height: 499,
             '& *': {
-              width: '100% !important',
+              height: '100% !important',
             },
-          }
-        }}/>
+            '@media (max-width: 1400px)': {
+              height: 400,
+            },
+            '@media (max-width: 1024px)': {
+              height: 300,
+              width: '100%',
+              '& *': {
+                width: '100% !important',
+              },
+            },
+          }}
+        />
       </Link>
       <Box sx={{ width: '50%', '@media (max-width: 1024px)': { width: '100%' } }}>
         <Title

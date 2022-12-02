@@ -1,11 +1,12 @@
-import { getAbout } from '@apis/aboutApi';
+import { getIntroduction } from '@apis/introductionApi';
+import { imageType } from '@constants/types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface aboutInterface {
   id: number;
   nameVn: string;
   nameEn: string;
-  image: string[]; //Như bên service
+  image: imageType[]; //Như bên service
   contentVn: string;
   contentEn: string;
   priority?: number;
@@ -17,7 +18,7 @@ export interface aboutInterface {
 }
 
 export const getAboutApi = createAsyncThunk('about/get', () => {
-  return getAbout()
+  return getIntroduction()
     .then((response) => response.data)
     .catch((error) => error.message);
 });
@@ -33,7 +34,7 @@ const initialState = {
       id: 1,
       nameVn: 'Giới thiệu chung',
       nameEn: 'Giới thiệu chung',
-      image: ['/assets/about/gioi-thieu.png'],
+      image: [{ imageId: 1, url: '/assets/about/gioi-thieu.png' }],
       priority: 1,
       isShow: true,
       contentVn:
@@ -45,7 +46,7 @@ const initialState = {
       id: 2,
       nameVn: 'Nhân sự và sơ đồ tổ chức',
       nameEn: 'Nhân sự và sơ đồ tổ chức',
-      image: ['/assets/about/nhan-su.png'],
+      image: [{ imageId: 1, url: '/assets/about/nhan-su.png' }],
       priority: 2,
       isShow: true,
       contentVn:
@@ -57,7 +58,7 @@ const initialState = {
       id: 3,
       nameVn: 'Hệ thống quản lý chất lượng',
       nameEn: 'Hệ thống quản lý chất lượng',
-      image: ['/assets/about/he-thong.png'],
+      image: [{ imageId: 1, url: '/assets/about/he-thong.png' }],
       priority: 3,
       isShow: true,
       contentVn:
@@ -69,7 +70,7 @@ const initialState = {
       id: 4,
       nameVn: 'An toàn - Sức khoẻ vệ sinh môi trường',
       nameEn: 'An toàn - Sức khoẻ vệ sinh môi trường',
-      image: ['/assets/about/moi-truong.png'],
+      image: [{ imageId: 1, url: '/assets/about/moi-truong.png' }],
       priority: 4,
       isShow: true,
       contentVn:
@@ -81,7 +82,7 @@ const initialState = {
   loading: 'idle',
 } as aboutState;
 
-const userSlice = createSlice({
+const aboutSlice = createSlice({
   name: 'about',
   initialState,
   reducers: {},
@@ -104,6 +105,6 @@ const userSlice = createSlice({
 });
 
 // export actions
-export const {} = userSlice.actions;
+export const {} = aboutSlice.actions;
 
-export default userSlice.reducer;
+export default aboutSlice.reducer;

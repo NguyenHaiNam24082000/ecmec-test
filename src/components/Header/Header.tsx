@@ -250,8 +250,9 @@ const Header = () => {
                         >
                           {nav.list.slice(0, 5).map((item, index) => (
                             <Link key={index} to={nav.path + `/${item.id ?? item.path}`}>
-                              {item.name || item.role}
-                            </Link>
+                            {(i18next.language === 'vi_VN' ? item.nameVn : item.nameEn) ||
+                              (i18next.language === 'vi_VN' ? item.roleVn : item.roleEn)}
+                          </Link>
                           ))}
                         </div>
                       )}

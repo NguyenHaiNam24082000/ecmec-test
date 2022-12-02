@@ -165,7 +165,7 @@ const ProjectDetail = () => {
               radius={0}
               width={'100%'}
               height={'100%'}
-              src={detail?.image?.[0]}
+              src={detail?.image?.[0].url}
               alt="Random unsplash image"
             />
           </Box>
@@ -329,7 +329,7 @@ const ProjectDetail = () => {
                       }}
                       radius={0}
                       width={'100%'}
-                      src={detail?.image?.[0]}
+                      src={detail?.image?.[0].url}
                       alt="Random unsplash image"
                     />
                   </Carousel.Slide>

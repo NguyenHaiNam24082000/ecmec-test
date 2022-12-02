@@ -1,10 +1,11 @@
 import { getPartners } from '@apis/partnerApi';
+import { imageType } from '@constants/types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface partnerInterface {
   nameVn: string;
   nameEn: string;
-  image: string;
+  image: imageType[];
 }
 
 export const getPartnerApi = createAsyncThunk('partners/get', () => {
@@ -21,44 +22,24 @@ interface partnerState {
 const initialState = {
   partner: [
     {
-      nameVn: 'Hikari Bình Dương',
-      nameEn: 'Hikari Bình Dương',
-      image: '/logo.png',
+      nameVn: 'ECMEC',
+      nameEn: 'ECMEC',
+      image: [{ imageId: 1, url: '/logo.png' }],
     },
     {
-      nameVn: 'Hikari Biên Hòa',
-      nameEn: 'Hikari Biên Hòa',
-      image: '/logo.png',
+      nameVn: 'ECMEC',
+      nameEn: 'ECMEC',
+      image: [{ imageId: 2, url: '/logo.png' }],
     },
     {
-      nameVn: 'Nova Medic',
-      nameEn: 'Nova Medic',
-      image: '/logo.png',
+      nameVn: 'ECMEC',
+      nameEn: 'ECMEC',
+      image: [{ imageId: 3, url: '/logo.png' }],
     },
     {
-      nameVn: 'The Sun',
-      nameEn: 'The Sun',
-      image: '/logo.png',
-    },
-    {
-      nameVn: 'The Sun',
-      nameEn: 'The Sun',
-      image: '/logo.png',
-    },
-    {
-      nameVn: 'The Sun',
-      nameEn: 'The Sun',
-      image: '/logo.png',
-    },
-    {
-      nameVn: 'The Sun',
-      nameEn: 'The Sun',
-      image: '/logo.png',
-    },
-    {
-      nameVn: 'The Sun',
-      nameEn: 'The Sun',
-      image: '/logo.png',
+      nameVn: 'ECMEC',
+      nameEn: 'ECMEC',
+      image: [{ imageId: 4, url: '/logo.png' }],
     },
   ],
   loading: 'idle',
@@ -74,7 +55,7 @@ const partnerSlice = createSlice({
     });
     builder.addCase(getPartnerApi.fulfilled, (state, action: PayloadAction<any>) => {
       const data = action.payload;
-      if (Array.isArray(data)) {
+      if (Array.isArray(data) && data.length > 0) {
         state.partner = data;
         state.loading = 'succeeded';
       }

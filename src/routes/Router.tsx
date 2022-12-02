@@ -22,10 +22,10 @@ const routes = [
     path: '/',
     element: <Home />,
   },
-  {
-    path: '*',
-    element: <NotFound />,
-  },
+//   {
+//     path: '*',
+//     element: <NotFound />,
+//   },
   {
     path: '/contact',
     element: <Contact />,

@@ -9,7 +9,7 @@ export interface projectInterface {
   service: number[]; //Mảng id service của project
   addressVn: string; //trường này trong db còn thiếu
   addressEn: string; //trường này trong db còn thiếu
-  image: imageType[];
+  images: imageType[];
   area: string; //VD: 30000 m
   timeEn: string; //VD: 12 months
   timeVn: string; //VD: 12 tháng
@@ -89,7 +89,7 @@ const initialState = {
     
     Với sứ mệnh đem đến cho khách hàng sự hài lòng trên mong đợi, đội ngũ ECMEC luôn làm việc tận tâm và ý thức làm mới chính mình để phát triển và cùng thịnh vượng.
     `,
-      image: [
+      images: [
         { imageId: 1, url: '/assets/projects/hikari-binh-duong.png' },
         { imageId: 2, url: '/assets/projects/hikari-binh-duong-2.png' },
       ],
@@ -144,7 +144,7 @@ const initialState = {
     
     Với sứ mệnh đem đến cho khách hàng sự hài lòng trên mong đợi, đội ngũ ECMEC luôn làm việc tận tâm và ý thức làm mới chính mình để phát triển và cùng thịnh vượng.
     `,
-      image: [
+      images: [
         { imageId: 1, url: '/assets/projects/nova1_1.jpg' },
         { imageId: 2, url: '/assets/projects/hikari-binh-duong-2.png' },
       ],
@@ -199,7 +199,7 @@ const initialState = {
     
     Với sứ mệnh đem đến cho khách hàng sự hài lòng trên mong đợi, đội ngũ ECMEC luôn làm việc tận tâm và ý thức làm mới chính mình để phát triển và cùng thịnh vượng.
     `,
-      image: [
+      images: [
         { imageId: 1, url: '/assets/projects/dong_nai.jpg' },
         { imageId: 2, url: '/assets/projects/hikari-binh-duong-2.png' },
       ],
@@ -254,7 +254,7 @@ const initialState = {
     
     Với sứ mệnh đem đến cho khách hàng sự hài lòng trên mong đợi, đội ngũ ECMEC luôn làm việc tận tâm và ý thức làm mới chính mình để phát triển và cùng thịnh vượng.
     `,
-      image: [
+      images: [
         { imageId: 1, url: '/assets/projects/hikari-binh-duong.png' },
         { imageId: 2, url: '/assets/projects/hikari-binh-duong-2.png' },
       ],

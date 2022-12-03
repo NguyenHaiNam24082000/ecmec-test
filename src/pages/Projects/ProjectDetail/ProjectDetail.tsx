@@ -165,7 +165,7 @@ const ProjectDetail = () => {
               radius={0}
               width={'100%'}
               height={'100%'}
-              src={detail?.image?.[0].url}
+              src={detail?.images?.[0].url}
               alt="Random unsplash image"
             />
           </Box>
@@ -287,7 +287,7 @@ const ProjectDetail = () => {
           }}
         >
           <div>
-            {!!detail?.image?.slice(1)?.length && (
+            {!!detail?.images?.slice(1)?.length && (
               <Carousel
                 sx={{ width: '100%' }}
                 styles={{
@@ -315,7 +315,7 @@ const ProjectDetail = () => {
                 onMouseEnter={autoplay.current.stop}
                 onMouseLeave={autoplay.current.reset}
               >
-                {detail?.image.slice(1).map((item, index) => (
+                {detail?.images.slice(1).map((item, index) => (
                   <Carousel.Slide key={index}>
                     <Image
                       sx={{
@@ -329,7 +329,7 @@ const ProjectDetail = () => {
                       }}
                       radius={0}
                       width={'100%'}
-                      src={detail?.image?.[0].url}
+                      src={detail?.images?.[0].url}
                       alt="Random unsplash image"
                     />
                   </Carousel.Slide>

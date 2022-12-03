@@ -17,6 +17,8 @@ import i18next from 'i18next';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { useScrollLock } from '@mantine/hooks';
 import { getRecruitApi } from 'redux/reducer/recruit.slice';
+import { getAboutApi } from 'redux/reducer/about.slice';
+import { getServiceApi } from 'redux/reducer/service.slice';
 
 type MainNavType = {
   display: string;
@@ -64,7 +66,13 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getRecruitApi());
+    dispatch(getAboutApi());
+    dispatch(getServiceApi());
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = i18next.language === 'vi_VN' ? 'vi' : 'en'
+  },[i18next.language])
 
   const mainNav: MainNavType[] = [
     {

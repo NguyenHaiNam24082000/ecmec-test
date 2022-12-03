@@ -96,7 +96,7 @@ const ServiceDetail = () => {
             },
           }}
           height={800}
-          src={detail.image[1]?.url ?? detail.image[0]?.url}
+          src={detail.images[1]?.url ?? detail.images[0]?.url}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>
@@ -130,7 +130,7 @@ const ServiceDetail = () => {
               .map((item, index) => (
                 <ProjectItem
                   key={index}
-                  image={item.image[0].url}
+                  image={item.images[0].url}
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                   path={item.id.toString()}

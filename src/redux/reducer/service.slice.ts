@@ -6,7 +6,7 @@ export interface serviceInterface {
   id: number;
   nameVn: string;
   nameEn: string;
-  image: imageType[]; // Mảng 2 hình ảnh, hình đầu tiên là hình trưng bày bên ngoài, hình thứ 2 hiển thị trong bài viết
+  images: imageType[]; // Mảng 2 hình ảnh, hình đầu tiên là hình trưng bày bên ngoài, hình thứ 2 hiển thị trong bài viết
   priority?: number;
   isShow?: boolean;
   contentVn: string;
@@ -35,7 +35,7 @@ const initialState = {
       id: 1,
       nameVn: 'Cung cấp, lắp đặt hệ thống điện',
       nameEn: 'Cung cấp, lắp đặt hệ thống điện',
-      image: [{ imageId: 1, url: '/assets/service/dien.png' }],
+      images: [{ imageId: 1, url: '/assets/service/dien.png' }],
       priority: 1,
       isShow: true,
       contentVn:
@@ -48,7 +48,7 @@ const initialState = {
       id: 2,
       nameVn: 'Hệ thống cấp thoát nước',
       nameEn: 'Hệ thống cấp thoát nước',
-      image: [{ imageId: 1, url: '/assets/service/thoat-nuoc.png' }],
+      images: [{ imageId: 1, url: '/assets/service/thoat-nuoc.png' }],
       priority: 2,
       isShow: true,
       contentVn:
@@ -62,7 +62,7 @@ const initialState = {
       id: 3,
       nameVn: 'Hệ thống chữa cháy',
       nameEn: 'Hệ thống chữa cháy',
-      image: [{ imageId: 1, url: '/assets/service/chua-chay.png' }],
+      images: [{ imageId: 1, url: '/assets/service/chua-chay.png' }],
       priority: 3,
       isShow: true,
       contentVn:
@@ -76,7 +76,7 @@ const initialState = {
       id: 4,
       nameVn: 'Hệ thống điều hòa không khí & thông gió',
       nameEn: 'Hệ thống điều hòa không khí & thông gió',
-      image: [{ imageId: 1, url: '/assets/service/thong-gio.png' }],
+      images: [{ imageId: 1, url: '/assets/service/thong-gio.png' }],
       priority: 4,
       isShow: true,
       contentVn:
@@ -90,7 +90,7 @@ const initialState = {
       id: 5,
       nameVn: 'Hệ thống đường ống công nghệ',
       nameEn: 'Hệ thống đường ống công nghệ',
-      image: [{ imageId: 1, url: '/assets/service/ong-cong-nghe.png' }],
+      images: [{ imageId: 1, url: '/assets/service/ong-cong-nghe.png' }],
       priority: 5,
       isShow: true,
       contentVn:

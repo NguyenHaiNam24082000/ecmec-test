@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from 'redux/hook';
 import arrowRight from '@assets/icons/arrow-right.svg';
+import i18next from 'i18next';
 
 const Service = () => {
   const { t } = useTranslation();
@@ -37,8 +38,8 @@ const Service = () => {
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
                 <ServiceCard
-                  image={item.image[0].url || undefined}
-                  name={item.nameVn}
+                  image={item.images[0].url || undefined}
+                  name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={false}
                 />
               </Link>
@@ -66,7 +67,11 @@ const Service = () => {
             .filter((item) => item.isShow)
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
-                <ServiceCard image={item.image[0].url || undefined} name={item.nameVn} withOverlay={true} />
+                <ServiceCard
+                  image={item.images[0].url || undefined}
+                  name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
+                  withOverlay={true}
+                />
               </Link>
             ))}
       </SimpleGrid>

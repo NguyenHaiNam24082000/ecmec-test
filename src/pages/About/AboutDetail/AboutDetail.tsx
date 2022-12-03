@@ -87,7 +87,7 @@ const AboutDetail = () => {
           }}
           height={800}
           mb={40}
-          src={detail.image[1]?.url ?? detail.image[0]?.url}
+          src={detail.images[1]?.url ?? detail.images[0]?.url}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>

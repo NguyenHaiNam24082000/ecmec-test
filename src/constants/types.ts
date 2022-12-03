@@ -11,3 +11,11 @@ export type imageType = {
   modifiedTime?: null | string;
   modifiedUser?: null | string;
 };
+
+export type bannerType = {
+  tagLineVn: string;
+  tagLineEn: string;
+  descriptionVn: string;
+  descriptionEn: string;
+  images: imageType[];
+}

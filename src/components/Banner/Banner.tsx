@@ -1,18 +1,52 @@
+import { getBanner } from '@apis/bannerApi';
+import banner from '@assets/images/banner.png';
+import { bannerType } from '@constants/types';
 import { Carousel } from '@mantine/carousel';
 import { Box, Image, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
-import banner from '@assets/images/banner.png';
-import { useRef, useState } from 'react';
 import i18next from 'i18next';
+import { useEffect, useRef, useState } from 'react';
 
 const Banner = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
-  const [bannerText, setBannerText] = useState({
+  const [bannerObj, setBannerObj] = useState<bannerType>({
     tagLineVn: 'Đây là nơi để Tagline',
     tagLineEn: 'This is the place to Tagline',
-    description_vn: 'Một câu gì đó dài dài để vào chỗ này',
-    description_en: 'A long sentence to enter this place',
+    descriptionVn: 'Một câu gì đó dài dài để vào chỗ này',
+    descriptionEn: 'A long sentence to enter this place',
+    images: [
+      {
+        imageId: 1,
+        url: banner,
+      },
+      {
+        imageId: 2,
+        url: banner,
+      },
+      {
+        imageId: 3,
+        url: banner,
+      },
+      {
+        imageId: 4,
+        url: banner,
+      },
+      {
+        imageId: 5,
+        url: banner,
+      },
+    ],
   });
+
+  useEffect(() => {
+    getBanner().then((res: any) => {
+      let obj = res.data;
+      if (obj?.id) {
+        setBannerObj(obj);
+      }
+    });
+  }, []);
+
   return (
     <div style={{ position: 'relative' }}>
       <Box
@@ -56,7 +90,7 @@ const Banner = () => {
             },
           }}
         >
-          {i18next.language === 'vi_VN' ? bannerText.tagLineVn : bannerText.tagLineEn}
+          {i18next.language === 'vi_VN' ? bannerObj.tagLineVn : bannerObj.tagLineEn}
         </Text>
         <Text
           sx={{
@@ -71,7 +105,7 @@ const Banner = () => {
             },
           }}
         >
-          {i18next.language === 'vi_VN' ? bannerText.description_vn : bannerText.description_en}
+          {i18next.language === 'vi_VN' ? bannerObj.descriptionVn : bannerObj.descriptionEn}
         </Text>
       </Box>
       <Carousel
@@ -110,15 +144,11 @@ const Banner = () => {
         onMouseEnter={autoplay.current.stop}
         onMouseLeave={autoplay.current.reset}
       >
-        <Carousel.Slide>
-          <Image src={banner} width="auto" height={1080} alt="Random unsplash image" />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <Image src={banner} width="auto" height={1080} alt="Random unsplash image" />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <Image src={banner} width="auto" height={1080} alt="Random unsplash image" />
-        </Carousel.Slide>
+        {bannerObj.images.map((image) => (
+          <Carousel.Slide key={image?.imageId}>
+            <Image src={image?.url} width="auto" height={1080} alt="Random unsplash image" />
+          </Carousel.Slide>
+        ))}
       </Carousel>
     </div>
   );

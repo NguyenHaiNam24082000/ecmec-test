@@ -1,5 +1,3 @@
-import Footer from '@components/Footer/Footer';
-import Header from '@components/Header/Header';
 import Loader from '@components/Loader/Loader';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';

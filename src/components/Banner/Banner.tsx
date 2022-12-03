@@ -2,10 +2,17 @@ import { Carousel } from '@mantine/carousel';
 import { Box, Image, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
 import banner from '@assets/images/banner.png';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import i18next from 'i18next';
 
 const Banner = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
+  const [bannerText, setBannerText] = useState({
+    tagLineVn: 'Đây là nơi để Tagline',
+    tagLineEn: 'This is the place to Tagline',
+    description_vn: 'Một câu gì đó dài dài để vào chỗ này',
+    description_en: 'A long sentence to enter this place',
+  });
   return (
     <div style={{ position: 'relative' }}>
       <Box
@@ -49,7 +56,7 @@ const Banner = () => {
             },
           }}
         >
-          Đây là nơi để Tagline
+          {i18next.language === 'vi_VN' ? bannerText.tagLineVn : bannerText.tagLineEn}
         </Text>
         <Text
           sx={{
@@ -64,7 +71,7 @@ const Banner = () => {
             },
           }}
         >
-          Một câu gì đó dài dài để vào chỗ này
+          {i18next.language === 'vi_VN' ? bannerText.description_vn : bannerText.description_en}
         </Text>
       </Box>
       <Carousel

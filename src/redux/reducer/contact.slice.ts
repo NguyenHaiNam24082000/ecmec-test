@@ -1,5 +1,4 @@
-import { getContacts } from '@apis/contactApi';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface contactInterface {
   name: string;
@@ -9,12 +8,6 @@ export interface contactInterface {
   email: string;
   alternativeEmail: string;
 }
-
-// export const getContactApi = createAsyncThunk('contacts/get', () => {
-//   return getContacts()
-//     .then((response) => response.data)
-//     .catch((error) => error.message);
-// });
 
 interface contactState {
   contact: contactInterface[] | [];
@@ -55,22 +48,6 @@ const contactSlice = createSlice({
   name: 'contact',
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  //   builder.addCase(getContactApi.pending, (state) => {
-  //     state.loading = 'pending';
-  //   });
-  //   builder.addCase(getContactApi.fulfilled, (state, action: PayloadAction<any>) => {
-  //     const data = action.payload;
-  //     if (data.data) {
-  //       state.contact = data;
-  //       state.loading = 'succeeded';
-  //     }
-  //   });
-  //   builder.addCase(getContactApi.rejected, (state, action: PayloadAction<any>) => {
-  //     state.loading = 'failed';
-  //     console.error('Get contact failed!');
-  //   });
-  // },
 });
 
 // export actions

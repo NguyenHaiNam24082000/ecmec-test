@@ -13,7 +13,7 @@ import { getProjectApi } from 'redux/reducer/projects.slice';
 
 const Projects = () => {
   const { t } = useTranslation();
-  const { project, loading } = useAppSelector((state) => state.projects);
+  const { project } = useAppSelector((state) => state.projects);
   const [tabIndex, setTabIndex] = useState<0 | 1>(0);
   const dispatch = useAppDispatch();
   useEffect(() => {

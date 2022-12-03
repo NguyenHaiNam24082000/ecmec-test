@@ -1,3 +1,4 @@
+import { getIntroductionDetail } from '@apis/introductionApi';
 import AboutImg from '@assets/page-header/about.png';
 import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
@@ -20,7 +21,7 @@ const AboutDetail = () => {
       const result = about.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
-      // TODO: call api
+      slug && getIntroductionDetail(slug).then((detail: any) => setDetail(detail));
     }
   }, [about, slug]);
   if (detail) {

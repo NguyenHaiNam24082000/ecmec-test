@@ -1,27 +1,23 @@
-import Helmet from '@components/Helmet/Helmet';
-import PageHeader from '@components/PageHeader/PageHeader';
-import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { getProjectDetail } from '@apis/projectApi';
 import ProjectImg from '@assets/page-header/project.png';
-import { Link, useParams } from 'react-router-dom';
+import Helmet from '@components/Helmet/Helmet';
+import Loader from '@components/Loader/Loader';
+import PageHeader from '@components/PageHeader/PageHeader';
+import { Carousel } from '@mantine/carousel';
 import {
-  Box,
-  Container,
-  Flex,
-  Group,
-  Image,
+  Box, Flex, Image,
   ScrollArea,
   Table,
   Text,
-  TypographyStylesProvider,
+  TypographyStylesProvider
 } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import { recruitInterface } from 'redux/reducer/recruit.slice';
-import { useAppSelector } from 'redux/hook';
-import Loader from '@components/Loader/Loader';
-import { projectInterface } from 'redux/reducer/projects.slice';
 import i18next from 'i18next';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useParams } from 'react-router-dom';
+import { useAppSelector } from 'redux/hook';
+import { projectInterface } from 'redux/reducer/projects.slice';
 
 const ProjectDetail = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
@@ -98,7 +94,7 @@ const ProjectDetail = () => {
       const result = project.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
-      // call api
+      slug && getProjectDetail(slug).then((detail: any) => setDetail(detail));
     }
   }, [project, slug]);
   if (detail) {

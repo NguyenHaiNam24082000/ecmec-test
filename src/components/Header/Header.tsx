@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
 import Logo from '@assets/favicon/logo.png';
-import { useTranslation } from 'react-i18next';
-import './header.scss';
 import {
+  Accordion,
   Burger,
+  createStyles,
   Divider,
   HoverCard,
   Paper,
   Text,
   Transition,
-  Accordion,
-  createStyles,
 } from '@mantine/core';
-import i18next from 'i18next';
-import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { useScrollLock } from '@mantine/hooks';
-import { getRecruitApi } from 'redux/reducer/recruit.slice';
+import i18next from 'i18next';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, NavLink } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getAboutApi } from 'redux/reducer/about.slice';
+import { getRecruitApi } from 'redux/reducer/recruit.slice';
 import { getServiceApi } from 'redux/reducer/service.slice';
+import './header.scss';
 
 type MainNavType = {
   display: string;
@@ -54,9 +54,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Header = () => {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
   const { t } = useTranslation();
-  const [scrollLocked, setScrollLocked] = useScrollLock();
+  const [, setScrollLocked] = useScrollLock();
   const [opened, setOpened] = useState(false);
   const aboutList = useAppSelector((state) => state.about.about);
   const serviceList = useAppSelector((state) => state.service.service);
@@ -71,8 +71,8 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = i18next.language === 'vi_VN' ? 'vi' : 'en'
-  },[i18next.language])
+    document.documentElement.lang = i18next.language === 'vi_VN' ? 'vi' : 'en';
+  }, [i18next.language]);
 
   const mainNav: MainNavType[] = [
     {
@@ -199,11 +199,11 @@ const Header = () => {
         />
       </div>
       <Transition transition="fade" duration={200} mounted={opened}>
-        {(styles) => (
+        {() => (
           <Paper className={classes.dropdown} radius={0}>
             <Accordion
               variant="filled"
-              styles={(theme) => ({
+              styles={() => ({
                 item: {
                   background: 'inherit',
                 },
@@ -221,7 +221,7 @@ const Header = () => {
             >
               {!!mainNav?.length &&
                 mainNav.map((nav, index) => (
-                  <Accordion.Item key={nav.display} value={nav.display}>
+                  <Accordion.Item key={index} value={nav.display}>
                     <Accordion.Control
                       chevron={
                         nav?.list?.slice(0, 5).length ? (
@@ -258,9 +258,9 @@ const Header = () => {
                         >
                           {nav.list.slice(0, 5).map((item, index) => (
                             <Link key={index} to={nav.path + `/${item.id ?? item.path}`}>
-                            {(i18next.language === 'vi_VN' ? item.nameVn : item.nameEn) ||
-                              (i18next.language === 'vi_VN' ? item.roleVn : item.roleEn)}
-                          </Link>
+                              {(i18next.language === 'vi_VN' ? item.nameVn : item.nameEn) ||
+                                (i18next.language === 'vi_VN' ? item.roleVn : item.roleEn)}
+                            </Link>
                           ))}
                         </div>
                       )}

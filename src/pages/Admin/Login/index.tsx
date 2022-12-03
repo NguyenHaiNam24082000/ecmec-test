@@ -1,4 +1,4 @@
-import { TextInput, Checkbox, Button, Group, Box, Paper, BackgroundImage, Text } from '@mantine/core';
+import { BackgroundImage, Box, Button, Group, Paper, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 function Login() {

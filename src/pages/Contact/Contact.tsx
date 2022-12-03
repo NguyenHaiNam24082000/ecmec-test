@@ -9,7 +9,7 @@ import { useAppSelector } from 'redux/hook';
 
 const Contact = () => {
   const { t } = useTranslation();
-  const { contact, loading } = useAppSelector((state) => state.contact);
+  const { contact } = useAppSelector((state) => state.contact);
   return (
     <Helmet title={t('Contact')}>
       <PageHeader image={ContactImage}>{t('Contact')}</PageHeader>

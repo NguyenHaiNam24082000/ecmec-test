@@ -1,4 +1,3 @@
-import Logo from '@assets/favicon/logo.png';
 import About from '@assets/images/about.png';
 import Background from '@assets/images/background.png';
 import group from '@assets/images/group.svg';
@@ -20,13 +19,13 @@ import {
   Text,
   TypographyStylesProvider,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import Autoplay from 'embla-carousel-autoplay';
+import i18next from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import Autoplay from 'embla-carousel-autoplay';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
-import { useMediaQuery } from '@mantine/hooks';
-import i18next from 'i18next';
 import { getPartnerApi } from 'redux/reducer/partner.slice';
 
 const Home = () => {
@@ -72,7 +71,7 @@ const Home = () => {
             gap: 40,
           }}
         >
-          <span className="title__underline color-white">Về chúng tôi</span>
+          <span className="title__underline color-white">{t('aboutUs')}</span>
           <Text
             className="color-white"
             sx={{
@@ -83,7 +82,7 @@ const Home = () => {
               },
             }}
           >
-            Giới thiệu công ty ECMEC
+            {t('introduced')}
           </Text>
           <Text
             size={24}
@@ -231,7 +230,7 @@ const Home = () => {
               },
             }}
           >
-            <span className="title__underline color-white">Dịch vụ của chúng tôi</span>
+            <span className="title__underline color-white">{t('ourServices')}</span>
             <Text
               size={24}
               lineClamp={10}
@@ -305,7 +304,7 @@ const Home = () => {
                   }}
                   image={item.images[0].url ?? undefined}
                   height={293}
-                  name={item.nameVn}
+                  name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={true}
                 />
               </Link>
@@ -320,7 +319,7 @@ const Home = () => {
           background: '#0072B8',
         }}
       >
-        <span className="title__underline color-white">Các dự án</span>
+        <span className="title__underline color-white">{t('projects')}</span>
         <Stack>
           {matches ? (
             !!projects?.length && (
@@ -424,7 +423,7 @@ const Home = () => {
           textAlign: 'center',
         }}
       >
-        <span className="title__underline color-blue">Đối tác của chúng tôi</span>
+        <span className="title__underline color-blue">{t('partners')}</span>
         <Carousel
           withIndicators
           slideGap="md"

@@ -1,3 +1,4 @@
+import { getServiceDetail } from '@apis/serviceApi';
 import ServiceImg from '@assets/page-header/service.png';
 import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
@@ -23,7 +24,7 @@ const ServiceDetail = () => {
       const result = service.find((detail) => detail.id.toString() === slug);
       setDetail(result);
     } else {
-      // TODO: call api
+      slug && getServiceDetail(slug).then((detail: any) => setDetail(detail));
     }
   }, [service, slug]);
   if (detail) {

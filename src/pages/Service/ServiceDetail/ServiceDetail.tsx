@@ -127,7 +127,7 @@ const ServiceDetail = () => {
           {!!project.length &&
             project
               .filter((project) => project.isShow)
-              .filter((prj) => prj.service.includes(detail.id))
+              .filter((prj) => prj.services.includes(detail.id))
               .map((item, index) => (
                 <ProjectItem
                   key={index}

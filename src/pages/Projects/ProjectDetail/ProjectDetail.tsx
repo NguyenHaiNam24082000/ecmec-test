@@ -27,6 +27,7 @@ const ProjectDetail = () => {
       slug && getProjectDetail(slug).then((detail: any) => setDetail(detail));
     }
   }, [project, slug]);
+
   if (detail) {
     return (
       <Helmet title={t('Project')}>
@@ -164,13 +165,13 @@ const ProjectDetail = () => {
                       <td>{i18next.language === 'vi_VN' ? detail?.nameVn : detail?.nameEn}</td>
                     </tr>
                   )}
-                  {!!detail?.service?.length && (
+                  {!!detail?.services?.length && (
                     <tr>
                       <td>{t('ScopeOfConstruction')}:</td>
                       <td>
-                        {detail.service.map((item) =>
+                        {detail.services.map((item) =>
                           i18next.language === 'vi_VN' ? item.nameVn : item.nameEn,
-                        )}
+                        ).join('; ')}
                       </td>
                     </tr>
                   )}

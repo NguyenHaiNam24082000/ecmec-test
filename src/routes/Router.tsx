@@ -17,6 +17,7 @@ const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'))
 const Login = React.lazy(() => import('../pages/Admin/Login/index'));
 const RecruitAdmin = React.lazy(() => import('../pages/Admin/Recruit/Recruit'));
 const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
+const AdminContainer = React.lazy(() => import('../pages/Admin/AdminContainer'));
 
 const routes = [
   {
@@ -87,11 +88,9 @@ const Router = () => {
       <Route
         path="/admin/*"
         element={
-          <div>
-            {/* <div>header admin</div> */}
+          <AdminContainer>
             <Outlet />
-            {/* <div>footer admin</div> */}
-          </div>
+          </AdminContainer>
         }
       >
         <Route path="" element={<Dashboard />} />

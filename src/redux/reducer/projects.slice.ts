@@ -19,7 +19,7 @@ export interface projectInterface {
   mainContractor: string;
   priority?: number;
   isShow?: boolean;
-  service: serviceInterface[]; //Mảng id service của project
+  services: serviceInterface[]; //Mảng id service của project
   images: imageType[];
   createdTime?: string;
   createdUser?: string;
@@ -46,7 +46,7 @@ const initialState = {
       nameEn: 'Hikari Bình Dương',
       addressVn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
       addressEn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
-      service: [
+      services: [
         {
           id: 1,
           nameVn: 'Cung cấp, lắp đặt hệ thống điện',
@@ -98,7 +98,7 @@ const initialState = {
       nameEn: 'Nova Medic',
       addressVn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
       addressEn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
-      service: [
+      services: [
         {
           id: 2,
           nameVn: 'Hệ thống cấp thoát nước',
@@ -137,7 +137,7 @@ const initialState = {
       nameEn: 'Trụ sở văn phòng C.P Đồng Nai',
       addressVn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
       addressEn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
-      service: [
+      services: [
         {
           id: 3,
           nameVn: 'Hệ thống chữa cháy',
@@ -190,7 +190,7 @@ const initialState = {
       nameEn: 'The Sun',
       addressVn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
       addressEn: 'Lô A11 - A12 - A16, Đường Lý Thái Tổ, Thủ Dầu Một, Bình Dương',
-      service: [
+      services: [
         {
           id: 4,
           nameVn: 'Hệ thống điều hòa không khí & thông gió',

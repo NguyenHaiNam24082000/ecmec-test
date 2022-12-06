@@ -35,8 +35,8 @@ const initialState = {
     {
       name: 'HCM office',
       address: 'HCM_Address',
-      phonenumb: '(84.24)381 436 26',
-      staticPhone: '(84.24)381 436 26',
+      phonenumb: '(84) 28 3814 3625',
+      staticPhone: '(028) 3814 3625',
       email: '',
       alternativeEmail: '',
     },

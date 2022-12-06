@@ -302,7 +302,7 @@ const Home = () => {
                       borderRadius: 20,
                     },
                   }}
-                  image={item.images[0].url ?? undefined}
+                  image={item?.images[0]?.url ?? undefined}
                   height={293}
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={true}

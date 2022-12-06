@@ -35,7 +35,7 @@ const initialState = {
       id: 1,
       nameVn: 'Cung cấp, lắp đặt hệ thống điện',
       nameEn: 'Cung cấp, lắp đặt hệ thống điện',
-      images: [{ imageId: 1, url: '/assets/service/dien.png' }],
+      images: [],
       priority: 1,
       isShow: true,
       contentVn:

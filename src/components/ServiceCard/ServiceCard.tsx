@@ -22,6 +22,7 @@ const ServiceCard = (props: ServiceCardType) => {
         // maw={467}
         width={props.width}
         height={props.height || 413}
+        withPlaceholder
       />
       <div className={props.withOverlay ? 'service__item__overlay' : undefined}>
         <p className="service__item__caption">{props.name}</p>

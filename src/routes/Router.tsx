@@ -15,6 +15,7 @@ const ProjectDetail = React.lazy(() => import('../pages/Projects/ProjectDetail/P
 const RecruitDetail = React.lazy(() => import('../pages/Recruit/RecruitDetail/RecruitDetail'));
 const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'));
 const Login = React.lazy(() => import('../pages/Admin/Login/index'));
+const RecruitAdmin = React.lazy(() => import('../pages/Admin/Recruit/Recruit'));
 const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
 
 const routes = [
@@ -96,6 +97,7 @@ const Router = () => {
         <Route path="" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
         <Route path="about" element={<Dashboard />} />
+        <Route path="recruitment" element={<RecruitAdmin />} />
       </Route>
     </Routes>
   );

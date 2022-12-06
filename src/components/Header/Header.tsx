@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getAboutApi } from 'redux/reducer/about.slice';
+import { getProjectApi } from 'redux/reducer/projects.slice';
 import { getRecruitApi } from 'redux/reducer/recruit.slice';
 import { getServiceApi } from 'redux/reducer/service.slice';
 import './header.scss';
@@ -68,6 +69,7 @@ const Header = () => {
     dispatch(getRecruitApi());
     dispatch(getAboutApi());
     dispatch(getServiceApi());
+    dispatch(getProjectApi());
   }, []);
 
   useEffect(() => {

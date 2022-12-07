@@ -3,6 +3,7 @@ import AboutImg from '@assets/page-header/about.png';
 import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ServiceCard from '@components/ServiceCard/ServiceCard';
+import configs from '@constants/configs';
 import { SimpleGrid } from '@mantine/core';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +33,7 @@ const About = () => {
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="about__item">
                 <ServiceCard
-                  image={item.images[0].url || undefined}
+                  image={configs.BASE_IMAGE_URL + item.images[0]?.url || undefined}
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 />
               </Link>

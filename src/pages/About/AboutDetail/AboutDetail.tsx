@@ -3,6 +3,7 @@ import AboutImg from '@assets/page-header/about.png';
 import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
 import PageHeader from '@components/PageHeader/PageHeader';
+import configs from '@constants/configs';
 import { Image, Title, TypographyStylesProvider } from '@mantine/core';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
@@ -88,7 +89,7 @@ const AboutDetail = () => {
           }}
           height={800}
           mb={40}
-          src={detail.images[1]?.url ?? detail.images[0]?.url}
+          src={configs.BASE_IMAGE_URL + (detail.images[1]?.url ?? detail.images[0]?.url)}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>

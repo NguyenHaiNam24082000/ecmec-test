@@ -8,6 +8,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from 'redux/hook';
 import arrowRight from '@assets/icons/arrow-right.svg';
 import i18next from 'i18next';
+import configs from '@constants/configs';
 
 const Service = () => {
   const { t } = useTranslation();
@@ -38,7 +39,9 @@ const Service = () => {
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
                 <ServiceCard
-                  image={item.images[0].url || undefined}
+                  image={
+                    item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0].url : undefined
+                  }
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={false}
                 />
@@ -68,7 +71,9 @@ const Service = () => {
             .map((item) => (
               <Link to={item.id.toString()} key={item.id} className="service__item">
                 <ServiceCard
-                  image={item.images[0].url || undefined}
+                  image={
+                    item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0].url : undefined
+                  }
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={true}
                 />

@@ -1,5 +1,6 @@
 import { getBanner } from '@apis/bannerApi';
 import banner from '@assets/images/banner.png';
+import configs from '@constants/configs';
 import { bannerType } from '@constants/types';
 import { Carousel } from '@mantine/carousel';
 import { Box, Image, Text } from '@mantine/core';
@@ -146,7 +147,12 @@ const Banner = () => {
       >
         {bannerObj.images.map((image) => (
           <Carousel.Slide key={image?.imageId}>
-            <Image src={image?.url} width="auto" height={1080} alt="Random unsplash image" />
+            <Image
+              src={configs.BASE_IMAGE_URL + image?.url}
+              width="auto"
+              height={1080}
+              alt="Random unsplash image"
+            />
           </Carousel.Slide>
         ))}
       </Carousel>

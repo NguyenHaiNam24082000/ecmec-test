@@ -3,6 +3,7 @@ import ProjectImg from '@assets/page-header/project.png';
 import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
 import PageHeader from '@components/PageHeader/PageHeader';
+import configs from '@constants/configs';
 import { Carousel } from '@mantine/carousel';
 import { Box, Flex, Image, ScrollArea, Table, Text, TypographyStylesProvider } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
@@ -92,7 +93,11 @@ const ProjectDetail = () => {
               radius={0}
               width={'100%'}
               height={'100%'}
-              src={detail?.images?.[0]?.url}
+              src={
+                detail?.images?.[0]?.url
+                  ? configs.BASE_IMAGE_URL + detail?.images?.[0]?.url
+                  : undefined
+              }
               alt="Random unsplash image"
             />
           </Box>
@@ -169,9 +174,9 @@ const ProjectDetail = () => {
                     <tr>
                       <td>{t('ScopeOfConstruction')}:</td>
                       <td>
-                        {detail.services.map((item) =>
-                          i18next.language === 'vi_VN' ? item.nameVn : item.nameEn,
-                        ).join('; ')}
+                        {detail.services
+                          .map((item) => (i18next.language === 'vi_VN' ? item.nameVn : item.nameEn))
+                          .join('; ')}
                       </td>
                     </tr>
                   )}
@@ -257,7 +262,7 @@ const ProjectDetail = () => {
                       }}
                       radius={0}
                       width={'100%'}
-                      src={item.url}
+                      src={item?.url ? configs.BASE_IMAGE_URL + item.url : undefined}
                       alt="Random unsplash image"
                     />
                   </Carousel.Slide>

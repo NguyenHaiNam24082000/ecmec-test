@@ -7,6 +7,7 @@ import Button from '@components/Button/Button';
 import Helmet from '@components/Helmet/Helmet';
 import ProjectCard from '@components/ProjectCard/ProjectCard';
 import ServiceCard from '@components/ServiceCard/ServiceCard';
+import configs from '@constants/configs';
 import { Carousel } from '@mantine/carousel';
 import {
   BackgroundImage,
@@ -302,7 +303,9 @@ const Home = () => {
                       borderRadius: 20,
                     },
                   }}
-                  image={item?.images[0]?.url ?? undefined}
+                  image={
+                    item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0]?.url : undefined
+                  }
                   height={293}
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   withOverlay={true}
@@ -357,7 +360,11 @@ const Home = () => {
                   .map((project) => (
                     <Carousel.Slide key={project.id}>
                       <ProjectCard
-                        image={project.images[0].url}
+                        image={
+                          project.images[0]?.url
+                            ? configs.BASE_IMAGE_URL + project.images[0]?.url
+                            : undefined
+                        }
                         name={i18next.language === 'vi_VN' ? project.nameVn : project.nameEn}
                         address={
                           i18next.language === 'vi_VN' ? project.addressVn : project.addressEn
@@ -371,7 +378,11 @@ const Home = () => {
           ) : (
             <>
               <ProjectCard
-                image={selectedProject.images[0].url}
+                image={
+                  selectedProject.images[0]?.url
+                    ? configs.BASE_IMAGE_URL + selectedProject.images[0].url
+                    : undefined
+                }
                 name={
                   i18next.language === 'vi_VN' ? selectedProject.nameVn : selectedProject.nameEn
                 }
@@ -384,12 +395,16 @@ const Home = () => {
               />
               <Group grow>
                 {!!projects?.length &&
-                  projects
+                  projects.slice(0,4)
                     .filter((item) => item.isShow)
                     .map((project) => (
                       <Image
                         key={project.id}
-                        src={project.images[0].url}
+                        src={
+                          project.images[0]?.url
+                            ? configs.BASE_IMAGE_URL + project.images[0]?.url
+                            : undefined
+                        }
                         radius={20}
                         height={137}
                         sx={{
@@ -492,7 +507,13 @@ const Home = () => {
                 justify="center"
               >
                 <Image
-                  src={item.image.length > 0 ? item.image[0].url : null}
+                  src={
+                    item.image.length > 0
+                      ? item.image[0].url
+                        ? configs.BASE_IMAGE_URL + item.image[0].url
+                        : null
+                      : null
+                  }
                   sx={{
                     '@media (max-width: 1400px)': {
                       img: { height: '92px !important' },

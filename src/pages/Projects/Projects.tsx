@@ -3,6 +3,7 @@ import ProjectImg from '@assets/page-header/project.png';
 import Helmet from '@components/Helmet/Helmet';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ProjectItem from '@components/ProjectItem/ProjectItem';
+import configs from '@constants/configs';
 import { Flex, Text } from '@mantine/core';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
@@ -76,7 +77,9 @@ const Projects = () => {
             .map((item) => (
               <ProjectItem
                 key={item.id}
-                image={item.images[0].url}
+                image={
+                  item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0]?.url : undefined
+                }
                 name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                 path={item.id.toString()}
@@ -90,7 +93,9 @@ const Projects = () => {
             .map((item) => (
               <ProjectItem
                 key={item.id}
-                image={item.images[0].url}
+                image={
+                  item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0].url : undefined
+                }
                 name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                 address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                 path={item.id.toString()}

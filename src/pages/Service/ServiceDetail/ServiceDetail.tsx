@@ -4,6 +4,7 @@ import Helmet from '@components/Helmet/Helmet';
 import Loader from '@components/Loader/Loader';
 import PageHeader from '@components/PageHeader/PageHeader';
 import ProjectItem from '@components/ProjectItem/ProjectItem';
+import configs from '@constants/configs';
 import { Image, Text, Title, TypographyStylesProvider } from '@mantine/core';
 import i18next from 'i18next';
 import { useEffect, useState } from 'react';
@@ -97,7 +98,7 @@ const ServiceDetail = () => {
             },
           }}
           height={800}
-          src={detail.images[1]?.url ?? detail.images[0]?.url}
+          src={configs.BASE_IMAGE_URL + (detail.images[1]?.url ?? detail.images[0]?.url)}
         />
         <div className="detail main wrap">
           <TypographyStylesProvider>
@@ -127,11 +128,13 @@ const ServiceDetail = () => {
           {!!project.length &&
             project
               .filter((project) => project.isShow)
-              .filter((prj) => prj.services.includes(detail.id))
+              .filter((prj) => prj.services.map((it) => it.id).includes(detail.id))
               .map((item, index) => (
                 <ProjectItem
                   key={index}
-                  image={item.images[0].url}
+                  image={
+                    item.images[0]?.url ? configs.BASE_IMAGE_URL + item.images[0].url : undefined
+                  }
                   name={i18next.language === 'vi_VN' ? item.nameVn : item.nameEn}
                   address={i18next.language === 'vi_VN' ? item.addressVn : item.addressEn}
                   path={item.id.toString()}

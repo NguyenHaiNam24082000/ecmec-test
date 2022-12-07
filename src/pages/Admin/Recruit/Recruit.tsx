@@ -62,19 +62,23 @@ function Recruit() {
             <Table highlightOnHover withColumnBorders>
                 <thead>
                     <tr>
-                        <th>Hiển thị</th>
+                        <th style={{ width: 40 }}>Hiển thị</th>
                         <th>{labels.roleVn}</th>
                         <th>{labels.addressVn}</th>
                         <th>{labels.salary}</th>
-                        <th>Độ ưu tiên</th>
-                        <th>Chức năng</th>
+                        <th style={{ width: 80 }}>Độ ưu tiên</th>
+                        <th style={{ width: 320 }}>Chức năng</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         !!listRecruit?.length && listRecruit.map((recruit, index) => (
                             <tr key={recruit.id}>
-                                <td><Switch /></td>
+                                <td><Switch sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}/></td>
                                 <td>
                                     <Anchor onClick={() => {
                                         setOpenedModalInfo({

@@ -45,7 +45,13 @@ const ProjectCard = (props: ProjectCardType) => {
           {props.address}
         </div>
         {!matches && (
-          <div className={`project-card__status ${props.status}`}>{t(props.status)}</div>
+          <div
+            className={`project-card__status ${
+              props.status === 'in progress' ? 'pending' : props.status
+            }`}
+          >
+            {t(props.status)}
+          </div>
         )}
       </div>
     </BackgroundImage>

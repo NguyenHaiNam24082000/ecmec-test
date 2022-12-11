@@ -36,7 +36,6 @@ function About() {
     });
     const form = useForm({
         initialValues: {
-            id: listIntroduction?.length || 0,
             nameVn: '',
             nameEn: '',
             addressVn: '',
@@ -180,17 +179,18 @@ function About() {
                         return blob;
                     }) || [];
                     data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
+                    const listImages = [...files.map(() => (
+                        {
+                            'url': null,
+                            'createdTime': Date.now(),
+                            'createdUser': 'admin',
+                            'modifiedTime': Date.now(),
+                            'modifiedUser': 'admin',
+                            'files': null
+                        }
+                    ))];
                     data.append('introducevo', new Blob([JSON.stringify({
-                        ...values, images: [...images.map(() => (
-                            {
-                                'url': null,
-                                'createdTime': Date.now(),
-                                'createdUser': 'admin',
-                                'modifiedTime': Date.now(),
-                                'modifiedUser': 'admin',
-                                'files': null
-                            }
-                        ))]
+                        ...values, images: listImages
                     })], {
                         type: 'application/json'
                     }));

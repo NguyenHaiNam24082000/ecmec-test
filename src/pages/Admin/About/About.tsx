@@ -3,6 +3,7 @@ import {
   postIntroductionDetail,
   putIntroductionDetail,
 } from '@apis/introductionApi';
+import configs from '@constants/configs';
 import {
   Button,
   Divider,
@@ -123,6 +124,7 @@ function About() {
             createdUser: 'admin',
             modifiedTime: Date.now(),
             modifiedUser: 'admin',
+            images: [],
           });
           setOpenedModalAddInfo(true);
         }}
@@ -134,8 +136,8 @@ function About() {
           <tr>
             <th style={{ width: 40 }}>Hiển thị</th>
             <th>{labels.nameVn}</th>
-            <th>{labels.image}</th>
-            <th style={{ width: '10%' }}>Độ ưu tiên</th>
+            <th style={{ width: '20%' }}>{labels.image}</th>
+            <th style={{ width: 100 }}>Độ ưu tiên</th>
             <th style={{ width: 320 }}>Chức năng</th>
           </tr>
         </thead>
@@ -183,9 +185,7 @@ function About() {
                 </td>
                 <td>
                   <Image
-                    src={`${
-                      import.meta.env.VITE_BASE_IMAGE_URL
-                    }${introduction?.images[0]?.url?.replace('/public', '')}`}
+                    src={`${configs.BASE_IMAGE_URL}${introduction?.images[0]?.url}`}
                     withPlaceholder
                   />
                 </td>
@@ -246,6 +246,7 @@ function About() {
                     <Button
                       onClick={() => {
                         form.setValues(introduction as any);
+                        setImages(introduction.images);
                         setOpenedModalEditInfo(true);
                       }}
                     >
@@ -323,27 +324,33 @@ function About() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            const imgs =
-              images?.map((image: any) => {
-                // const base64 = image.url.split(';base64,');
-                // const byteCharacters = atob(base64[1]);
-                // const byteNumbers = new Array(byteCharacters.length);
-                // for (let i = 0; i < byteCharacters.length; i++) {
-                //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-                // }
-                // const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([image.url], { type: 'multipart/form-data' });
-                return blob;
-              }) || [];
-            data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
+            images.forEach((image: any) => {
+              const base64 = image.url.split(';base64,');
+              const byteCharacters = atob(base64[1]);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+            });
+            const listImages = [
+              ...files.map(() => ({
+                createdTime: Date.now(),
+                createdUser: 'admin',
+                modifiedTime: Date.now(),
+                modifiedUser: 'admin',
+              })),
+            ];
             data.append(
               'introducevo',
-              new Blob([JSON.stringify({ ...values, images: [] })], {
+              new Blob([JSON.stringify({ ...values, images: listImages })], {
                 type: 'application/json',
               }),
             );
-            console.log(values);
             postIntroductionDetail(data);
+            getIntroduction();
+            setOpenedModalAddInfo(false);
           })}
         >
           <Tabs defaultValue="viet">
@@ -479,22 +486,15 @@ function About() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            const imgs =
-              images?.map((image: any) => {
-                // const base64 = image.url.split(';base64,');
-                // const byteCharacters = atob(base64[1]);
-                // const byteNumbers = new Array(byteCharacters.length);
-                // for (let i = 0; i < byteCharacters.length; i++) {
-                //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-                // }
-                // const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([image.url], { type: 'multipart/form-data' });
-                return blob;
-              }) || [];
-            data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
+            data.append(
+              'file',
+              new Blob(undefined, {
+                type: 'multipart/form-data',
+              }),
+            );
             data.append(
               'introducevo',
-              new Blob([JSON.stringify({ ...values, images: [] })], {
+              new Blob([JSON.stringify({ ...values })], {
                 type: 'application/json',
               }),
             );
@@ -517,6 +517,7 @@ function About() {
                 createdUser: 'admin',
                 modifiedTime: Date.now(),
                 modifiedUser: 'admin',
+                images: [],
               });
               setOpenedModalEditInfo(false);
             });
@@ -626,7 +627,7 @@ function About() {
                 height={100}
                 radius={6}
                 withPlaceholder
-                src={file?.url}
+                src={configs.BASE_IMAGE_URL + file?.url}
               ></Image>
             ))}
           </Group>

@@ -197,6 +197,21 @@ function Recruit() {
             </Modal>
             <Modal opened={openedModalAddInfo}
                 onClose={() => {
+                    form.setValues({
+                        roleVn: '',
+                        roleEn: '',
+                        addressVn: '',
+                        addressEn: '',
+                        contentVn: '',
+                        contentEn: '',
+                        salary: '',
+                        isShow: true,
+                        priority: listRecruit?.length || 0,
+                        createdTime: Date.now(),
+                        createdUser: 'admin',
+                        modifiedTime: Date.now(),
+                        modifiedUser: 'admin'
+                    });
                     setOpenedModalAddInfo(false);
                 }}
                 size="100%"
@@ -322,6 +337,21 @@ function Recruit() {
                     <Divider mt="xs" />
                     <Group position="right" mt="xs">
                         <Button variant="default" onClick={() => {
+                            form.setValues({
+                                roleVn: '',
+                                roleEn: '',
+                                addressVn: '',
+                                addressEn: '',
+                                contentVn: '',
+                                contentEn: '',
+                                salary: '',
+                                isShow: true,
+                                priority: listRecruit?.length || 0,
+                                createdTime: Date.now(),
+                                createdUser: 'admin',
+                                modifiedTime: Date.now(),
+                                modifiedUser: 'admin'
+                            });
                             setOpenedModalAddInfo(false);
                         }}>Huỷ bỏ</Button>
                         <Button type="submit">Thêm mới</Button>
@@ -330,6 +360,21 @@ function Recruit() {
             </Modal>
             <Modal opened={openedModalEditInfo}
                 onClose={() => {
+                    form.setValues({
+                        roleVn: '',
+                        roleEn: '',
+                        addressVn: '',
+                        addressEn: '',
+                        contentVn: '',
+                        contentEn: '',
+                        salary: '',
+                        isShow: true,
+                        priority: listRecruit?.length || 0,
+                        createdTime: Date.now(),
+                        createdUser: 'admin',
+                        modifiedTime: Date.now(),
+                        modifiedUser: 'admin'
+                    });
                     setOpenedModalEditInfo(false);
                 }}
                 size="100%"
@@ -455,6 +500,21 @@ function Recruit() {
                     <Divider mt="xs" />
                     <Group position="right" mt="xs">
                         <Button variant="default" onClick={() => {
+                            form.setValues({
+                                roleVn: '',
+                                roleEn: '',
+                                addressVn: '',
+                                addressEn: '',
+                                contentVn: '',
+                                contentEn: '',
+                                salary: '',
+                                isShow: true,
+                                priority: listRecruit?.length || 0,
+                                createdTime: Date.now(),
+                                createdUser: 'admin',
+                                modifiedTime: Date.now(),
+                                modifiedUser: 'admin'
+                            });
                             setOpenedModalEditInfo(false);
                         }}>Huỷ bỏ</Button>
                         <Button type="submit">Chỉnh sửa</Button>

@@ -71,6 +71,7 @@ const AboutDetail = () => {
           </Title>
         </div>
         <Image
+          withPlaceholder
           radius={0}
           sx={{
             padding: '0px 240px',

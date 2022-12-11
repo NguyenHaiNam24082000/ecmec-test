@@ -142,6 +142,7 @@ const Home = () => {
           }}
         >
           <Image
+            withPlaceholder
             src={About}
             radius={20}
             maw={588}
@@ -162,6 +163,7 @@ const Home = () => {
             }}
           />
           <Image
+            withPlaceholder
             src={group}
             sx={{
               position: 'absolute',
@@ -183,6 +185,7 @@ const Home = () => {
             mah={1000}
           />
           <Image
+            withPlaceholder
             src={group}
             sx={{
               display: 'none',
@@ -395,10 +398,11 @@ const Home = () => {
               />
               <Group grow>
                 {!!projects?.length &&
-                  projects.slice(0,4)
+                  projects.slice(0, 4)
                     .filter((item) => item.isShow)
                     .map((project) => (
                       <Image
+                        withPlaceholder
                         key={project.id}
                         src={
                           project.images[0]?.url
@@ -414,9 +418,8 @@ const Home = () => {
                           },
                         }}
                         style={{
-                          border: `${
-                            selectedProject.id === project.id ? '3' : '0'
-                          }px solid #EDE51C`,
+                          border: `${selectedProject.id === project.id ? '3' : '0'
+                            }px solid #EDE51C`,
                           borderRadius: 20,
                         }}
                         onClick={() => {
@@ -507,6 +510,7 @@ const Home = () => {
                 justify="center"
               >
                 <Image
+                  withPlaceholder
                   src={
                     item.image.length > 0
                       ? item.image[0].url

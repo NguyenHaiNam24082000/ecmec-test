@@ -4,6 +4,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
+import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 
 i18n
   .use(initReactI18next)
@@ -38,7 +40,11 @@ const emotionCache = createEmotionCache({ key: 'ecmec' });
 function AppProvider() {
   return (
     <MantineProvider emotionCache={emotionCache} withCSSVariables withGlobalStyles withNormalizeCSS>
-      <App />
+      <ModalsProvider>
+        <NotificationsProvider>
+          <App />
+        </NotificationsProvider>
+      </ModalsProvider>
     </MantineProvider>
   );
 }

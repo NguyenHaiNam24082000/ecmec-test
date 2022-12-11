@@ -104,10 +104,11 @@ export function NavBar() {
       label: t('Apps'),
       initiallyOpened: true,
       links: [
+        { label: t('Banner'), link: 'banner' },
         { label: t('About'), link: 'about' },
+        { label: t('Partner'), link: 'partner' },
         { label: t('Service'), link: 'service' },
         { label: t('Project'), link: 'project' },
-        { label: t('Contact'), link: 'contact' },
         { label: t('Recruitment'), link: 'recruitment' },
       ],
     },

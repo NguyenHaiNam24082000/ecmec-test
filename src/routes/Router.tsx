@@ -2,6 +2,13 @@ import Footer from '@components/Footer/Footer';
 import Header from '@components/Header/Header';
 import React from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
+import RecruitAdmin from '../pages/Admin/Recruit/Recruit';
+import AboutAdmin from '../pages/Admin/About/About';
+import ProjectAdmin from '../pages/Admin/Project/Project';
+import BannerAdmin from '../pages/Admin/Banner/Banner';
+import ServiceAdmin from '../pages/Admin/Service/Service';
+import PartnerAdmin from '../pages/Admin/Partner/Partner';
+import NotFound from '../pages/NotFound/NotFound';
 
 const Home = React.lazy(() => import('../pages/Home/Home'));
 const Service = React.lazy(() => import('../pages/Service/Service'));
@@ -15,8 +22,6 @@ const ProjectDetail = React.lazy(() => import('../pages/Projects/ProjectDetail/P
 const RecruitDetail = React.lazy(() => import('../pages/Recruit/RecruitDetail/RecruitDetail'));
 const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'));
 const Login = React.lazy(() => import('../pages/Admin/Login/index'));
-const RecruitAdmin = React.lazy(() => import('../pages/Admin/Recruit/Recruit'));
-const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
 const AdminContainer = React.lazy(() => import('../pages/Admin/AdminContainer'));
 
 const routes = [
@@ -95,7 +100,11 @@ const Router = () => {
       >
         <Route path="" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
-        <Route path="about" element={<Dashboard />} />
+        <Route path="banner" element={<BannerAdmin />} />
+        <Route path="about" element={<AboutAdmin />} />
+        <Route path="partner" element={<PartnerAdmin />} />
+        <Route path="project" element={<ProjectAdmin />} />
+        <Route path="service" element={<ServiceAdmin />} />
         <Route path="recruitment" element={<RecruitAdmin />} />
       </Route>
     </Routes>

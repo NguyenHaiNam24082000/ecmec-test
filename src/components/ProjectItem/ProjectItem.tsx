@@ -26,6 +26,7 @@ const ProjectItem = (props: ProjectItemProps) => {
         }}
       >
         <Image
+          withPlaceholder
           radius={20}
           maw={710}
           mah={499}

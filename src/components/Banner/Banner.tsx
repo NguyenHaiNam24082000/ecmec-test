@@ -41,7 +41,7 @@ const Banner = () => {
 
   useEffect(() => {
     getBanner().then((res: any) => {
-      let obj = res.data;
+      const obj = res.data;
       if (obj?.id) {
         setBannerObj(obj);
       }
@@ -148,6 +148,7 @@ const Banner = () => {
         {bannerObj.images.map((image) => (
           <Carousel.Slide key={image?.imageId}>
             <Image
+              withPlaceholder
               src={configs.BASE_IMAGE_URL + image?.url}
               width="auto"
               height={1080}

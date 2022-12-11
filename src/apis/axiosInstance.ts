@@ -5,10 +5,10 @@ const axiosInstance = axios.create({
   timeout: 3 * 60 * 1000,
   baseURL: configs.BASE_API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': '*/*',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': true,
-    Accept: 'application/json',
+    Accept: '*/*',
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH',
   },
 });

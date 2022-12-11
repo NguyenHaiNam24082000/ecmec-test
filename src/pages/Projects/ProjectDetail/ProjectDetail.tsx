@@ -81,6 +81,7 @@ const ProjectDetail = () => {
             }}
           >
             <Image
+              withPlaceholder
               sx={{
                 width: '100%',
                 height: '100%',
@@ -251,6 +252,7 @@ const ProjectDetail = () => {
                 {detail?.images.map((item, index) => (
                   <Carousel.Slide key={index}>
                     <Image
+                      withPlaceholder
                       sx={{
                         width: '100%',
                         height: '100%',

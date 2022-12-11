@@ -1,10 +1,12 @@
-import { postRecruitDetail } from '@apis/recruitApi';
-import { Button, Divider, Group, Modal, NumberInput, Paper, Table, Tabs, Text, TextInput, TypographyStylesProvider, Input, Switch, Anchor } from '@mantine/core';
+import { deleteRecruitDetail, postRecruitDetail, putRecruitDetail } from '@apis/recruitApi';
+import { Button, Divider, Group, Modal, NumberInput, Paper, Table, Tabs, Text, TextInput, TypographyStylesProvider, Input, Switch, Anchor, ActionIcon } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import RichTextEditor from '@mantine/rte';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getRecruitApi } from 'redux/reducer/recruit.slice';
+import { showNotification } from '@mantine/notifications';
+import { openConfirmModal } from '@mantine/modals';
 
 const labels = {
     roleVn: 'Tiêu đề',
@@ -24,9 +26,9 @@ function Recruit() {
         index: 0,
         isOpen: false,
     });
+    const [openedModalEditInfo, setOpenedModalEditInfo] = useState(false);
     const form = useForm({
         initialValues: {
-            id: listRecruit?.length || 0,
             roleVn: '',
             roleEn: '',
             addressVn: '',
@@ -43,7 +45,12 @@ function Recruit() {
         },
 
         validate: {
-            //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            roleVn: (value) => value.length ? null : `${labels.roleVn} bắt buộc phải nhập`,
+            roleEn: (value) => value.length ? null : `${labels.roleEn} bắt buộc phải nhập`,
+            addressVn: (value) => value.length ? null : `${labels.addressVn} bắt buộc phải nhập`,
+            addressEn: (value) => value.length ? null : `${labels.addressEn} bắt buộc phải nhập`,
+            contentVn: (value) => value.length ? null : `${labels.contentVn} bắt buộc phải nhập`,
+            contentEn: (value) => value.length ? null : `${labels.contentEn} bắt buộc phải nhập`,
         },
     });
     const isVietTabEmpty = form?.values?.roleVn?.length && form?.values?.addressVn?.length && form?.values?.contentVn?.length;
@@ -66,7 +73,7 @@ function Recruit() {
                         <th>{labels.roleVn}</th>
                         <th>{labels.addressVn}</th>
                         <th>{labels.salary}</th>
-                        <th style={{ width: 80 }}>Độ ưu tiên</th>
+                        <th style={{ width: 120 }}>Độ ưu tiên</th>
                         <th style={{ width: 320 }}>Chức năng</th>
                     </tr>
                 </thead>
@@ -78,7 +85,14 @@ function Recruit() {
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center'
-                                }}/></td>
+                                }}
+                                    checked={recruit.isShow}
+                                    onClick={(event) => {
+                                        putRecruitDetail({ ...recruit, isShow: event.target.checked}).then(() => {
+                                            getRecruit();
+                                        });
+                                    }}
+                                /></td>
                                 <td>
                                     <Anchor onClick={() => {
                                         setOpenedModalInfo({
@@ -91,17 +105,62 @@ function Recruit() {
                                 </td>
                                 <td>{recruit.addressVn}</td>
                                 <td>{recruit.salary}</td>
-                                <td></td>
+                                <td>
+                                    <Group>
+                                        <ActionIcon>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-up" width={44} height={44} viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <line x1={12} y1={5} x2={12} y2={19} />
+                                                <line x1={18} y1={11} x2={12} y2={5} />
+                                                <line x1={6} y1={11} x2={12} y2={5} />
+                                            </svg>
+                                        </ActionIcon>
+                                        <ActionIcon>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-down" width={44} height={44} viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <line x1={12} y1={5} x2={12} y2={19} />
+                                                <line x1={18} y1={13} x2={12} y2={19} />
+                                                <line x1={6} y1={13} x2={12} y2={19} />
+                                            </svg>
+                                        </ActionIcon>
+                                    </Group>
+                                </td>
                                 <td>
                                     <Group grow>
                                         <Button onClick={() => {
-                                        setOpenedModalInfo({
-                                            index,
-                                            isOpen: true,
-                                        });
-                                    }}>Xem</Button>
-                                        <Button>Sửa</Button>
-                                        <Button>Xoá</Button>
+                                            setOpenedModalInfo({
+                                                index,
+                                                isOpen: true,
+                                            });
+                                        }}>Xem</Button>
+                                        <Button onClick={() => {
+                                            form.setValues(recruit as any);
+                                            setOpenedModalEditInfo(true);
+                                        }}>Sửa</Button>
+                                        <Button onClick={() => {
+                                            openConfirmModal({
+                                                title: 'Tiếp tục',
+                                                children: (
+                                                    <Text size="sm">
+                                                        Bạn có muốn xoá không?
+                                                    </Text>
+                                                ),
+                                                labels: { confirm: 'Xoá', cancel: 'Huỷ bỏ' },
+                                                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                                                onCancel: () => { },
+                                                onConfirm: () => {
+                                                    deleteRecruitDetail(recruit.id).then(() => {
+                                                        getRecruit();
+                                                        showNotification({
+                                                            title: 'Thành công',
+                                                            message: 'Xoá thành công',
+                                                            color: 'green',
+                                                            autoClose: 5000,
+                                                        });
+                                                    });
+                                                },
+                                            });
+                                        }}>Xoá</Button>
                                     </Group>
                                 </td>
                             </tr>
@@ -144,8 +203,31 @@ function Recruit() {
                 title="Thêm mới"
             >
                 <form onSubmit={form.onSubmit((values) => {
-                    console.log(values);
-                    postRecruitDetail({ ...values });
+                    postRecruitDetail({ ...values }).then(() => {
+                        showNotification({
+                            title: 'Thành công',
+                            message: 'Thêm mới thành công',
+                            color: 'green',
+                            autoClose: 5000,
+                        });
+                        getRecruit();
+                        form.setValues({
+                            roleVn: '',
+                            roleEn: '',
+                            addressVn: '',
+                            addressEn: '',
+                            contentVn: '',
+                            contentEn: '',
+                            salary: '',
+                            isShow: true,
+                            priority: listRecruit?.length || 0,
+                            createdTime: Date.now(),
+                            createdUser: 'admin',
+                            modifiedTime: Date.now(),
+                            modifiedUser: 'admin'
+                        });
+                        setOpenedModalAddInfo(false);
+                    });
                 })}>
                     <Tabs defaultValue="viet">
                         <Tabs.List grow>
@@ -243,6 +325,139 @@ function Recruit() {
                             setOpenedModalAddInfo(false);
                         }}>Huỷ bỏ</Button>
                         <Button type="submit">Thêm mới</Button>
+                    </Group>
+                </form>
+            </Modal>
+            <Modal opened={openedModalEditInfo}
+                onClose={() => {
+                    setOpenedModalEditInfo(false);
+                }}
+                size="100%"
+                title="Chỉnh sửa"
+            >
+                <form onSubmit={form.onSubmit((values) => {
+                    putRecruitDetail({ ...values }).then(() => {
+                        showNotification({
+                            title: 'Thành công',
+                            message: 'Chỉnh sửa thành công',
+                            color: 'green',
+                            autoClose: 5000,
+                        });
+                        getRecruit();
+                        form.setValues({
+                            roleVn: '',
+                            roleEn: '',
+                            addressVn: '',
+                            addressEn: '',
+                            contentVn: '',
+                            contentEn: '',
+                            salary: '',
+                            isShow: true,
+                            priority: listRecruit?.length || 0,
+                            createdTime: Date.now(),
+                            createdUser: 'admin',
+                            modifiedTime: Date.now(),
+                            modifiedUser: 'admin'
+                        });
+                        setOpenedModalEditInfo(false);
+                    });
+                })}>
+                    <Tabs defaultValue="viet">
+                        <Tabs.List grow>
+                            <Tabs.Tab value="viet" rightSection={
+                                !isVietTabEmpty && <Text c="red"> *</Text>
+                            }>Tiếng Việt</Tabs.Tab>
+                            <Tabs.Tab value="english" rightSection={
+                                !isEnglishTabEmpty && <Text c="red"> *</Text>
+                            }>English</Tabs.Tab>
+                        </Tabs.List>
+                        <Tabs.Panel value="viet" pt="xs">
+                            <TextInput
+                                placeholder={labels.roleVn}
+                                label={labels.roleVn}
+                                withAsterisk
+                                required
+                                {...form.getInputProps('roleVn')}
+                            />
+                            <TextInput
+                                placeholder={labels.addressVn}
+                                label={labels.addressVn}
+                                withAsterisk
+                                required
+                                {...form.getInputProps('addressVn')}
+                            />
+                            <Input.Wrapper
+                                id="contentVn"
+                                required
+                                label={labels.contentVn}
+                            >
+                                <RichTextEditor
+                                    id="contentVn"
+                                    required
+                                    controls={[
+                                        ['bold', 'italic', 'underline'],
+                                        ['h1', 'h2', 'h3', 'h4'],
+                                        ['alignLeft', 'alignCenter', 'alignRight'],
+                                        ['unorderedList', 'orderedList'],
+                                        ['sup', 'sub'],
+                                        ['link', 'clean'],
+                                    ]}
+                                    placeholder={labels.contentVn}
+                                    label={labels.contentVn}
+                                    {...form.getInputProps('contentVn')} />
+                            </Input.Wrapper>
+                        </Tabs.Panel>
+
+                        <Tabs.Panel value="english" pt="xs">
+                            <TextInput
+                                placeholder={labels.roleEn}
+                                label={labels.roleEn}
+                                withAsterisk
+                                required
+                                {...form.getInputProps('roleEn')}
+                            />
+                            <TextInput
+                                placeholder={labels.addressEn}
+                                label={labels.addressEn}
+                                withAsterisk
+                                required
+                                {...form.getInputProps('addressEn')}
+                            />
+                            <Input.Wrapper
+                                id="contentEn"
+                                required
+                                label={labels.contentEn}
+                            >
+                                <RichTextEditor
+                                    id="contentEn"
+                                    required
+                                    controls={[
+                                        ['bold', 'italic', 'underline'],
+                                        ['h1', 'h2', 'h3', 'h4'],
+                                        ['alignLeft', 'alignCenter', 'alignRight'],
+                                        ['unorderedList', 'orderedList'],
+                                        ['sup', 'sub'],
+                                        ['link', 'clean'],
+                                    ]}
+                                    placeholder={labels.contentEn}
+                                    label={labels.contentEn}
+                                    {...form.getInputProps('contentEn')} />
+                            </Input.Wrapper>
+                        </Tabs.Panel>
+                    </Tabs>
+                    <NumberInput
+                        placeholder={labels.salary}
+                        label={labels.salary}
+                        required
+                        hideControls
+                        {...form.getInputProps('salary')}
+                    />
+                    <Divider mt="xs" />
+                    <Group position="right" mt="xs">
+                        <Button variant="default" onClick={() => {
+                            setOpenedModalEditInfo(false);
+                        }}>Huỷ bỏ</Button>
+                        <Button type="submit">Chỉnh sửa</Button>
                     </Group>
                 </form>
             </Modal>

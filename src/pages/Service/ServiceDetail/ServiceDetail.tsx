@@ -80,6 +80,7 @@ const ServiceDetail = () => {
           </Title>
         </div>
         <Image
+          withPlaceholder
           radius={0}
           mb={40}
           sx={{

@@ -1,4 +1,8 @@
+import { getBanner, postBanner } from '@apis/bannerApi';
 import { postIntroductionDetail } from '@apis/introductionApi';
+import Banner from '@components/Banner/Banner';
+import configs from '@constants/configs';
+import { bannerType } from '@constants/types';
 import {
   Button,
   Divider,
@@ -26,10 +30,10 @@ import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getAboutApi } from 'redux/reducer/about.slice';
 
 const labels = {
-  nameVn: 'Tên',
-  nameEn: 'Title',
-  contentVn: 'Mô tả',
-  contentEn: 'Description',
+  tagLineVn: 'Tiêu đề',
+  tagLineEn: 'Title',
+  descriptionVn: 'Mô tả',
+  descriptionEn: 'Description',
   image: 'Ảnh',
 };
 
@@ -45,9 +49,8 @@ const handleFileChosen = async (file: any) => {
 };
 
 function About() {
-  const dispatch = useAppDispatch();
   const [files, setFiles] = useState<File[]>([]);
-  const listIntroduction = useAppSelector((state) => state.about.about);
+  const [bannerObj, setBannerObj] = useState<bannerType | null>(null);
   const [openedModalAddInfo, setOpenedModalAddInfo] = useState(false);
   const [openedModalInfo, setOpenedModalInfo] = useState({
     index: 0,
@@ -55,45 +58,36 @@ function About() {
   });
   const form = useForm({
     initialValues: {
-      id: listIntroduction?.length || 0,
-      nameVn: '',
-      nameEn: '',
-      addressVn: '',
-      addressEn: '',
-      contentVn: '',
-      contentEn: '',
-      salary: '',
-      isShow: true,
-      priority: listIntroduction?.length || 0,
-      createdTime: Date.now(),
-      createdUser: 'admin',
-      modifiedTime: Date.now(),
-      modifiedUser: 'admin',
+      tagLineVn: '',
+      tagLineEn: '',
+      descriptionVn: '',
+      descriptionEn: '',
       images: [],
     },
 
     validate: {
-      nameVn: (value) => (value.length ? null : `${labels.nameVn} bắt buộc phải nhập`),
-      nameEn: (value) => (value.length ? null : `${labels.nameEn} bắt buộc phải nhập`),
-      contentVn: (value) => (value.length ? null : `${labels.contentVn} bắt buộc phải nhập`),
-      contentEn: (value) => (value.length ? null : `${labels.contentEn} bắt buộc phải nhập`),
+      tagLineVn: (value) => (value.length ? null : `${labels.tagLineVn} bắt buộc phải nhập`),
+      tagLineEn: (value) => (value.length ? null : `${labels.tagLineEn} bắt buộc phải nhập`),
+      descriptionVn: (value) =>
+        value.length ? null : `${labels.descriptionVn} bắt buộc phải nhập`,
+      descriptionEn: (value) =>
+        value.length ? null : `${labels.descriptionEn} bắt buộc phải nhập`,
     },
   });
-  const isVietTabEmpty =
-    form?.values?.nameVn?.length &&
-    form?.values?.addressVn?.length &&
-    form?.values?.contentVn?.length;
-  const isEnglishTabEmpty =
-    form?.values?.nameEn?.length &&
-    form?.values?.addressEn?.length &&
-    form?.values?.contentEn?.length;
+  const isVietTabEmpty = form?.values?.tagLineVn?.length && form?.values?.descriptionVn?.length;
+  const isEnglishTabEmpty = form?.values?.tagLineEn?.length && form?.values?.descriptionEn?.length;
   const [images, setImages] = useState<any>([]);
   // const images: any = [];
-  const getIntroduction = () => {
-    dispatch(getAboutApi());
+  const getBannerApi = () => {
+    getBanner().then((res: any) => {
+      const obj = res.data;
+      if (obj?.id) {
+        setBannerObj(obj);
+      }
+    });
   };
   useEffect(() => {
-    getIntroduction();
+    getBannerApi();
   }, []);
   useEffect(() => {
     Promise.all(
@@ -105,13 +99,13 @@ function About() {
         })),
       ),
     ).then((res) => {
-      console.log(res);
       setImages(res);
     });
   }, [files]);
   return (
     <Paper shadow="xs" p="md">
       <Button
+        disabled={!!bannerObj?.id}
         onClick={() => {
           setOpenedModalAddInfo(true);
         }}
@@ -121,106 +115,45 @@ function About() {
       <Table highlightOnHover withColumnBorders>
         <thead>
           <tr>
-            <th style={{ width: 40 }}>Hiển thị</th>
-            <th>{labels.nameVn}</th>
-            <th>{labels.image}</th>
-            <th style={{ width: '10%' }}>Độ ưu tiên</th>
+            <th>{labels.tagLineVn}</th>
+            <th>{labels.descriptionVn}</th>
             <th style={{ width: 320 }}>Chức năng</th>
           </tr>
         </thead>
         <tbody>
-          {!!listIntroduction?.length &&
-            listIntroduction.map((introduction, index) => (
-              <tr key={introduction.id}>
-                <td>
-                  <Switch
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  />
-                </td>
-                <td>
-                  <Anchor
+          {bannerObj?.id && (
+            <tr>
+              <td>
+                <Anchor
+                  onClick={() => {
+                    setOpenedModalInfo({
+                      index: 0,
+                      isOpen: true,
+                    });
+                  }}
+                >
+                  {bannerObj?.tagLineVn}
+                </Anchor>
+              </td>
+              <td>{bannerObj?.descriptionVn}</td>
+              <td>
+                <Group grow>
+                  <Button
                     onClick={() => {
                       setOpenedModalInfo({
-                        index,
+                        index: 0,
                         isOpen: true,
                       });
                     }}
                   >
-                    {introduction.nameVn}
-                  </Anchor>
-                </td>
-                <td>
-                  <Image
-                    src={`${
-                      import.meta.env.VITE_BASE_IMAGE_URL
-                    }${introduction?.images[0]?.url?.replace('/public', '')}`}
-                    withPlaceholder
-                  />
-                </td>
-                <td>
-                  <Group>
-                    <ActionIcon>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-arrow-up"
-                        width={44}
-                        height={44}
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="#2c3e50"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1={12} y1={5} x2={12} y2={19} />
-                        <line x1={18} y1={11} x2={12} y2={5} />
-                        <line x1={6} y1={11} x2={12} y2={5} />
-                      </svg>
-                    </ActionIcon>
-                    <ActionIcon>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-arrow-down"
-                        width={44}
-                        height={44}
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="#2c3e50"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1={12} y1={5} x2={12} y2={19} />
-                        <line x1={18} y1={13} x2={12} y2={19} />
-                        <line x1={6} y1={13} x2={12} y2={19} />
-                      </svg>
-                    </ActionIcon>
-                  </Group>
-                </td>
-                <td>
-                  <Group grow>
-                    <Button
-                      onClick={() => {
-                        setOpenedModalInfo({
-                          index,
-                          isOpen: true,
-                        });
-                      }}
-                    >
-                      Xem
-                    </Button>
-                    <Button>Sửa</Button>
-                    <Button>Xoá</Button>
-                  </Group>
-                </td>
-              </tr>
-            ))}
+                    Xem
+                  </Button>
+                  <Button>Sửa</Button>
+                  <Button>Xoá</Button>
+                </Group>
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
       <Modal
@@ -246,13 +179,7 @@ function About() {
             </tr>
           </tbody>
         </Table>
-        <TypographyStylesProvider>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: listIntroduction?.at(openedModalInfo.index)?.contentVn || '',
-            }}
-          />
-        </TypographyStylesProvider>
+        <Banner />
       </Modal>
       <Modal
         opened={openedModalAddInfo}
@@ -265,27 +192,32 @@ function About() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            const imgs =
-              images?.map((image: any) => {
-                // const base64 = image.url.split(';base64,');
-                // const byteCharacters = atob(base64[1]);
-                // const byteNumbers = new Array(byteCharacters.length);
-                // for (let i = 0; i < byteCharacters.length; i++) {
-                //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-                // }
-                // const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([image.url], { type: 'multipart/form-data' });
-                return blob;
-              }) || [];
-            data.append('files', new Blob([imgs], { type: 'multipart/form-data' }));
+            images.forEach((image: any) => {
+              const base64 = image.url.split(';base64,');
+              const byteCharacters = atob(base64[1]);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+            });
+            const listImages = [
+              ...files.map(() => ({
+                createdTime: Date.now(),
+                createdUser: 'admin',
+                modifiedTime: Date.now(),
+                modifiedUser: 'admin',
+              })),
+            ];
             data.append(
-              'introducevo',
-              new Blob([JSON.stringify({ ...values, images: [] })], {
+              'bannervo',
+              new Blob([JSON.stringify({ ...values, images: listImages })], {
                 type: 'application/json',
               }),
             );
-            console.log(values);
-            postIntroductionDetail(data);
+            postBanner(data);
+            setOpenedModalAddInfo(false);
           })}
         >
           <Tabs defaultValue="viet">
@@ -302,54 +234,40 @@ function About() {
             </Tabs.List>
             <Tabs.Panel value="viet" pt="xs">
               <TextInput
-                placeholder={labels.nameVn}
-                label={labels.nameVn}
+                placeholder={labels.tagLineVn}
+                label={labels.tagLineVn}
                 withAsterisk
                 required
-                {...form.getInputProps('nameVn')}
+                {...form.getInputProps('tagLineVn')}
               />
-              <Input.Wrapper id="contentVn" required label={labels.contentVn}>
+              <Input.Wrapper id="contentVn" required label={labels.descriptionVn}>
                 <RichTextEditor
                   id="contentVn"
                   required
-                  controls={[
-                    ['bold', 'italic', 'underline'],
-                    ['h1', 'h2', 'h3', 'h4'],
-                    ['alignLeft', 'alignCenter', 'alignRight'],
-                    ['unorderedList', 'orderedList'],
-                    ['sup', 'sub'],
-                    ['link', 'clean'],
-                  ]}
-                  placeholder={labels.contentVn}
-                  label={labels.contentVn}
-                  {...form.getInputProps('contentVn')}
+                  controls={[]}
+                  placeholder={labels.descriptionVn}
+                  label={labels.descriptionVn}
+                  {...form.getInputProps('descriptionVn')}
                 />
               </Input.Wrapper>
             </Tabs.Panel>
 
             <Tabs.Panel value="english" pt="xs">
               <TextInput
-                placeholder={labels.nameEn}
-                label={labels.nameEn}
+                placeholder={labels.tagLineEn}
+                label={labels.tagLineEn}
                 withAsterisk
                 required
-                {...form.getInputProps('nameEn')}
+                {...form.getInputProps('tagLineEn')}
               />
-              <Input.Wrapper id="contentEn" required label={labels.contentEn}>
+              <Input.Wrapper id="contentEn" required label={labels.descriptionEn}>
                 <RichTextEditor
                   id="contentEn"
                   required
-                  controls={[
-                    ['bold', 'italic', 'underline'],
-                    ['h1', 'h2', 'h3', 'h4'],
-                    ['alignLeft', 'alignCenter', 'alignRight'],
-                    ['unorderedList', 'orderedList'],
-                    ['sup', 'sub'],
-                    ['link', 'clean'],
-                  ]}
-                  placeholder={labels.contentEn}
-                  label={labels.contentEn}
-                  {...form.getInputProps('contentEn')}
+                  controls={[]}
+                  placeholder={labels.descriptionEn}
+                  label={labels.descriptionEn}
+                  {...form.getInputProps('descriptionEn')}
                 />
               </Input.Wrapper>
             </Tabs.Panel>
@@ -392,7 +310,7 @@ function About() {
                 height={100}
                 radius={6}
                 withPlaceholder
-                src={file?.url}
+                src={configs.BASE_IMAGE_URL + file?.url}
               ></Image>
             ))}
           </Group>

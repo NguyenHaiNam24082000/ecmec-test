@@ -167,21 +167,19 @@ function About() {
             >
                 <form onSubmit={form.onSubmit((values) => {
                     const data = new FormData();
-                    const imgs = images?.map((image: any) => {
-                        // const base64 = image.url.split(';base64,');
-                        // const byteCharacters = atob(base64[1]);
-                        // const byteNumbers = new Array(byteCharacters.length);
-                        // for (let i = 0; i < byteCharacters.length; i++) {
-                        //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        // }
-                        // const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([image.url], { type: 'multipart/form-data' });
-                        return blob;
-                    }) || [];
-                    data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
-                    const listImages = [...files.map(() => (
+                    images.forEach((image: any) => {
+                        const base64 = image.url.split(';base64,');
+                        const byteCharacters = atob(base64[1]);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+                    });
+                    const listImages = [...files.map((file) => (
                         {
-                            'url': null,
+                            'url': file.name,
                             'createdTime': Date.now(),
                             'createdUser': 'admin',
                             'modifiedTime': Date.now(),
@@ -189,6 +187,7 @@ function About() {
                             'files': null
                         }
                     ))];
+                    console.log(listImages);
                     data.append('introducevo', new Blob([JSON.stringify({
                         ...values, images: listImages
                     })], {

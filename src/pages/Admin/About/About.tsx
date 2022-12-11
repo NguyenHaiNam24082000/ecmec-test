@@ -76,7 +76,6 @@ function About() {
             url: res,
             type: file.type
         })))).then((res) => {
-            console.log(res);
             setImages(res);
         });
     }, [files]);
@@ -180,8 +179,19 @@ function About() {
                         const blob = new Blob([image.url], { type: 'multipart/form-data' });
                         return blob;
                     }) || [];
-                    data.append('file',new Blob([imgs], { type: 'multipart/form-data'}));
-                    data.append('introducevo',new Blob([JSON.stringify({...values, images: []})],{
+                    data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
+                    data.append('introducevo', new Blob([JSON.stringify({
+                        ...values, images: [...images.map(() => (
+                            {
+                                'url': null,
+                                'createdTime': Date.now(),
+                                'createdUser': 'admin',
+                                'modifiedTime': Date.now(),
+                                'modifiedUser': 'admin',
+                                'files': null
+                            }
+                        ))]
+                    })], {
                         type: 'application/json'
                     }));
                     console.log(values);

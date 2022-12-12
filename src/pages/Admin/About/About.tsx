@@ -128,6 +128,7 @@ function About() {
             modifiedUser: 'admin',
             images: [],
           });
+          setFiles([]);
           setOpenedModalAddInfo(true);
         }}
       >
@@ -336,6 +337,13 @@ function About() {
               const byteArray = new Uint8Array(byteNumbers);
               data.append('file', new Blob([byteArray], { type: image.type }), image.name);
             });
+            if (images.length == 0)
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
             const listImages = [
               ...files.map(() => ({
                 createdTime: Date.now(),
@@ -350,9 +358,16 @@ function About() {
                 type: 'application/json',
               }),
             );
-            postIntroductionDetail(data);
-            getIntroduction();
-            setOpenedModalAddInfo(false);
+            postIntroductionDetail(data).then(() => {
+              showNotification({
+                title: 'Thành công',
+                message: 'Thêm mới thành công',
+                color: 'green',
+                autoClose: 5000,
+              });
+              getIntroduction();
+              setOpenedModalAddInfo(false);
+            });
           })}
         >
           <Tabs defaultValue="viet">
@@ -467,7 +482,7 @@ function About() {
                 height={100}
                 radius={6}
                 withPlaceholder
-                src={file?.url}
+                src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
               ></Image>
             ))}
           </Group>
@@ -496,18 +511,46 @@ function About() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            data.append(
-              'file',
-              new Blob(undefined, {
-                type: 'multipart/form-data',
-              }),
-            );
-            data.append(
-              'introducevo',
-              new Blob([JSON.stringify({ ...values })], {
-                type: 'application/json',
-              }),
-            );
+            if (files.length) {
+              images.forEach((image: any) => {
+                const base64 = image.url.split(';base64,');
+                const byteCharacters = atob(base64[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+              });
+              const listImages = [
+                ...files.map(() => ({
+                  url: '',
+                  createdTime: Date.now(),
+                  createdUser: 'admin',
+                  modifiedTime: Date.now(),
+                  modifiedUser: 'admin',
+                })),
+              ];
+              data.append(
+                'introducevo',
+                new Blob([JSON.stringify({ ...values, images: listImages })], {
+                  type: 'application/json',
+                }),
+              );
+            } else {
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
+              data.append(
+                'introducevo',
+                new Blob([JSON.stringify({ ...values })], {
+                  type: 'application/json',
+                }),
+              );
+            }
             putIntroductionDetail(data).then(() => {
               showNotification({
                 title: 'Thành công',
@@ -645,7 +688,7 @@ function About() {
                 height={100}
                 radius={6}
                 withPlaceholder
-                src={configs.BASE_IMAGE_URL + file?.url}
+                src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
               ></Image>
             ))}
           </Group>

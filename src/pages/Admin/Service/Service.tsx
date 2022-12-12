@@ -135,6 +135,7 @@ function Service() {
             images: [],
           });
           setImages([]);
+          setFiles([]);
           setOpenedModalAddInfo(true);
         }}
       >
@@ -145,8 +146,8 @@ function Service() {
           <tr>
             <th style={{ width: 40 }}>Hiển thị</th>
             <th>{labels.nameVn}</th>
-            <th>{labels.image}</th>
-            <th style={{ width: 80 }}>Độ ưu tiên</th>
+            <th style={{ width: '20%' }}>{labels.image}</th>
+            <th style={{ width: 100 }}>Độ ưu tiên</th>
             <th style={{ width: 320 }}>Chức năng</th>
           </tr>
         </thead>
@@ -345,6 +346,13 @@ function Service() {
               const byteArray = new Uint8Array(byteNumbers);
               data.append('file', new Blob([byteArray], { type: image.type }), image.name);
             });
+            if (images.length == 0)
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
             const listImages = [
               ...files.map((file) => ({
                 url: file.name,
@@ -530,18 +538,46 @@ function Service() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            data.append(
-              'file',
-              new Blob(undefined, {
-                type: 'multipart/form-data',
-              }),
-            );
-            data.append(
-              'servicevo',
-              new Blob([JSON.stringify({ ...values, images: images })], {
-                type: 'application/json',
-              }),
-            );
+            if (files.length) {
+              images.forEach((image: any) => {
+                const base64 = image.url.split(';base64,');
+                const byteCharacters = atob(base64[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+              });
+              const listImages = [
+                ...files.map(() => ({
+                  url: '',
+                  createdTime: Date.now(),
+                  createdUser: 'admin',
+                  modifiedTime: Date.now(),
+                  modifiedUser: 'admin',
+                })),
+              ];
+              data.append(
+                'servicevo',
+                new Blob([JSON.stringify({ ...values, images: listImages })], {
+                  type: 'application/json',
+                }),
+              );
+            } else {
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
+              data.append(
+                'servicevo',
+                new Blob([JSON.stringify({ ...values })], {
+                  type: 'application/json',
+                }),
+              );
+            }
             putServiceDetail(data).then(() => {
               showNotification({
                 title: 'Thành công',

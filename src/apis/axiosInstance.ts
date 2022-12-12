@@ -165,6 +165,8 @@ export default new Http({
   timeout: 3 * 60 * 1000,
   baseURL: configs.BASE_API_URL,
   headers: {
+    'username': 'testadmin',
+    'password': 'test',
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',
     'Content-Type': 'application/json',

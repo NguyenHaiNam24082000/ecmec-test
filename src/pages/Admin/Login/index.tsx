@@ -1,5 +1,16 @@
-import { BackgroundImage, Box, Button, Group, Paper, Text, TextInput } from '@mantine/core';
+import { loginApi } from '@apis/authenticateApi';
+import {
+  BackgroundImage,
+  Box,
+  Button,
+  Group,
+  Paper,
+  Text,
+  TextInput,
+  PasswordInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const form = useForm({
@@ -9,9 +20,11 @@ function Login() {
     },
 
     validate: {
-      username: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      username: (value) => (value.length ? null : 'Invalid username'),
+      password: (value) => (value.length ? null : 'Invalid password'),
     },
   });
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ width: '100vw', height: '100vh' }} mx="auto">
@@ -36,13 +49,19 @@ function Login() {
           <Text fz={32} fw={700} tt="uppercase" ta="center">
             Login
           </Text>
-          <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <form
+            onSubmit={form.onSubmit((values) => {
+              loginApi(values).then((response) => {
+                navigate('/admin', { replace: true });
+              });
+            })}
+          >
             <TextInput
               label="Username"
               placeholder="Username"
               {...form.getInputProps('username')}
             />
-            <TextInput
+            <PasswordInput
               mt="md"
               label="Password"
               placeholder="Password"

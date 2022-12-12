@@ -99,7 +99,6 @@ const Router = () => {
         }
       >
         <Route path="" element={<Dashboard />} />
-        <Route path="login" element={<Login />} />
         <Route path="banner" element={<BannerAdmin />} />
         <Route path="about" element={<AboutAdmin />} />
         <Route path="partner" element={<PartnerAdmin />} />
@@ -107,6 +106,7 @@ const Router = () => {
         <Route path="service" element={<ServiceAdmin />} />
         <Route path="recruitment" element={<RecruitAdmin />} />
       </Route>
+      <Route path="/admin/login" element={<Login />} />
     </Routes>
   );
 };

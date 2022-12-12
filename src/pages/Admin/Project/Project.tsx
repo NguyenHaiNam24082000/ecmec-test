@@ -1,4 +1,4 @@
-import { postProjectDetail } from '@apis/projectApi';
+import { deleteProjectDetail, postProjectDetail } from '@apis/projectApi';
 import {
   Button,
   Divider,
@@ -17,12 +17,36 @@ import {
   Image,
   FileButton,
   Box,
+  Badge,
+  ActionIcon,
+  Select,
+  MultiSelect,
 } from '@mantine/core';
+import { DatePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import RichTextEditor from '@mantine/rte';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getProjectApi } from 'redux/reducer/projects.slice';
+import { getServiceApi } from 'redux/reducer/service.slice';
+import 'dayjs/locale/vi';
+import { showNotification } from '@mantine/notifications';
+import { openConfirmModal } from '@mantine/modals';
+import configs from '@constants/configs';
+
+const MAX_FILE_LENGTH = Infinity;
+
+const statuses = [
+  {
+    status: 'Đang xử lý',
+    color: 'yellow',
+  },
+  {
+    status: 'Hoàn thành',
+    color: 'green',
+  },
+  { status: 'Thất bại', color: 'red' },
+];
 
 const labels = {
   nameVn: 'Tên',
@@ -56,6 +80,7 @@ function Project() {
   const dispatch = useAppDispatch();
   const [files, setFiles] = useState<File[]>([]);
   const listProject = useAppSelector((state) => state.projects.project);
+  const listService = useAppSelector((state) => state.service.service);
   const [openedModalAddInfo, setOpenedModalAddInfo] = useState(false);
   const [openedModalInfo, setOpenedModalInfo] = useState({
     index: 0,
@@ -63,20 +88,26 @@ function Project() {
   });
   const form = useForm({
     initialValues: {
-      id: listProject?.length || 0,
+      status: 0,
       nameVn: '',
       nameEn: '',
-      addressVn: '',
-      addressEn: '',
       contentVn: '',
       contentEn: '',
-      salary: '',
+      addressVn: '',
+      addressEn: '',
+      area: undefined,
+      duration: undefined,
+      investor: '',
+      start: '',
+      mainContractor: '',
+      priority: listProject.length || 0,
       isShow: true,
-      priority: listProject?.length || 0,
       createdTime: Date.now(),
       createdUser: 'admin',
       modifiedTime: Date.now(),
       modifiedUser: 'admin',
+      isDeleted: false,
+      services: [],
       images: [],
     },
 
@@ -100,7 +131,11 @@ function Project() {
   const getProject = () => {
     dispatch(getProjectApi());
   };
+  const getService = () => {
+    dispatch(getServiceApi());
+  };
   useEffect(() => {
+    getService();
     getProject();
   }, []);
   useEffect(() => {
@@ -121,6 +156,29 @@ function Project() {
     <Paper shadow="xs" p="md">
       <Button
         onClick={() => {
+          form.setValues({
+            status: 0,
+            nameVn: '',
+            nameEn: '',
+            contentVn: '',
+            contentEn: '',
+            addressVn: '',
+            addressEn: '',
+            area: undefined,
+            duration: undefined,
+            investor: '',
+            start: '',
+            mainContractor: '',
+            priority: listProject.length || 0,
+            isShow: true,
+            createdTime: Date.now(),
+            createdUser: 'admin',
+            modifiedTime: Date.now(),
+            modifiedUser: 'admin',
+            isDeleted: false,
+            services: [],
+            images: [],
+          });
           setOpenedModalAddInfo(true);
         }}
       >
@@ -163,15 +221,73 @@ function Project() {
                   </Anchor>
                 </td>
                 <td>
+                  <Badge
+                    color={
+                      statuses?.[
+                        ['in progress', 'completed', 'failed'].findIndex((status) =>
+                          status.includes(project?.status),
+                        )
+                      ]?.color
+                    }
+                    variant="filled"
+                  >
+                    {
+                      statuses[
+                        ['in progress', 'completed', 'failed'].findIndex((status) =>
+                          status.includes(project?.status),
+                        )
+                      ].status
+                    }
+                  </Badge>
+                </td>
+                <td>
                   <Image
-                    src={`${import.meta.env.VITE_BASE_IMAGE_URL}${project?.images[0]?.url?.replace(
-                      '/public',
-                      '',
-                    )}`}
+                    src={`${configs.BASE_IMAGE_URL}${project?.images[0]?.url}`}
                     withPlaceholder
                   />
                 </td>
-                <td></td>
+                <td>
+                  <Group>
+                    <ActionIcon>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-arrow-up"
+                        width={44}
+                        height={44}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="#2c3e50"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <line x1={12} y1={5} x2={12} y2={19} />
+                        <line x1={18} y1={11} x2={12} y2={5} />
+                        <line x1={6} y1={11} x2={12} y2={5} />
+                      </svg>
+                    </ActionIcon>
+                    <ActionIcon>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-arrow-down"
+                        width={44}
+                        height={44}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="#2c3e50"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <line x1={12} y1={5} x2={12} y2={19} />
+                        <line x1={18} y1={13} x2={12} y2={19} />
+                        <line x1={6} y1={13} x2={12} y2={19} />
+                      </svg>
+                    </ActionIcon>
+                  </Group>
+                </td>
                 <td>
                   <Group grow>
                     <Button
@@ -185,7 +301,30 @@ function Project() {
                       Xem
                     </Button>
                     <Button>Sửa</Button>
-                    <Button>Xoá</Button>
+                    <Button
+                      onClick={() => {
+                        openConfirmModal({
+                          title: 'Tiếp tục',
+                          children: <Text size="sm">Bạn có muốn xoá không?</Text>,
+                          labels: { confirm: 'Xoá', cancel: 'Huỷ bỏ' },
+                          // eslint-disable-next-line @typescript-eslint/no-empty-function
+                          onCancel: () => {},
+                          onConfirm: () => {
+                            deleteProjectDetail(project.id).then(() => {
+                              getProject();
+                              showNotification({
+                                title: 'Thành công',
+                                message: 'Xoá thành công',
+                                color: 'green',
+                                autoClose: 5000,
+                              });
+                            });
+                          },
+                        });
+                      }}
+                    >
+                      Xoá
+                    </Button>
                   </Group>
                 </td>
               </tr>
@@ -234,27 +373,40 @@ function Project() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            const imgs =
-              images?.map((image: any) => {
-                // const base64 = image.url.split(';base64,');
-                // const byteCharacters = atob(base64[1]);
-                // const byteNumbers = new Array(byteCharacters.length);
-                // for (let i = 0; i < byteCharacters.length; i++) {
-                //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-                // }
-                // const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([image.url], { type: 'multipart/form-data' });
-                return blob;
-              }) || [];
-            data.append('file', new Blob([imgs], { type: 'multipart/form-data' }));
+            images.forEach((image: any) => {
+              const base64 = image.url.split(';base64,');
+              const byteCharacters = atob(base64[1]);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+            });
+            const listImages = [
+              ...files.map(() => ({
+                createdTime: Date.now(),
+                createdUser: 'admin',
+                modifiedTime: Date.now(),
+                modifiedUser: 'admin',
+              })),
+            ];
             data.append(
               'projectvo',
-              new Blob([JSON.stringify({ ...values, images: [] })], {
+              new Blob([JSON.stringify({ ...values, images: listImages })], {
                 type: 'application/json',
               }),
             );
-            console.log(values);
-            postProjectDetail(data);
+            postProjectDetail(data).then(() => {
+              showNotification({
+                title: 'Thành công',
+                message: 'Thêm mới thành công',
+                color: 'green',
+                autoClose: 5000,
+              });
+              getProject();
+              setOpenedModalAddInfo(false);
+            });
           })}
         >
           <Tabs defaultValue="viet">
@@ -277,8 +429,16 @@ function Project() {
                 required
                 {...form.getInputProps('nameVn')}
               />
+              <TextInput
+                placeholder={labels.addressVn}
+                label={labels.addressVn}
+                withAsterisk
+                required
+                {...form.getInputProps('addressVn')}
+              />
               <Input.Wrapper id="contentVn" required label={labels.contentVn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentVn"
                   required
                   controls={[
@@ -304,8 +464,16 @@ function Project() {
                 required
                 {...form.getInputProps('nameEn')}
               />
+              <TextInput
+                placeholder={labels.addressEn}
+                label={labels.addressEn}
+                withAsterisk
+                required
+                {...form.getInputProps('addressEn')}
+              />
               <Input.Wrapper id="contentEn" required label={labels.contentEn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentEn"
                   required
                   controls={[
@@ -323,48 +491,119 @@ function Project() {
               </Input.Wrapper>
             </Tabs.Panel>
           </Tabs>
-          <Group mt={12}>
-            <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
-              {(props) => (
-                <Box
-                  {...props}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    border: '3px dashed black',
-                    borderRadius: 6,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    height={48}
-                    width={48}
-                    aria-hidden="true"
-                    focusable="false"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="StyledIconBase-ea9ulj-0 bWRyML"
-                  >
-                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-                  </svg>
-                </Box>
-              )}
-            </FileButton>
-            {images.map((file: any, index: any) => (
-              <Image
-                key={index}
-                width={100}
-                height={100}
-                radius={6}
-                withPlaceholder
-                src={file?.url}
-              ></Image>
-            ))}
+          <Select
+            placeholder={labels.status}
+            label={labels.status}
+            withAsterisk
+            required
+            {...form.getInputProps('status')}
+            data={[
+              { value: '0', label: 'Đang xử lý' },
+              { value: '1', label: 'Hoàn thành' },
+              { value: '2', label: 'Thất bại' },
+            ]}
+          />
+          <NumberInput
+            placeholder={labels.area}
+            label={labels.area}
+            withAsterisk
+            required
+            hideControls
+            {...form.getInputProps('area')}
+          />
+          <Group grow>
+            <DatePicker
+              placeholder="Pick date"
+              label="Event date"
+              withAsterisk
+              locale="vi"
+              {...form.getInputProps('start')}
+            />
+            <TimeInput label="What time is it now?" format="24" {...form.getInputProps('start')} />
           </Group>
+          <NumberInput
+            placeholder={labels.duration}
+            label={labels.duration}
+            withAsterisk
+            required
+            hideControls
+            {...form.getInputProps('duration')}
+          />
+          <TextInput
+            placeholder={labels.investor}
+            label={labels.investor}
+            withAsterisk
+            required
+            {...form.getInputProps('investor')}
+          />
+          <TextInput
+            placeholder={labels.mainContractor}
+            label={labels.mainContractor}
+            withAsterisk
+            required
+            {...form.getInputProps('mainContractor')}
+          />
+          <MultiSelect
+            data={[
+              ...listService.map((service) => ({
+                value: service,
+                label: service.nameVn,
+              })),
+            ]}
+            placeholder={labels.service}
+            label={labels.service}
+            withAsterisk
+            required
+            {...form.getInputProps('services')}
+          />
+          <Input.Wrapper
+            required
+            label={labels.image}
+            description={`Số hình ảnh tối đa là ${MAX_FILE_LENGTH}`}
+          >
+            <Group mt={6}>
+              <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
+                {(props) => (
+                  <Box
+                    {...props}
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: '3px dashed black',
+                      borderRadius: 6,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      height={48}
+                      width={48}
+                      aria-hidden="true"
+                      focusable="false"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="StyledIconBase-ea9ulj-0 bWRyML"
+                    >
+                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                    </svg>
+                  </Box>
+                )}
+              </FileButton>
+              {images.map((file: any, index: any) => (
+                <Image
+                  key={index}
+                  width={100}
+                  height={100}
+                  radius={6}
+                  withPlaceholder
+                  src={file?.url}
+                ></Image>
+              ))}
+            </Group>
+          </Input.Wrapper>
           <Divider mt="xs" />
           <Group position="right" mt="xs">
             <Button

@@ -114,6 +114,10 @@ function Service() {
       setImages(res);
     });
   }, [files]);
+
+  useEffect(() => {
+    form.setValues({ priority: listService.length });
+  }, [listService]);
   return (
     <Paper shadow="xs" p="md">
       <Button
@@ -153,7 +157,7 @@ function Service() {
         </thead>
         <tbody>
           {!!listService?.length &&
-            listService.map((service, index) => (
+            listService.map((service, index, arr) => (
               <tr key={service.id}>
                 <td>
                   <Switch
@@ -202,8 +206,35 @@ function Service() {
                   />
                 </td>
                 <td>
-                  <Group>
-                    <ActionIcon>
+                <Group>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'servicevo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...service,
+                                priority: index > 1 ? arr.at(index - 1)!.priority! - 1 : 0,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putServiceDetail(data).then(() => {
+                          getService();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-up"
@@ -222,7 +253,34 @@ function Service() {
                         <line x1={6} y1={11} x2={12} y2={5} />
                       </svg>
                     </ActionIcon>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'servicevo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...service,
+                                priority: index < arr.length ? arr.at(index + 1)!.priority! + 1 : arr.length,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putServiceDetail(data).then(() => {
+                          getService();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-down"

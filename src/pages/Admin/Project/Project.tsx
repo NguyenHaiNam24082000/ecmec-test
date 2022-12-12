@@ -1,4 +1,4 @@
-import { deleteProjectDetail, postProjectDetail } from '@apis/projectApi';
+import { deleteProjectDetail, postProjectDetail, putProjectDetail } from '@apis/projectApi';
 import {
   Button,
   Divider,
@@ -152,6 +152,10 @@ function Project() {
       setImages(res);
     });
   }, [files]);
+
+  useEffect(() => {
+    form.setValues({ priority: listProject.length });
+  }, [listProject]);
   return (
     <Paper shadow="xs" p="md">
       <Button
@@ -197,7 +201,7 @@ function Project() {
         </thead>
         <tbody>
           {!!listProject?.length &&
-            listProject.map((project, index) => (
+            listProject.map((project, index, arr) => (
               <tr key={project.id}>
                 <td>
                   <Switch
@@ -247,8 +251,35 @@ function Project() {
                   />
                 </td>
                 <td>
-                  <Group>
-                    <ActionIcon>
+                <Group>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'projectvo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...project,
+                                priority: index > 1 ? arr.at(index - 1)!.priority! - 1 : 0,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putProjectDetail(data).then(() => {
+                          getProject();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-up"
@@ -267,7 +298,34 @@ function Project() {
                         <line x1={6} y1={11} x2={12} y2={5} />
                       </svg>
                     </ActionIcon>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'projectvo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...project,
+                                priority: index < arr.length ? arr.at(index + 1)!.priority! + 1 : arr.length,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putProjectDetail(data).then(() => {
+                          getProject();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-down"

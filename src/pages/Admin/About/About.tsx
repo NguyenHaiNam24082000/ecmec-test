@@ -111,6 +111,10 @@ function About() {
       setImages(res);
     });
   }, [files]);
+
+  useEffect(() => {
+    form.setValues({ priority: listIntroduction.length });
+  }, [listIntroduction]);
   return (
     <Paper shadow="xs" p="md">
       <Button
@@ -146,7 +150,7 @@ function About() {
         </thead>
         <tbody>
           {!!listIntroduction?.length &&
-            listIntroduction.map((introduction, index) => (
+            listIntroduction.map((introduction, index, arr) => (
               <tr key={introduction.id}>
                 <td>
                   <Switch
@@ -194,7 +198,34 @@ function About() {
                 </td>
                 <td>
                   <Group>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'introducevo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...introduction,
+                                priority: index > 1 ? arr.at(index - 1)!.priority! - 1 : 0,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putIntroductionDetail(data).then(() => {
+                          getIntroduction();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-up"
@@ -213,7 +244,34 @@ function About() {
                         <line x1={6} y1={11} x2={12} y2={5} />
                       </svg>
                     </ActionIcon>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        const data = new FormData();
+                        data.append(
+                          'file',
+                          new Blob(undefined, {
+                            type: 'multipart/form-data',
+                          }),
+                        );
+                        data.append(
+                          'introducevo',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                ...introduction,
+                                priority: index < arr.length ? arr.at(index + 1)!.priority! + 1 : arr.length,
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            },
+                          ),
+                        );
+                        putIntroductionDetail(data).then(() => {
+                          getIntroduction();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-down"

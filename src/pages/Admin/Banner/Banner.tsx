@@ -1,4 +1,4 @@
-import { getBanner, postBanner } from '@apis/bannerApi';
+import { deleteBanner, getBanner, postBanner, putBanner } from '@apis/bannerApi';
 import { postIntroductionDetail } from '@apis/introductionApi';
 import Banner from '@components/Banner/Banner';
 import configs from '@constants/configs';
@@ -22,8 +22,11 @@ import {
   FileButton,
   Box,
   ActionIcon,
+  Textarea,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { openConfirmModal } from '@mantine/modals';
+import { showNotification } from '@mantine/notifications';
 import RichTextEditor from '@mantine/rte';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
@@ -56,12 +59,19 @@ function About() {
     index: 0,
     isOpen: false,
   });
+
+  const [openedModalEditInfo, setOpenedModalEditInfo] = useState(false);
+
   const form = useForm({
     initialValues: {
       tagLineVn: '',
       tagLineEn: '',
       descriptionVn: '',
       descriptionEn: '',
+      createdTime: Date.now(),
+      createdUser: 'admin',
+      modifiedTime: Date.now(),
+      modifiedUser: 'admin',
       images: [],
     },
 
@@ -81,14 +91,13 @@ function About() {
   const getBannerApi = () => {
     getBanner().then((res: any) => {
       const obj = res.data;
-      if (obj?.id) {
-        setBannerObj(obj);
-      }
+      setBannerObj(obj);
     });
   };
   useEffect(() => {
     getBannerApi();
   }, []);
+
   useEffect(() => {
     Promise.all(
       files.map((file) =>
@@ -148,8 +157,39 @@ function About() {
                   >
                     Xem
                   </Button>
-                  <Button>Sửa</Button>
-                  <Button>Xoá</Button>
+                  <Button
+                    onClick={() => {
+                      form.setValues(bannerObj as any);
+                      setImages(bannerObj.images);
+                      setOpenedModalEditInfo(true);
+                    }}
+                  >
+                    Sửa
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      openConfirmModal({
+                        title: 'Tiếp tục',
+                        children: <Text size="sm">Bạn có muốn xoá không?</Text>,
+                        labels: { confirm: 'Xoá', cancel: 'Huỷ bỏ' },
+                        // eslint-disable-next-line @typescript-eslint/no-empty-function
+                        onCancel: () => {},
+                        onConfirm: () => {
+                          deleteBanner(bannerObj?.id).then(() => {
+                            getBannerApi();
+                            showNotification({
+                              title: 'Thành công',
+                              message: 'Xoá thành công',
+                              color: 'green',
+                              autoClose: 5000,
+                            });
+                          });
+                        },
+                      });
+                    }}
+                  >
+                    Xoá
+                  </Button>
                 </Group>
               </td>
             </tr>
@@ -217,6 +257,7 @@ function About() {
               }),
             );
             postBanner(data);
+            getBannerApi();
             setOpenedModalAddInfo(false);
           })}
         >
@@ -241,13 +282,13 @@ function About() {
                 {...form.getInputProps('tagLineVn')}
               />
               <Input.Wrapper id="contentVn" required label={labels.descriptionVn}>
-                <RichTextEditor
+                <Textarea
                   id="contentVn"
                   required
-                  controls={[]}
                   placeholder={labels.descriptionVn}
-                  label={labels.descriptionVn}
                   {...form.getInputProps('descriptionVn')}
+                  minRows={2}
+                  maxRows={4}
                 />
               </Input.Wrapper>
             </Tabs.Panel>
@@ -261,13 +302,13 @@ function About() {
                 {...form.getInputProps('tagLineEn')}
               />
               <Input.Wrapper id="contentEn" required label={labels.descriptionEn}>
-                <RichTextEditor
+                <Textarea
                   id="contentEn"
                   required
-                  controls={[]}
                   placeholder={labels.descriptionEn}
-                  label={labels.descriptionEn}
                   {...form.getInputProps('descriptionEn')}
+                  minRows={2}
+                  maxRows={4}
                 />
               </Input.Wrapper>
             </Tabs.Panel>
@@ -325,6 +366,160 @@ function About() {
               Huỷ bỏ
             </Button>
             <Button type="submit">Thêm mới</Button>
+          </Group>
+        </form>
+      </Modal>
+      <Modal
+        opened={openedModalEditInfo}
+        onClose={() => {
+          setOpenedModalEditInfo(false);
+        }}
+        size="100%"
+        title="Chỉnh sửa"
+      >
+        <form
+          onSubmit={form.onSubmit((values) => {
+            const data = new FormData();
+            data.append(
+              'file',
+              new Blob(undefined, {
+                type: 'multipart/form-data',
+              }),
+            );
+            data.append(
+              'bannervo',
+              new Blob([JSON.stringify({ ...values })], {
+                type: 'application/json',
+              }),
+            );
+            putBanner(data).then(() => {
+              showNotification({
+                title: 'Thành công',
+                message: 'Chỉnh sửa thành công',
+                color: 'green',
+                autoClose: 5000,
+              });
+              getBannerApi();
+              form.setValues({
+                tagLineVn: '',
+                tagLineEn: '',
+                descriptionVn: '',
+                descriptionEn: '',
+                createdTime: Date.now(),
+                createdUser: 'admin',
+                modifiedTime: Date.now(),
+                modifiedUser: 'admin',
+                images: [],
+              });
+              setOpenedModalEditInfo(false);
+            });
+          })}
+        >
+          <Tabs defaultValue="viet">
+            <Tabs.List grow>
+              <Tabs.Tab value="viet" rightSection={!isVietTabEmpty && <Text c="red"> *</Text>}>
+                Tiếng Việt
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="english"
+                rightSection={!isEnglishTabEmpty && <Text c="red"> *</Text>}
+              >
+                English
+              </Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="viet" pt="xs">
+              <TextInput
+                placeholder={labels.tagLineVn}
+                label={labels.tagLineVn}
+                withAsterisk
+                required
+                {...form.getInputProps('tagLineVn')}
+              />
+              <Input.Wrapper id="contentVn" required label={labels.descriptionVn}>
+                <Textarea
+                  id="contentEn"
+                  required
+                  placeholder={labels.descriptionVn}
+                  {...form.getInputProps('descriptionVn')}
+                  minRows={2}
+                  maxRows={4}
+                />
+              </Input.Wrapper>
+            </Tabs.Panel>
+
+            <Tabs.Panel value="english" pt="xs">
+              <TextInput
+                placeholder={labels.tagLineEn}
+                label={labels.tagLineEn}
+                withAsterisk
+                required
+                {...form.getInputProps('tagLineEn')}
+              />
+              <Input.Wrapper id="contentEn" required label={labels.descriptionEn}>
+                <Textarea
+                  id="contentEn"
+                  required
+                  placeholder={labels.descriptionEn}
+                  {...form.getInputProps('descriptionEn')}
+                  minRows={2}
+                  maxRows={4}
+                />
+              </Input.Wrapper>
+            </Tabs.Panel>
+          </Tabs>
+          <Group mt={12}>
+            <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
+              {(props) => (
+                <Box
+                  {...props}
+                  sx={{
+                    width: 100,
+                    height: 100,
+                    border: '3px dashed black',
+                    borderRadius: 6,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    height={48}
+                    width={48}
+                    aria-hidden="true"
+                    focusable="false"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="StyledIconBase-ea9ulj-0 bWRyML"
+                  >
+                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                  </svg>
+                </Box>
+              )}
+            </FileButton>
+            {images.map((file: any, index: any) => (
+              <Image
+                key={index}
+                width={100}
+                height={100}
+                radius={6}
+                withPlaceholder
+                src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
+              ></Image>
+            ))}
+          </Group>
+          <Divider mt="xs" />
+          <Group position="right" mt="xs">
+            <Button
+              variant="default"
+              onClick={() => {
+                setOpenedModalEditInfo(false);
+              }}
+            >
+              Huỷ bỏ
+            </Button>
+            <Button type="submit">Chỉnh sửa</Button>
           </Group>
         </form>
       </Modal>

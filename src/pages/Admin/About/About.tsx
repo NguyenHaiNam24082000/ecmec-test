@@ -348,8 +348,8 @@ function About() {
                 type: 'application/json',
               }),
             );
-            console.log(values);
             postIntroductionDetail(data);
+            getIntroduction();
             setOpenedModalAddInfo(false);
           })}
         >

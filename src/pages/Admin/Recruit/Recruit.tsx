@@ -325,6 +325,7 @@ function Recruit() {
               />
               <Input.Wrapper id="contentVn" required label={labels.contentVn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentVn"
                   required
                   controls={[
@@ -359,6 +360,7 @@ function Recruit() {
               />
               <Input.Wrapper id="contentEn" required label={labels.contentEn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentEn"
                   required
                   controls={[
@@ -478,6 +480,7 @@ function Recruit() {
               />
               <Input.Wrapper id="contentVn" required label={labels.contentVn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentVn"
                   required
                   controls={[
@@ -512,6 +515,7 @@ function Recruit() {
               />
               <Input.Wrapper id="contentEn" required label={labels.contentEn}>
                 <RichTextEditor
+                  sticky={false}
                   id="contentEn"
                   required
                   controls={[

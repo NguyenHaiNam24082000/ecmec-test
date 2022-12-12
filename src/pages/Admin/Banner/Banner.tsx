@@ -335,56 +335,65 @@ function About() {
               </Input.Wrapper>
             </Tabs.Panel>
           </Tabs>
-          <Group mt={12}>
-            {files.length < MAX_FILE_LENGTH && (
-              <FileButton
-                onChange={(payload: any) =>
-                  setFiles((prev) => [...prev, ...payload.slice(0, MAX_FILE_LENGTH - prev.length)])
-                }
-                accept="image/*"
-                multiple
-              >
-                {(props) => (
-                  <Box
-                    {...props}
-                    sx={{
-                      width: 100,
-                      height: 100,
-                      border: '3px dashed black',
-                      borderRadius: 6,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      height={48}
-                      width={48}
-                      aria-hidden="true"
-                      focusable="false"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="StyledIconBase-ea9ulj-0 bWRyML"
+          <Input.Wrapper
+            required
+            label={labels.image}
+            description={`Số hình ảnh tối đa là ${MAX_FILE_LENGTH}`}
+          >
+            <Group mt={6}>
+              {files.length < MAX_FILE_LENGTH && (
+                <FileButton
+                  onChange={(payload: any) =>
+                    setFiles((prev) => [
+                      ...prev,
+                      ...payload.slice(0, MAX_FILE_LENGTH - prev.length),
+                    ])
+                  }
+                  accept="image/*"
+                  multiple
+                >
+                  {(props) => (
+                    <Box
+                      {...props}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        border: '3px dashed black',
+                        borderRadius: 6,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
                     >
-                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-                    </svg>
-                  </Box>
-                )}
-              </FileButton>
-            )}
-            {images.map((file: any, index: any) => (
-              <Image
-                key={index}
-                width={100}
-                height={100}
-                radius={6}
-                withPlaceholder
-                src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
-              ></Image>
-            ))}
-          </Group>
+                      <svg
+                        viewBox="0 0 24 24"
+                        height={48}
+                        width={48}
+                        aria-hidden="true"
+                        focusable="false"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="StyledIconBase-ea9ulj-0 bWRyML"
+                      >
+                        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                      </svg>
+                    </Box>
+                  )}
+                </FileButton>
+              )}
+              {images.map((file: any, index: any) => (
+                <Image
+                  key={index}
+                  width={100}
+                  height={100}
+                  radius={6}
+                  withPlaceholder
+                  src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
+                ></Image>
+              ))}
+            </Group>
+          </Input.Wrapper>
           <Divider mt="xs" />
           <Group position="right" mt="xs">
             <Button
@@ -526,56 +535,65 @@ function About() {
               </Input.Wrapper>
             </Tabs.Panel>
           </Tabs>
-          <Group mt={12}>
-            {files.length < MAX_FILE_LENGTH && (
-              <FileButton
-                onChange={(payload: any) =>
-                  setFiles((prev) => [...prev, ...payload.slice(0, MAX_FILE_LENGTH - prev.length)])
-                }
-                accept="image/*"
-                multiple
-              >
-                {(props) => (
-                  <Box
-                    {...props}
-                    sx={{
-                      width: 100,
-                      height: 100,
-                      border: '3px dashed black',
-                      borderRadius: 6,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      height={48}
-                      width={48}
-                      aria-hidden="true"
-                      focusable="false"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="StyledIconBase-ea9ulj-0 bWRyML"
+          <Input.Wrapper
+            required
+            label={labels.image}
+            description={`Số hình ảnh tối đa là ${MAX_FILE_LENGTH}`}
+          >
+            <Group mt={6}>
+              {files.length < MAX_FILE_LENGTH && (
+                <FileButton
+                  onChange={(payload: any) =>
+                    setFiles((prev) => [
+                      ...prev,
+                      ...payload.slice(0, MAX_FILE_LENGTH - prev.length),
+                    ])
+                  }
+                  accept="image/*"
+                  multiple
+                >
+                  {(props) => (
+                    <Box
+                      {...props}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        border: '3px dashed black',
+                        borderRadius: 6,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
                     >
-                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-                    </svg>
-                  </Box>
-                )}
-              </FileButton>
-            )}
-            {images.map((file: any, index: any) => (
-              <Image
-                key={index}
-                width={100}
-                height={100}
-                radius={6}
-                withPlaceholder
-                src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
-              ></Image>
-            ))}
-          </Group>
+                      <svg
+                        viewBox="0 0 24 24"
+                        height={48}
+                        width={48}
+                        aria-hidden="true"
+                        focusable="false"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="StyledIconBase-ea9ulj-0 bWRyML"
+                      >
+                        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                      </svg>
+                    </Box>
+                  )}
+                </FileButton>
+              )}
+              {images.map((file: any, index: any) => (
+                <Image
+                  key={index}
+                  width={100}
+                  height={100}
+                  radius={6}
+                  withPlaceholder
+                  src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
+                ></Image>
+              ))}
+            </Group>
+          </Input.Wrapper>
           <Divider mt="xs" />
           <Group position="right" mt="xs">
             <Button

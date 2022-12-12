@@ -9,4 +9,11 @@ export const postProjectDetail = (payload: any) =>
     },
   });
 
+export const putProjectDetail = (payload: any) =>
+  axiosInstance.put('/admin/project', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 export const deleteProjectDetail = (id: number) => axiosInstance.delete(`/admin/project?id=${id}`);

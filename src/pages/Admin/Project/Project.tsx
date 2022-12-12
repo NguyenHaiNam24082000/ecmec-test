@@ -108,9 +108,9 @@ function Project() {
       modifiedTime: Date.now(),
       modifiedUser: 'admin',
       isDeleted: false,
-      services: [],
+      services: [] as any,
       images: [],
-    },
+    } as any,
 
     validate: {
       nameVn: (value) => (value.length ? null : `${labels.nameVn} bắt buộc phải nhập`),
@@ -363,7 +363,7 @@ function Project() {
                     <Button
                       onClick={() => {
                         // eslint-disable-next-line
-                        form.setValues({ ...project, status: project.status === 'in progress' ? 0 : 1, services: [...project.services.map((service) => service.id) as number[]] });
+                        form.setValues({ ...project, status: project.status === 'in progress' ? 0 : 1, services: [...project.services.map((service) => service.id) as any] });
                         setImages(project.images);
                         setFiles([]);
                         setOpenedModalEditInfo(true);

@@ -24,7 +24,9 @@ function AdminContainer({ children }: any) {
             background: 'transparent',
           }}
           withBorder={false}
-        ></Header>
+        >
+          {''}
+        </Header>
         <div
           style={{
             padding: '128px 0',

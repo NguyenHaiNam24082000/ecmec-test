@@ -13,9 +13,10 @@ export type imageType = {
 };
 
 export type bannerType = {
+  id?: number;
   tagLineVn: string;
   tagLineEn: string;
   descriptionVn: string;
   descriptionEn: string;
   images: imageType[];
-}
+};

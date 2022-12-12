@@ -9,11 +9,11 @@ export const postServiceDetail = (payload: any) =>
     },
   });
 
-export const putServiceDetail = (payload: any) => axiosInstance.put('/admin/service', payload, {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
+export const putServiceDetail = (payload: any) =>
+  axiosInstance.put('/admin/service', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
-export const deleteServiceDetail = (id: number) =>
-  axiosInstance.delete(`/admin/service?id=${id}`);
+export const deleteServiceDetail = (id: number) => axiosInstance.delete(`/admin/service?id=${id}`);

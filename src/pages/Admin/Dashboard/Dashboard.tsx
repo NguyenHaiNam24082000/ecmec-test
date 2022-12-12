@@ -1,11 +1,10 @@
-
 const Dashboard = () => {
   return (
-    <div style={{
-      display: 'flex',
-    }}>
-
-    </div>
+    <div
+      style={{
+        display: 'flex',
+      }}
+    ></div>
   );
 };
 

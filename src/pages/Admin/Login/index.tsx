@@ -23,16 +23,31 @@ function Login() {
           height: '100%',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
-        <Paper shadow="xs" p="md" sx={{
-          width: '50%'
-        }}>
-          <Text fz={32} fw={700} tt="uppercase" ta="center">Login</Text>
+        <Paper
+          shadow="xs"
+          p="md"
+          sx={{
+            width: '50%',
+          }}
+        >
+          <Text fz={32} fw={700} tt="uppercase" ta="center">
+            Login
+          </Text>
           <form onSubmit={form.onSubmit((values) => console.log(values))}>
-            <TextInput label="Username" placeholder="Username" {...form.getInputProps('username')} />
-            <TextInput mt="md" label="Password" placeholder="Password" {...form.getInputProps('password')} />
+            <TextInput
+              label="Username"
+              placeholder="Username"
+              {...form.getInputProps('username')}
+            />
+            <TextInput
+              mt="md"
+              label="Password"
+              placeholder="Password"
+              {...form.getInputProps('password')}
+            />
 
             <Group position="right" mt="md" grow>
               <Button type="submit">Login</Button>

@@ -398,7 +398,8 @@ const Home = () => {
               />
               <Group grow>
                 {!!projects?.length &&
-                  projects.slice(0, 4)
+                  projects
+                    .slice(0, 4)
                     .filter((item) => item.isShow)
                     .map((project) => (
                       <Image
@@ -418,8 +419,9 @@ const Home = () => {
                           },
                         }}
                         style={{
-                          border: `${selectedProject.id === project.id ? '3' : '0'
-                            }px solid #EDE51C`,
+                          border: `${
+                            selectedProject.id === project.id ? '3' : '0'
+                          }px solid #EDE51C`,
                           borderRadius: 20,
                         }}
                         onClick={() => {

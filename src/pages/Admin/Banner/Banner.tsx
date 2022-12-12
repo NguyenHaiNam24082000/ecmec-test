@@ -118,6 +118,18 @@ function About() {
       <Button
         disabled={!!bannerObj?.id}
         onClick={() => {
+          form.setValues({
+            tagLineVn: '',
+            tagLineEn: '',
+            descriptionVn: '',
+            descriptionEn: '',
+            createdTime: Date.now(),
+            createdUser: 'admin',
+            modifiedTime: Date.now(),
+            modifiedUser: 'admin',
+            images: [],
+          });
+          setFiles([]);
           setOpenedModalAddInfo(true);
         }}
       >
@@ -177,7 +189,7 @@ function About() {
                         // eslint-disable-next-line @typescript-eslint/no-empty-function
                         onCancel: () => {},
                         onConfirm: () => {
-                          deleteBanner(bannerObj?.id).then(() => {
+                          deleteBanner(bannerObj?.id!).then(() => {
                             getBannerApi();
                             showNotification({
                               title: 'Thành công',
@@ -258,9 +270,17 @@ function About() {
                 type: 'application/json',
               }),
             );
-            postBanner(data);
-            getBannerApi();
-            setOpenedModalAddInfo(false);
+            postBanner(data).then(() => {
+              showNotification({
+                title: 'Thành công',
+                message: 'Thêm mới thành công',
+                color: 'green',
+                autoClose: 5000,
+              });
+              getBannerApi();
+              setOpenedModalAddInfo(false);
+              setFiles([]);
+            });
           })}
         >
           <Tabs defaultValue="viet">
@@ -369,7 +389,7 @@ function About() {
                   height={100}
                   radius={6}
                   withPlaceholder
-                  src={configs.BASE_IMAGE_URL + file?.url}
+                  src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
                 ></Image>
               ))}
             </Group>
@@ -399,18 +419,46 @@ function About() {
         <form
           onSubmit={form.onSubmit((values) => {
             const data = new FormData();
-            data.append(
-              'file',
-              new Blob(undefined, {
-                type: 'multipart/form-data',
-              }),
-            );
-            data.append(
-              'bannervo',
-              new Blob([JSON.stringify({ ...values })], {
-                type: 'application/json',
-              }),
-            );
+            if (files.length) {
+              images.forEach((image: any) => {
+                const base64 = image.url.split(';base64,');
+                const byteCharacters = atob(base64[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+              });
+              const listImages = [
+                ...files.map(() => ({
+                  url: '',
+                  createdTime: Date.now(),
+                  createdUser: 'admin',
+                  modifiedTime: Date.now(),
+                  modifiedUser: 'admin',
+                })),
+              ];
+              data.append(
+                'bannervo',
+                new Blob([JSON.stringify({ ...values, images: listImages })], {
+                  type: 'application/json',
+                }),
+              );
+            } else {
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
+              data.append(
+                'bannervo',
+                new Blob([JSON.stringify({ ...values })], {
+                  type: 'application/json',
+                }),
+              );
+            }
             putBanner(data).then(() => {
               showNotification({
                 title: 'Thành công',
@@ -430,6 +478,7 @@ function About() {
                 modifiedUser: 'admin',
                 images: [],
               });
+              setFiles([]);
               setOpenedModalEditInfo(false);
             });
           })}

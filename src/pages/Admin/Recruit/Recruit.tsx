@@ -83,6 +83,10 @@ function Recruit() {
   useEffect(() => {
     getRecruit();
   }, []);
+
+  useEffect(() => {
+    form.setValues({ priority: listRecruit.length });
+  }, [listRecruit]);
   return (
     <Paper shadow="xs" p="md">
       <Button
@@ -105,7 +109,7 @@ function Recruit() {
         </thead>
         <tbody>
           {!!listRecruit?.length &&
-            listRecruit.map((recruit, index) => (
+            listRecruit.map((recruit, index, arr) => (
               <tr key={recruit.id}>
                 <td>
                   <Switch
@@ -138,7 +142,16 @@ function Recruit() {
                 <td>{recruit.salary}</td>
                 <td>
                   <Group>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        putRecruitDetail({
+                          ...recruit,
+                          priority: index > 1 ? arr.at(index - 1)!.priority! - 1 : 0,
+                        }).then(() => {
+                          getRecruit();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-up"
@@ -157,7 +170,17 @@ function Recruit() {
                         <line x1={6} y1={11} x2={12} y2={5} />
                       </svg>
                     </ActionIcon>
-                    <ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        putRecruitDetail({
+                          ...recruit,
+                          priority:
+                            index < arr.length ? arr.at(index + 1)!.priority! + 1 : arr.length,
+                        }).then(() => {
+                          getRecruit();
+                        });
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="icon icon-tabler icon-tabler-arrow-down"

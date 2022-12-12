@@ -466,9 +466,18 @@ function Project() {
                 modifiedUser: 'admin',
               })),
             ];
+            const listServices = [
+              ...values.services.map((service)=> ({
+                ...service,
+                projects:
+                {
+                  ...values
+                }
+              }))
+            ]
             data.append(
               'projectvo',
-              new Blob([JSON.stringify({ ...values, images: listImages })], {
+              new Blob([JSON.stringify({ ...values, images: listImages, services: listServices })], {
                 type: 'application/json',
               }),
             );

@@ -404,7 +404,6 @@ function Recruit() {
           <NumberInput
             placeholder={labels.salary}
             label={labels.salary}
-            required
             hideControls
             {...form.getInputProps('salary')}
           />
@@ -559,7 +558,6 @@ function Recruit() {
           <NumberInput
             placeholder={labels.salary}
             label={labels.salary}
-            required
             hideControls
             {...form.getInputProps('salary')}
           />

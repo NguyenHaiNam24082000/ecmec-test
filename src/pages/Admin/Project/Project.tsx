@@ -22,7 +22,7 @@ import {
   Select,
   MultiSelect,
 } from '@mantine/core';
-import { DatePicker, TimeInput } from '@mantine/dates';
+import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import RichTextEditor from '@mantine/rte';
 import React, { useEffect, useState } from 'react';
@@ -253,7 +253,7 @@ function Project() {
                   />
                 </td>
                 <td>
-                <Group>
+                  <Group>
                     <ActionIcon
                       onClick={() => {
                         const data = new FormData();
@@ -362,8 +362,10 @@ function Project() {
                     </Button>
                     <Button
                       onClick={() => {
-                        form.setValues(project as any);
+                        // eslint-disable-next-line
+                        form.setValues({ ...project, status: project.status === 'in progress' ? 0 : 1, services: [...project.services.map((service) => service.id)] });
                         setImages(project.images);
+                        setFiles([]);
                         setOpenedModalEditInfo(true);
                       }}
                     >
@@ -376,7 +378,7 @@ function Project() {
                           children: <Text size="sm">Bạn có muốn xoá không?</Text>,
                           labels: { confirm: 'Xoá', cancel: 'Huỷ bỏ' },
                           // eslint-disable-next-line @typescript-eslint/no-empty-function
-                          onCancel: () => {},
+                          onCancel: () => { },
                           onConfirm: () => {
                             deleteProjectDetail(project.id).then(() => {
                               getProject();
@@ -436,7 +438,7 @@ function Project() {
           setOpenedModalAddInfo(false);
         }}
         size="100%"
-        title="Chỉnh sửa"
+        title="Thêm mới"
       >
         <form
           onSubmit={form.onSubmit((values) => {
@@ -451,7 +453,7 @@ function Project() {
               const byteArray = new Uint8Array(byteNumbers);
               data.append('file', new Blob([byteArray], { type: image.type }), image.name);
             });
-            if (images.length == 0)
+            if (images.length === 0)
               data.append(
                 'file',
                 new Blob(undefined, {
@@ -467,14 +469,14 @@ function Project() {
               })),
             ];
             const listServices = [
-              ...values.services.map((service)=> ({
-                ...service,
+              ...values.services.map((service: any) => ({
+                ...listService.find((s) => service === s.id),
                 projects:
                 {
                   ...values
                 }
               }))
-            ]
+            ];
             data.append(
               'projectvo',
               new Blob([JSON.stringify({ ...values, images: listImages, services: listServices })], {
@@ -582,9 +584,8 @@ function Project() {
             required
             {...form.getInputProps('status')}
             data={[
-              { value: '0', label: 'Đang xử lý' },
-              { value: '1', label: 'Hoàn thành' },
-              { value: '2', label: 'Thất bại' },
+              { value: 0, label: 'Đang xử lý' },
+              { value: 1, label: 'Hoàn thành' },
             ]}
           />
           <NumberInput
@@ -603,7 +604,6 @@ function Project() {
               locale="vi"
               {...form.getInputProps('start')}
             />
-            <TimeInput label="What time is it now?" format="24" {...form.getInputProps('start')} />
           </Group>
           <NumberInput
             placeholder={labels.duration}
@@ -630,7 +630,7 @@ function Project() {
           <MultiSelect
             data={[
               ...listService.map((service) => ({
-                value: service,
+                value: service.id,
                 label: service.nameVn,
               })),
             ]}
@@ -708,7 +708,7 @@ function Project() {
           setOpenedModalEditInfo(false);
         }}
         size="100%"
-        title="Thêm mới"
+        title="Chỉnh sửa"
       >
         <form
           onSubmit={form.onSubmit((values) => {
@@ -746,9 +746,19 @@ function Project() {
                   type: 'multipart/form-data',
                 }),
               );
+              const listServices = [
+                ...values.services.map((service: any) => ({
+                  ...listService.find((s) => service === s.id),
+                  // projects:
+                  // {
+                  //   ...values
+                  // }
+                }))
+              ];
+              console.log(listServices);
               data.append(
                 'projectvo',
-                new Blob([JSON.stringify({ ...values })], {
+                new Blob([JSON.stringify({ ...values, services: listServices })], {
                   type: 'application/json',
                 }),
               );
@@ -852,12 +862,11 @@ function Project() {
             label={labels.status}
             withAsterisk
             required
-            {...form.getInputProps('status')}
             data={[
-              { value: '0', label: 'Đang xử lý' },
-              { value: '1', label: 'Hoàn thành' },
-              { value: '2', label: 'Thất bại' },
+              { value: 0, label: 'Đang xử lý' },
+              { value: 1, label: 'Hoàn thành' },
             ]}
+            {...form.getInputProps('status')}
           />
           <NumberInput
             placeholder={labels.area}
@@ -874,8 +883,8 @@ function Project() {
               withAsterisk
               locale="vi"
               {...form.getInputProps('start')}
+              value={new Date(form.getInputProps('start').value)}
             />
-            <TimeInput label="What time is it now?" format="24" {...form.getInputProps('start')} />
           </Group>
           <NumberInput
             placeholder={labels.duration}
@@ -902,8 +911,8 @@ function Project() {
           <MultiSelect
             data={[
               ...listService.map((service) => ({
-                value: service,
-                label: service.nameVn,
+                value: service.id,
+                label: service.nameVn
               })),
             ]}
             placeholder={labels.service}

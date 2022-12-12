@@ -219,6 +219,7 @@ const Home = () => {
           <BackgroundImage
             pos="relative"
             src={serviceBackground}
+            mih={920}
             sx={{
               height: '100%',
               borderRadius: 'inherit',
@@ -231,6 +232,9 @@ const Home = () => {
               },
               '@media (max-width: 1024px)': {
                 padding: '60px 40px',
+              },
+              '@media (max-width: 600px)': {
+                minHeight: 'max-content !important',
               },
             }}
           >

@@ -38,7 +38,7 @@ const MAX_FILE_LENGTH = Infinity;
 
 const statuses = [
   {
-    status: 'Đang xử lý',
+    status: 'Đang tiến hành',
     color: 'yellow',
   },
   {
@@ -86,6 +86,7 @@ function Project() {
     index: 0,
     isOpen: false,
   });
+  const [openedModalEditInfo, setOpenedModalEditInfo] = useState(false);
   const form = useForm({
     initialValues: {
       status: 0,
@@ -179,6 +180,7 @@ function Project() {
             services: [],
             images: [],
           });
+          setFiles([]);
           setOpenedModalAddInfo(true);
         }}
       >
@@ -300,7 +302,15 @@ function Project() {
                     >
                       Xem
                     </Button>
-                    <Button>Sửa</Button>
+                    <Button
+                      onClick={() => {
+                        form.setValues(project as any);
+                        setImages(project.images);
+                        setOpenedModalEditInfo(true);
+                      }}
+                    >
+                      Sửa
+                    </Button>
                     <Button
                       onClick={() => {
                         openConfirmModal({
@@ -368,7 +378,7 @@ function Project() {
           setOpenedModalAddInfo(false);
         }}
         size="100%"
-        title="Thêm mới"
+        title="Chỉnh sửa"
       >
         <form
           onSubmit={form.onSubmit((values) => {
@@ -383,6 +393,13 @@ function Project() {
               const byteArray = new Uint8Array(byteNumbers);
               data.append('file', new Blob([byteArray], { type: image.type }), image.name);
             });
+            if (images.length == 0)
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
             const listImages = [
               ...files.map(() => ({
                 createdTime: Date.now(),
@@ -599,7 +616,7 @@ function Project() {
                   height={100}
                   radius={6}
                   withPlaceholder
-                  src={file?.url}
+                  src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
                 ></Image>
               ))}
             </Group>
@@ -615,6 +632,278 @@ function Project() {
               Huỷ bỏ
             </Button>
             <Button type="submit">Thêm mới</Button>
+          </Group>
+        </form>
+      </Modal>
+      <Modal
+        opened={openedModalEditInfo}
+        onClose={() => {
+          setOpenedModalEditInfo(false);
+        }}
+        size="100%"
+        title="Thêm mới"
+      >
+        <form
+          onSubmit={form.onSubmit((values) => {
+            const data = new FormData();
+            if (files.length) {
+              images.forEach((image: any) => {
+                const base64 = image.url.split(';base64,');
+                const byteCharacters = atob(base64[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                data.append('file', new Blob([byteArray], { type: image.type }), image.name);
+              });
+              const listImages = [
+                ...files.map(() => ({
+                  url: '',
+                  createdTime: Date.now(),
+                  createdUser: 'admin',
+                  modifiedTime: Date.now(),
+                  modifiedUser: 'admin',
+                })),
+              ];
+              data.append(
+                'projectvo',
+                new Blob([JSON.stringify({ ...values, images: listImages })], {
+                  type: 'application/json',
+                }),
+              );
+            } else {
+              data.append(
+                'file',
+                new Blob(undefined, {
+                  type: 'multipart/form-data',
+                }),
+              );
+              data.append(
+                'projectvo',
+                new Blob([JSON.stringify({ ...values })], {
+                  type: 'application/json',
+                }),
+              );
+            }
+            putProjectDetail(data).then(() => {
+              showNotification({
+                title: 'Thành công',
+                message: 'Chỉnh sửa thành công',
+                color: 'green',
+                autoClose: 5000,
+              });
+              getProject();
+              setOpenedModalEditInfo(false);
+            });
+          })}
+        >
+          <Tabs defaultValue="viet">
+            <Tabs.List grow>
+              <Tabs.Tab value="viet" rightSection={!isVietTabEmpty && <Text c="red"> *</Text>}>
+                Tiếng Việt
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="english"
+                rightSection={!isEnglishTabEmpty && <Text c="red"> *</Text>}
+              >
+                English
+              </Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="viet" pt="xs">
+              <TextInput
+                placeholder={labels.nameVn}
+                label={labels.nameVn}
+                withAsterisk
+                required
+                {...form.getInputProps('nameVn')}
+              />
+              <TextInput
+                placeholder={labels.addressVn}
+                label={labels.addressVn}
+                withAsterisk
+                required
+                {...form.getInputProps('addressVn')}
+              />
+              <Input.Wrapper id="contentVn" required label={labels.contentVn}>
+                <RichTextEditor
+                  sticky={false}
+                  id="contentVn"
+                  required
+                  controls={[
+                    ['bold', 'italic', 'underline'],
+                    ['h1', 'h2', 'h3', 'h4'],
+                    ['alignLeft', 'alignCenter', 'alignRight'],
+                    ['unorderedList', 'orderedList'],
+                    ['sup', 'sub'],
+                    ['link', 'clean'],
+                  ]}
+                  placeholder={labels.contentVn}
+                  label={labels.contentVn}
+                  {...form.getInputProps('contentVn')}
+                />
+              </Input.Wrapper>
+            </Tabs.Panel>
+
+            <Tabs.Panel value="english" pt="xs">
+              <TextInput
+                placeholder={labels.nameEn}
+                label={labels.nameEn}
+                withAsterisk
+                required
+                {...form.getInputProps('nameEn')}
+              />
+              <TextInput
+                placeholder={labels.addressEn}
+                label={labels.addressEn}
+                withAsterisk
+                required
+                {...form.getInputProps('addressEn')}
+              />
+              <Input.Wrapper id="contentEn" required label={labels.contentEn}>
+                <RichTextEditor
+                  sticky={false}
+                  id="contentEn"
+                  required
+                  controls={[
+                    ['bold', 'italic', 'underline'],
+                    ['h1', 'h2', 'h3', 'h4'],
+                    ['alignLeft', 'alignCenter', 'alignRight'],
+                    ['unorderedList', 'orderedList'],
+                    ['sup', 'sub'],
+                    ['link', 'clean'],
+                  ]}
+                  placeholder={labels.contentEn}
+                  label={labels.contentEn}
+                  {...form.getInputProps('contentEn')}
+                />
+              </Input.Wrapper>
+            </Tabs.Panel>
+          </Tabs>
+          <Select
+            placeholder={labels.status}
+            label={labels.status}
+            withAsterisk
+            required
+            {...form.getInputProps('status')}
+            data={[
+              { value: '0', label: 'Đang xử lý' },
+              { value: '1', label: 'Hoàn thành' },
+              { value: '2', label: 'Thất bại' },
+            ]}
+          />
+          <NumberInput
+            placeholder={labels.area}
+            label={labels.area}
+            withAsterisk
+            required
+            hideControls
+            {...form.getInputProps('area')}
+          />
+          <Group grow>
+            <DatePicker
+              placeholder="Pick date"
+              label="Event date"
+              withAsterisk
+              locale="vi"
+              {...form.getInputProps('start')}
+            />
+            <TimeInput label="What time is it now?" format="24" {...form.getInputProps('start')} />
+          </Group>
+          <NumberInput
+            placeholder={labels.duration}
+            label={labels.duration}
+            withAsterisk
+            required
+            hideControls
+            {...form.getInputProps('duration')}
+          />
+          <TextInput
+            placeholder={labels.investor}
+            label={labels.investor}
+            withAsterisk
+            required
+            {...form.getInputProps('investor')}
+          />
+          <TextInput
+            placeholder={labels.mainContractor}
+            label={labels.mainContractor}
+            withAsterisk
+            required
+            {...form.getInputProps('mainContractor')}
+          />
+          <MultiSelect
+            data={[
+              ...listService.map((service) => ({
+                value: service,
+                label: service.nameVn,
+              })),
+            ]}
+            placeholder={labels.service}
+            label={labels.service}
+            withAsterisk
+            required
+            {...form.getInputProps('services')}
+          />
+          <Input.Wrapper
+            required
+            label={labels.image}
+            description={`Số hình ảnh tối đa là ${MAX_FILE_LENGTH}`}
+          >
+            <Group mt={6}>
+              <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
+                {(props) => (
+                  <Box
+                    {...props}
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: '3px dashed black',
+                      borderRadius: 6,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      height={48}
+                      width={48}
+                      aria-hidden="true"
+                      focusable="false"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="StyledIconBase-ea9ulj-0 bWRyML"
+                    >
+                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                    </svg>
+                  </Box>
+                )}
+              </FileButton>
+              {images.map((file: any, index: any) => (
+                <Image
+                  key={index}
+                  width={100}
+                  height={100}
+                  radius={6}
+                  withPlaceholder
+                  src={files.length ? file?.url : configs.BASE_IMAGE_URL + file?.url}
+                ></Image>
+              ))}
+            </Group>
+          </Input.Wrapper>
+          <Divider mt="xs" />
+          <Group position="right" mt="xs">
+            <Button
+              variant="default"
+              onClick={() => {
+                setOpenedModalEditInfo(false);
+              }}
+            >
+              Huỷ bỏ
+            </Button>
+            <Button type="submit">Chỉnh sửa</Button>
           </Group>
         </form>
       </Modal>

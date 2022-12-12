@@ -393,6 +393,7 @@ function Service() {
                 modifiedUser: 'admin',
                 images: [],
               });
+              setFiles([]);
               setOpenedModalAddInfo(false);
             });
           })}
@@ -599,6 +600,7 @@ function Service() {
                 modifiedUser: 'admin',
                 images: [],
               });
+              setFiles([]);
               setOpenedModalEditInfo(false);
             });
           })}

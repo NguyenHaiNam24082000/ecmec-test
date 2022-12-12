@@ -32,6 +32,8 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hook';
 import { getAboutApi } from 'redux/reducer/about.slice';
 
+const MAX_FILE_LENGTH = 2;
+
 const labels = {
   nameVn: 'Tên',
   nameEn: 'Title',
@@ -420,36 +422,44 @@ function About() {
             </Tabs.Panel>
           </Tabs>
           <Group mt={12}>
-            <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
-              {(props) => (
-                <Box
-                  {...props}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    border: '3px dashed black',
-                    borderRadius: 6,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    height={48}
-                    width={48}
-                    aria-hidden="true"
-                    focusable="false"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="StyledIconBase-ea9ulj-0 bWRyML"
+            {files.length < MAX_FILE_LENGTH && (
+              <FileButton
+                onChange={(payload: any) =>
+                  setFiles((prev) => [...prev, ...payload.slice(0, MAX_FILE_LENGTH - prev.length)])
+                }
+                accept="image/*"
+                multiple
+              >
+                {(props) => (
+                  <Box
+                    {...props}
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: '3px dashed black',
+                      borderRadius: 6,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
                   >
-                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-                  </svg>
-                </Box>
-              )}
-            </FileButton>
+                    <svg
+                      viewBox="0 0 24 24"
+                      height={48}
+                      width={48}
+                      aria-hidden="true"
+                      focusable="false"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="StyledIconBase-ea9ulj-0 bWRyML"
+                    >
+                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                    </svg>
+                  </Box>
+                )}
+              </FileButton>
+            )}
             {images.map((file: any, index: any) => (
               <Image
                 key={index}
@@ -590,36 +600,44 @@ function About() {
             </Tabs.Panel>
           </Tabs>
           <Group mt={12}>
-            <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple>
-              {(props) => (
-                <Box
-                  {...props}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    border: '3px dashed black',
-                    borderRadius: 6,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    height={48}
-                    width={48}
-                    aria-hidden="true"
-                    focusable="false"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="StyledIconBase-ea9ulj-0 bWRyML"
+            {files.length < MAX_FILE_LENGTH && (
+              <FileButton
+                onChange={(payload: any) =>
+                  setFiles((prev) => [...prev, ...payload.slice(0, MAX_FILE_LENGTH - prev.length)])
+                }
+                accept="image/*"
+                multiple
+              >
+                {(props) => (
+                  <Box
+                    {...props}
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: '3px dashed black',
+                      borderRadius: 6,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
                   >
-                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-                  </svg>
-                </Box>
-              )}
-            </FileButton>
+                    <svg
+                      viewBox="0 0 24 24"
+                      height={48}
+                      width={48}
+                      aria-hidden="true"
+                      focusable="false"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="StyledIconBase-ea9ulj-0 bWRyML"
+                    >
+                      <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+                    </svg>
+                  </Box>
+                )}
+              </FileButton>
+            )}
             {images.map((file: any, index: any) => (
               <Image
                 key={index}

@@ -6,6 +6,7 @@ import RecruitAdmin from '../pages/Admin/Recruit/Recruit';
 import AboutAdmin from '../pages/Admin/About/About';
 import ProjectAdmin from '../pages/Admin/Project/Project';
 import BannerAdmin from '../pages/Admin/Banner/Banner';
+import ServiceAdmin from '../pages/Admin/Service/Service';
 import PartnerAdmin from '../pages/Admin/Partner/Partner';
 import NotFound from '../pages/NotFound/NotFound';
 
@@ -22,7 +23,6 @@ const RecruitDetail = React.lazy(() => import('../pages/Recruit/RecruitDetail/Re
 const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'));
 const Login = React.lazy(() => import('../pages/Admin/Login/index'));
 const AdminContainer = React.lazy(() => import('../pages/Admin/AdminContainer'));
-const ServiceAdmin = React.lazy(() => import('../pages/Admin/Service/Service'));
 
 const routes = [
   {

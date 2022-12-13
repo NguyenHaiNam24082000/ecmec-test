@@ -75,23 +75,6 @@ const Router = () => {
   return (
     <Routes>
       <Route
-        path="/admin/*"
-        element={
-          <AdminContainer>
-            <Outlet />
-          </AdminContainer>
-        }
-      >
-        <Route path="" element={<Dashboard />} />
-        <Route path="banner" element={<BannerAdmin />} />
-        <Route path="about" element={<AboutAdmin />} />
-        <Route path="partner" element={<PartnerAdmin />} />
-        <Route path="project" element={<ProjectAdmin />} />
-        <Route path="service" element={<ServiceAdmin />} />
-        <Route path="recruitment" element={<RecruitAdmin />} />
-      </Route>
-      <Route path="/admin/login" element={<Login />} />
-      <Route
         path="/"
         element={
           <div className="container">
@@ -106,7 +89,24 @@ const Router = () => {
         {routes.map((route, i) => (
           <Route path={route.path} element={route.element} key={i} />
         ))}
+        <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/banner" element={<BannerAdmin />} />
+        <Route path="/admin/about" element={<AboutAdmin />} />
+        <Route path="/admin/partner" element={<PartnerAdmin />} />
+        <Route path="/admin/project" element={<ProjectAdmin />} />
+        <Route path="/admin/service" element={<ServiceAdmin />} />
+        <Route path="/admin/recruitment" element={<RecruitAdmin />} />
       </Route>
+      {/* <Route
+        path="/admin/*"
+        element={
+          <AdminContainer>
+            <Outlet />
+          </AdminContainer>
+        }
+      >
+      </Route>
+      <Route path="/admin/login" element={<Login />} /> */}
     </Routes>
   );
 };

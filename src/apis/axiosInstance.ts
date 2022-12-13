@@ -120,9 +120,10 @@ class Http {
       async (config: AxiosRequestConfig) => {
         // Do something before request is sent
         try {
-          // const token = '';
+          // const token = localStorage.getItem('token');
           config.headers = {
-            // Authorization: `Bearer ${token}`,
+            // Authorization: `Basic ${token}`,
+            // Authorization: 'Basic dGVzdDI6MTIzNA==',
             ...config.headers,
           };
         } catch (error) {

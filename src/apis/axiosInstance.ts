@@ -159,14 +159,7 @@ export default new Http({
   baseURL: configs.BASE_API_URL,
   headers: {
     'username': 'testadmin',
-    'password': 'test',
-    'Cache-Control': 'no-cache',
-    Pragma: 'no-cache',
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': true,
-    Accept: 'application/json',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH',
+    'password': 'test'
   },
   withCredentials: false,
 });

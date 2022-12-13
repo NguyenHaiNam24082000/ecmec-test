@@ -11,8 +11,11 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from 'redux/hook';
+import { setIsAuth } from 'redux/reducer/auth.slice';
 
 function Login() {
+  const dispatch = useAppDispatch();
   const form = useForm({
     initialValues: {
       username: '',
@@ -51,8 +54,10 @@ function Login() {
           </Text>
           <form
             onSubmit={form.onSubmit((values) => {
-              loginApi(values).then((response) => {                                
+              loginApi(values).then((response) => {
                 localStorage.setItem('token', response.data);
+                return dispatch(setIsAuth(true));
+              }).then(() => {
                 navigate('/admin', { replace: true });
               });
             })}

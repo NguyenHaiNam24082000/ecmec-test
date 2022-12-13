@@ -6,7 +6,6 @@ import RecruitAdmin from '../pages/Admin/Recruit/Recruit';
 import AboutAdmin from '../pages/Admin/About/About';
 import ProjectAdmin from '../pages/Admin/Project/Project';
 import BannerAdmin from '../pages/Admin/Banner/Banner';
-import ServiceAdmin from '../pages/Admin/Service/Service';
 import PartnerAdmin from '../pages/Admin/Partner/Partner';
 import NotFound from '../pages/NotFound/NotFound';
 
@@ -23,6 +22,7 @@ const RecruitDetail = React.lazy(() => import('../pages/Recruit/RecruitDetail/Re
 const Dashboard = React.lazy(() => import('../pages/Admin/Dashboard/Dashboard'));
 const Login = React.lazy(() => import('../pages/Admin/Login/index'));
 const AdminContainer = React.lazy(() => import('../pages/Admin/AdminContainer'));
+const ServiceAdmin = React.lazy(() => import('../pages/Admin/Service/Service'));
 
 const routes = [
   {
@@ -89,15 +89,8 @@ const Router = () => {
         {routes.map((route, i) => (
           <Route path={route.path} element={route.element} key={i} />
         ))}
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="/admin/banner" element={<BannerAdmin />} />
-        <Route path="/admin/about" element={<AboutAdmin />} />
-        <Route path="/admin/partner" element={<PartnerAdmin />} />
-        <Route path="/admin/project" element={<ProjectAdmin />} />
-        <Route path="/admin/service" element={<ServiceAdmin />} />
-        <Route path="/admin/recruitment" element={<RecruitAdmin />} />
       </Route>
-      {/* <Route
+      <Route
         path="/admin/*"
         element={
           <AdminContainer>
@@ -105,8 +98,15 @@ const Router = () => {
           </AdminContainer>
         }
       >
+        <Route path="" element={<Dashboard />} />
+        <Route path="banner" element={<BannerAdmin />} />
+        <Route path="about" element={<AboutAdmin />} />
+        <Route path="partner" element={<PartnerAdmin />} />
+        <Route path="project" element={<ProjectAdmin />} />
+        <Route path="service" element={<ServiceAdmin />} />
+        <Route path="recruitment" element={<RecruitAdmin />} />
       </Route>
-      <Route path="/admin/login" element={<Login />} /> */}
+      <Route path="/admin/login" element={<Login />} />
     </Routes>
   );
 };

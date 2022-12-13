@@ -5,6 +5,7 @@ import serviceReducer from './reducer/service.slice';
 import recruitReducer from './reducer/recruit.slice';
 import contactReducer from './reducer/contact.slice';
 import partnerReducer from './reducer/partner.slice';
+import authReducer from './reducer/auth.slice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     recruit: recruitReducer,
     contact: contactReducer,
     partner: partnerReducer,
+    auth: authReducer
   },
 });
 

@@ -212,6 +212,43 @@ function Project() {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
+                    checked={project.isShow}
+                    onClick={(event: any) => {
+                      const data = new FormData();
+                      const listServices = [
+                        ...project.services.map((service: any) => ({
+                          ...listService.find((s) => service === s.id),
+                          projects: {
+                            ...project,
+                          },
+                        })),
+                      ];
+                      data.append(
+                        'file',
+                        new Blob(undefined, {
+                          type: 'multipart/form-data',
+                        }),
+                      );
+                      data.append(
+                        'projectvo',
+                        new Blob(
+                          [
+                            JSON.stringify({
+                              ...project,
+                              isShow: event.target.checked,
+                              services: listServices,
+                              status: project.status === 'in progress' ? 0 : 1,
+                            }),
+                          ],
+                          {
+                            type: 'application/json',
+                          },
+                        ),
+                      );
+                      putProjectDetail(data).then(() => {
+                        getProject();
+                      });
+                    }}
                   />
                 </td>
                 <td>
@@ -315,7 +352,10 @@ function Project() {
                             [
                               JSON.stringify({
                                 ...project,
-                                priority: index < arr.length ? arr.at(index + 1)!.priority! + 1 : arr.length,
+                                priority:
+                                  index < arr.length
+                                    ? arr.at(index + 1)!.priority! + 1
+                                    : arr.length,
                               }),
                             ],
                             {
@@ -363,7 +403,11 @@ function Project() {
                     <Button
                       onClick={() => {
                         // eslint-disable-next-line
-                        form.setValues({ ...project, status: project.status === 'in progress' ? 0 : 1, services: [...project.services.map((service) => service.id) as any] });
+                        form.setValues({
+                          ...project,
+                          status: project.status === 'in progress' ? 0 : 1,
+                          services: [...(project.services.map((service) => service.id) as any)],
+                        });
                         setImages(project.images);
                         setFiles([]);
                         setOpenedModalEditInfo(true);
@@ -378,7 +422,7 @@ function Project() {
                           children: <Text size="sm">Bạn có muốn xoá không?</Text>,
                           labels: { confirm: 'Xoá', cancel: 'Huỷ bỏ' },
                           // eslint-disable-next-line @typescript-eslint/no-empty-function
-                          onCancel: () => { },
+                          onCancel: () => {},
                           onConfirm: () => {
                             deleteProjectDetail(project.id).then(() => {
                               getProject();
@@ -471,17 +515,19 @@ function Project() {
             const listServices = [
               ...values.services.map((service: any) => ({
                 ...listService.find((s) => service === s.id),
-                projects:
-                {
-                  ...values
-                }
-              }))
+                projects: {
+                  ...values,
+                },
+              })),
             ];
             data.append(
               'projectvo',
-              new Blob([JSON.stringify({ ...values, images: listImages, services: listServices })], {
-                type: 'application/json',
-              }),
+              new Blob(
+                [JSON.stringify({ ...values, images: listImages, services: listServices })],
+                {
+                  type: 'application/json',
+                },
+              ),
             );
             postProjectDetail(data).then(() => {
               showNotification({
@@ -753,7 +799,7 @@ function Project() {
                   // {
                   //   ...values
                   // }
-                }))
+                })),
               ];
               console.log(listServices);
               data.append(
@@ -912,7 +958,7 @@ function Project() {
             data={[
               ...listService.map((service) => ({
                 value: service.id,
-                label: service.nameVn
+                label: service.nameVn,
               })),
             ]}
             placeholder={labels.service}

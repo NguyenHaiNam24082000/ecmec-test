@@ -120,9 +120,9 @@ class Http {
       async (config: AxiosRequestConfig) => {
         // Do something before request is sent
         try {
-          const token = '';
+          // const token = '';
           config.headers = {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
             ...config.headers,
           };
         } catch (error) {
@@ -161,5 +161,5 @@ export default new Http({
     'username': 'testadmin',
     'password': 'test'
   },
-  withCredentials: false,
+  // withCredentials: false,
 });

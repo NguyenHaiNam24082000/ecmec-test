@@ -4,13 +4,6 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 const axiosInstance = axios.create({
   timeout: 3 * 60 * 1000,
   baseURL: configs.BASE_API_URL,
-  headers: {
-    'Content-Type': '*/*',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': true,
-    Accept: '*/*',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH',
-  },
 });
 
 axiosInstance.interceptors.request.use(

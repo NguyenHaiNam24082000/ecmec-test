@@ -159,7 +159,8 @@ export default new Http({
   baseURL: configs.BASE_API_URL,
   headers: {
     'username': 'testadmin',
-    'password': 'test'
+    'password': 'test',
+    "X-Requested-With": "XMLHttpRequest"
   },
   // withCredentials: false,
 });

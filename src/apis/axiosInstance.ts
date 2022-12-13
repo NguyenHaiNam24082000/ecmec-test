@@ -127,9 +127,10 @@ class Http {
       async (config: AxiosRequestConfig) => {
         // Do something before request is sent
         try {
-          const token = '';
+          // const token = localStorage.getItem('token');
           config.headers = {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Basic ${token}`,
+            // Authorization: 'Basic dGVzdDI6MTIzNA==',
             ...config.headers,
           };
         } catch (error) {
@@ -165,8 +166,6 @@ export default new Http({
   timeout: 3 * 60 * 1000,
   baseURL: configs.BASE_API_URL,
   headers: {
-    'username': 'testadmin',
-    'password': 'test',
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',
     'Content-Type': 'application/json',

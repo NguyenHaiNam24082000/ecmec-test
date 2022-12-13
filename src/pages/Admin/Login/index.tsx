@@ -51,7 +51,8 @@ function Login() {
           </Text>
           <form
             onSubmit={form.onSubmit((values) => {
-              loginApi(values).then((response) => {
+              loginApi(values).then((response) => {                                
+                localStorage.setItem('token', response.data);
                 navigate('/admin', { replace: true });
               });
             })}

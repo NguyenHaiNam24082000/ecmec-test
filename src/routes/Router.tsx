@@ -75,22 +75,6 @@ const Router = () => {
   return (
     <Routes>
       <Route
-        path="/"
-        element={
-          <div className="container">
-            <div className="main">
-              <Header />
-              <Outlet />
-              <Footer />
-            </div>
-          </div>
-        }
-      >
-        {routes.map((route, i) => (
-          <Route path={route.path} element={route.element} key={i} />
-        ))}
-      </Route>
-      <Route
         path="/admin/*"
         element={
           <AdminContainer>
@@ -107,6 +91,22 @@ const Router = () => {
         <Route path="recruitment" element={<RecruitAdmin />} />
       </Route>
       <Route path="/admin/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <div className="container">
+            <div className="main">
+              <Header />
+              <Outlet />
+              <Footer />
+            </div>
+          </div>
+        }
+      >
+        {routes.map((route, i) => (
+          <Route path={route.path} element={route.element} key={i} />
+        ))}
+      </Route>
     </Routes>
   );
 };
